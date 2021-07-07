@@ -1,0 +1,25 @@
+{
+  "name": "cumcord",
+  "version": "0.0.1",
+  "description": "A client mod in a client mod.",
+  "main": "src/index.js",
+  "repository": "https://github.com/Cumcord/Cumcord",
+  "author": "creatable",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-react": "^7.14.5",
+    "@rollup/plugin-alias": "^3.1.2",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "rollup": "^2.52.4",
+    "rollup-plugin-terser": "^7.0.2",
+    "uuidv4": "^6.2.10"
+  },
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "dependencies": {
+    "dexie": "^3.0.3"
+  }
+}

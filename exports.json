@@ -1,0 +1,13 @@
+{
+  "commonModules.js": {
+    "exports": [
+      "React",
+      "ReactDOM",
+      "Flux",
+      "FluxDispatcher",
+      "constants",
+      "channels",
+      "i18n"
+    ]
+  }
+}
