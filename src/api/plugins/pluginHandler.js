@@ -51,9 +51,9 @@ export function togglePlugin(baseUrl) {
 
 export async function importPlugin(baseUrl) {
   // Create standardized versions of the URL with a trailing / to prevent the ability to load plugins multiple times by removing a slash
-  const baseUrlTrailing = new URL("", baseUrl).href;
-  const manifestUrl = new URL("plugin.json", baseUrlTrailing).href;
-  const pluginUrl = new URL("plugin.js", baseUrlTrailing).href;
+  const baseUrlTrailing = new URL("", baseUrl).href.replace(/\/?$/, '/');;
+  const manifestUrl = new URL("plugin.json", baseUrlTrailing).href.replace(/\/?$/, '/');;
+  const pluginUrl = new URL("plugin.js", baseUrlTrailing).href.replace(/\/?$/, '/');;
 
   // By default, the plugin will be "enabled" and started when imported
   let enabled = true;
