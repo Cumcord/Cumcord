@@ -1,4 +1,5 @@
 import { set } from "idb-keyval";
+import { stopPlugin } from "./pluginHandler"
 
 export default {
   getPlugin: (pluginId) => {
@@ -6,6 +7,10 @@ export default {
   },
 
   removePlugin: (pluginId) => {
+    if (window.cumcord.pluginStore[pluginId].enabled) {
+      stopPlugin(pluginId)
+    }
+
     delete window.cumcord.pluginStore[pluginId]
     set("CumcordStore", window.cumcord.pluginStore)
   },
