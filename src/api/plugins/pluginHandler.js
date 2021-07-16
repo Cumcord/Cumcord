@@ -48,11 +48,17 @@ export function togglePlugin(baseUrl) {
     startPlugin(baseUrl);
   }
 }
+
 export async function importPlugin(baseUrl) {
   // Create standardized versions of the URL with a trailing / to prevent the ability to load plugins multiple times by removing a slash
   const baseUrlTrailing = new URL("", baseUrl).href;
   const manifestUrl = new URL("plugin.json", baseUrlTrailing).href;
   const pluginUrl = new URL("plugin.js", baseUrlTrailing).href;
+
+  // By default, the plugin will be "enabled" and started when imported
+  let enabled = true;
+  let manifestJson;
+  const existingPlugin = storage.getPlugin(baseUrlTrailing);
 
   // Disable the cors proxy by default
   let corsMode = false;
@@ -66,33 +72,12 @@ export async function importPlugin(baseUrl) {
     corsMode = true;
     try {
       manifestData = await fetch(corsProxyUrl + manifestUrl, noStore);
-    } catch (err) {
-      throw err
-    }
+    } catch { }
   }
-
-  // Check if the server is returning a success
-  if (manifestData.status != 200) {
-    throw new Error("Plugin manifest not returning success");
-  }
-
-  let manifestJson;
-
-  try {
-    // Attempt to parse the manifest
-    manifestJson = await manifestData.json();
-  } catch {
-    throw new Error("Plugin manifest cannot be parsed");
-  }
-
-  // Get the plugin if it is already downloaded
-  const existingPlugin = storage.getPlugin(baseUrlTrailing);
-
-  // By default, the plugin will be "enabled" and started when imported
-  let enabled = true;
 
   // If the plugin is already downloaded, we check if it is cached, and if it is, we start it if it's enabled
   if (existingPlugin) {
+    manifestJson = existingPlugin.manifest;
     enabled = existingPlugin.enabled;
     if ((existingPlugin.manifest.hash == manifestJson.hash)) {
       if (enabled) {
@@ -102,6 +87,18 @@ export async function importPlugin(baseUrl) {
       // Plugin is already loaded and has the same hash as the manifest so we can skip the download
       return;
     }
+  }
+
+  // Check if the server is returning a success
+  if (manifestData.status != 200) {
+    throw new Error("Plugin manifest not returning success");
+  }
+
+  try {
+    // Attempt to parse the manifest
+    manifestJson = await manifestData.json();
+  } catch {
+    throw new Error("Plugin manifest cannot be parsed");
   }
 
   // TODO.
