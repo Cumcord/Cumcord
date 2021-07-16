@@ -19,3 +19,7 @@ Cumcord is a Discord client mod that focuses on making the Discord plugin develo
 You can submit patches and development ideas on our [development mailing list](https://lists.sr.ht/~creatable/cumcord-devel).  
 You can talk about Cumcord on our [discussion mailing list](https://lists.sr.ht/~creatable/cumcord-discuss).  
 Announcements can be found on our [announcements mailing list](https://lists.sr.ht/~creatable/cumcord-announce).
+
+# Credits
+
+Cumcord uses [cors.bridged.cc](https://app.cors.bridged.cc/) as a CORS proxy.

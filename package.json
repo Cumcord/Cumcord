@@ -20,6 +20,6 @@
     "build": "rollup -c"
   },
   "dependencies": {
-    "dexie": "^3.0.3"
+    "idb-keyval": "^5.0.6"
   }
 }

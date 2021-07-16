@@ -2,7 +2,9 @@ import logger from "../util/logger";
 import webpackModules from "webpackModules";
 import commonModules from "commonModules";
 import patcher from "./patcher/patch";
-import database from "./plugins/database.js";
+import { startPlugin, stopPlugin, togglePlugin, importPlugin } from "./plugins/pluginHandler";
+import { get, set } from "idb-keyval";
+import storage from "./plugins/storage";
 
 function uninject() {
   delete window.cumcord;
@@ -11,34 +13,7 @@ function uninject() {
   return true;
 }
 
-// plugin list data structure:
-const pluginList = {
-  "https://plugin.github.io/dist/": {
-    manifest: {
-      name: "test-plugin",
-      description: "test-description",
-      author: "creatable",
-      hash: "1234567890abcdef",
-      license: "MIT",
-    },
-    cache: "bundleContentsGoHere()",
-  },
-};
-
-async function importPlugin(baseUrl) {
-  const baseUrlTrailing = new URL("", baseUrl).href;
-  const manifestUrl = new URL("plugin.json", baseUrlTrailing).href;
-  const pluginUrl = new URL("plugin.js", baseUrlTrailing).href;
-
-  // fetch manifest and parse it as json and if it doesn't return 200 fail
-  const manifestJson = await fetch(manifestUrl).then((res) => res.json());
-
-  if (manifestJson.status !== 200) {
-    throw new Error("Cannot load plugin manifest");
-  }
-}
-
-function initializeAPI() {
+async function initializeAPI() {
   logger.log("Initializing Cumcord API");
 
   window.cumcord = {
@@ -47,9 +22,28 @@ function initializeAPI() {
       webpackModules,
       common: commonModules,
     },
+    plugins: {
+      startPlugin,
+      stopPlugin,
+      togglePlugin,
+      importPlugin,
+    },
     patcher,
-    database,
+    storage
   };
+
+  let plugins = await get("CumcordStore");
+
+  if (plugins) {
+    window.cumcord.pluginStore = plugins;
+  } else {
+    await set("CumcordStore", {});
+    window.cumcord.pluginStore = {};
+  }
+
+  for (let plugin of Object.keys(window.cumcord.pluginStore)) {
+    importPlugin(plugin);
+  }
 }
 
 export default initializeAPI;
