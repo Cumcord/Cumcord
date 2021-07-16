@@ -7,9 +7,14 @@ import { get, set } from "idb-keyval";
 import storage from "./plugins/storage";
 
 function uninject() {
-  delete window.cumcord;
-  logger.log("Uninjecting Cumcord");
+  for (let plugin of Object.keys(window.cumcord.pluginStore)) {
+    if (storage.getPlugin(plugin).enabled == true) {
+      stopPlugin(plugin)
+    }
+  }
+
   patcher.unpatchAll();
+  delete window.cumcord;
   return true;
 }
 
