@@ -1,22 +1,44 @@
-import { set } from "idb-keyval";
-import { stopPlugin } from "./pluginHandler"
+import { get, set } from "idb-keyval";
+import { importPlugin, unloadPlugin, enablePlugin, disablePlugin, togglePlugin } from "./pluginHandler";
+
+function removePlugin(pluginId) {
+  unloadPlugin(pluginId);
+
+  delete window.cumcord.plugins.pluginCache[pluginId]
+  set("CumcordCache", window.cumcord.plugins.pluginCache)
+}
 
 export default {
-  getPlugin: (pluginId) => {
-    return window.cumcord.pluginStore[pluginId]
-  },
+  initializePlugins: async () => {
+    let plugins = await get("CumcordCache");
 
-  removePlugin: (pluginId) => {
-    if (window.cumcord.pluginStore[pluginId].enabled) {
-      stopPlugin(pluginId)
+    window.cumcord.plugins.loadedPlugins = {};
+    if (plugins) {
+      window.cumcord.plugins.pluginCache = plugins;
+    } else {
+      await set("CumcordCache", {});
+      window.cumcord.plugins.pluginCache = {};
     }
 
-    delete window.cumcord.pluginStore[pluginId]
-    set("CumcordStore", window.cumcord.pluginStore)
+    for (let plugin of Object.keys(window.cumcord.plugins.pluginCache)) {
+      importPlugin(plugin);
+    }
+
+    window.cumcord.plugins.importPlugin = importPlugin;
+    window.cumcord.plugins.removePlugin = removePlugin;
+    window.cumcord.plugins.enablePlugin = enablePlugin;
+    window.cumcord.plugins.disablePlugin = disablePlugin;
+    window.cumcord.plugins.togglePlugin = togglePlugin;
+  },
+
+  getPlugin: (pluginId) => {
+    return window.cumcord.plugins.pluginCache[pluginId]
   },
 
   setPlugin: (pluginId, pluginData) => {
-    window.cumcord.pluginStore[pluginId] = pluginData
-    set("CumcordStore", window.cumcord.pluginStore)
+    window.cumcord.plugins.pluginCache[pluginId] = pluginData
+    set("CumcordCache", window.cumcord.plugins.pluginCache)
   },
+
+  removePlugin
 }

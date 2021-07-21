@@ -1,68 +1,99 @@
 import storage from "./storage";
 
-/* Example plugin pre-bundle
-
-export default {
-  // Toggle code
-  onLoad: () => { },
-
-  // Cleanup code
-  onUnload: () => { },
-
-  // Data to store
-  stores: {
-    API_URL: "https://example.com/api"
-  },
-
-  settings: (REACT COMPONENT WITH SETTINGS)
-}
-*/
 const noStore = { cache: "no-store" }
 const corsProxyUrl = "https://cors.bridged.cc/"
 
-export function startPlugin(baseUrl) {
-  let plugin = storage.getPlugin(baseUrl);
-  plugin.enabled = true;
+// These functions handle the loading and unloading of plugins without modifying whether or not they start with Discord.
+export function loadPlugin(pluginId) {
+  const plugin = storage.getPlugin(pluginId);
 
-  storage.setPlugin(baseUrl, plugin)
-  const pluginJs = eval(plugin.plugin);
-  pluginJs.onLoad();
+  if (!plugin) {
+    throw new Error(`Plugin ${pluginId} not found`);
+  }
+
+  if (window.cumcord.plugins.loadedPlugins[pluginId]) {
+    throw new Error(`Plugin ${pluginId} already loaded`);
+  }
+
+  const pluginObject = eval(plugin.js);
+
+  window.cumcord.plugins.loadedPlugins[pluginId] = pluginObject;
+
+  pluginObject.onLoad();
 }
 
-export function stopPlugin(baseUrl) {
-  let plugin = storage.getPlugin(baseUrl);
-  plugin.enabled = false;
+export function unloadPlugin(pluginId) {
+  const plugin = storage.getPlugin(pluginId);
 
-  storage.setPlugin(baseUrl, plugin)
-  const pluginJs = eval(plugin.plugin);
-  pluginJs.onUnload();
+  if (!plugin) {
+    throw new Error(`Plugin ${pluginId} not found`);
+  }
+
+  const pluginObject = window.cumcord.plugins.loadedPlugins[pluginId];
+
+  if (pluginObject) {
+    pluginObject.onUnload();
+    delete window.cumcord.plugins.loadedPlugins[pluginId];
+  } else {
+    throw new Error(`Plugin ${pluginId} not loaded`);
+  }
 }
 
-export function togglePlugin(baseUrl) {
-  let plugin = storage.getPlugin(baseUrl);
+// These functions handle the enabling and disabling of plugins at startup.
+export function enablePlugin(pluginId) {
+  const plugin = storage.getPlugin(pluginId);
+  const loaded = window.cumcord.plugins.loadedPlugins[pluginId];
+
+  if (loaded) {
+    unloadPlugin(pluginId);
+  }
+
+  loadPlugin(pluginId);
+
+  if (!plugin.enabled) {
+    plugin.enabled = true;
+    storage.setPlugin(pluginId, plugin);
+  }
+}
+
+export function disablePlugin(pluginId) {
+  const plugin = storage.getPlugin(pluginId);
+
+  if (loaded) {
+    unloadPlugin(pluginId);
+  }
 
   if (plugin.enabled) {
-    stopPlugin(baseUrl);
-  }
-  else {
-    startPlugin(baseUrl);
+    plugin.enabled = false;
+    storage.setPlugin(pluginId, plugin);
   }
 }
 
+export function togglePlugin(pluginId) {
+  const plugin = storage.getPlugin(pluginId);
+
+  if (plugin.enabled) {
+    disablePlugin(pluginId);
+  } else {
+    enablePlugin(pluginId);
+  }
+}
+
+// TODO: DO NOT FUCKING EXPORT THIS FUNCTION TO THE USER. WRAP THIS IN A FUNCTION THAT SHOWS A MODAL TO MAKE THE DECISION.
 export async function importPlugin(baseUrl) {
   // Create standardized versions of the URL with a trailing / to prevent the ability to load plugins multiple times by removing a slash
-  const baseUrlTrailing = new URL("", baseUrl).href.replace(/\/?$/, '/');;
-  const manifestUrl = new URL("plugin.json", baseUrlTrailing).href.replace(/\/?$/, '/');;
-  const pluginUrl = new URL("plugin.js", baseUrlTrailing).href.replace(/\/?$/, '/');;
+  const baseUrlTrailing = baseUrl.replace(/\/?$/, '/');
+  const manifestUrl = new URL("plugin.json", baseUrlTrailing);
+  const pluginUrl = new URL("plugin.js", baseUrlTrailing);
 
   // By default, the plugin will be "enabled" and started when imported
   let enabled = true;
-  let manifestJson;
   const existingPlugin = storage.getPlugin(baseUrlTrailing);
 
   // Disable the cors proxy by default
   let corsMode = false;
   let manifestData;
+  let manifestJson;
 
   try {
     // Attempt to download the manifest
@@ -70,45 +101,49 @@ export async function importPlugin(baseUrl) {
   } catch {
     // If it fails, enable cors mode and attempt to download the manifest through the proxy
     corsMode = true;
-    try {
-      manifestData = await fetch(corsProxyUrl + manifestUrl, noStore);
-    } catch { }
+    manifestData = await fetch(corsProxyUrl + manifestUrl, noStore);
   }
 
-  // If the plugin is already downloaded, we check if it is cached, and if it is, we start it if it's enabled
-  if (existingPlugin) {
-    manifestJson = existingPlugin.manifest;
-    enabled = existingPlugin.enabled;
-    if ((existingPlugin.manifest.hash == manifestJson.hash)) {
-      if (enabled) {
-        startPlugin(baseUrlTrailing)
-      }
 
-      // Plugin is already loaded and has the same hash as the manifest so we can skip the download
-      return;
-    }
-  }
-
+  // If the plugin already exists in the cache then even if we cannot fetch it we can use the cached version, and as such these errors will not apply
   // Check if the server is returning a success
   if (manifestData.status != 200) {
-    throw new Error("Plugin manifest not returning success");
+    if (!existingPlugin) throw new Error("Plugin manifest not returning success");
   }
 
   try {
     // Attempt to parse the manifest
     manifestJson = await manifestData.json();
   } catch {
-    throw new Error("Plugin manifest cannot be parsed");
+    if (!existingPlugin) throw new Error("Plugin manifest cannot be parsed");
   }
 
-  // TODO.
-  /* Prompt user before running startPlugin on a new plugin because it is unsafe as it uses eval.
-  else {
-    const continueImport = await confirmInstallation("CAUTION: Importing plugins is potentially dangerous. Would you like to continue?")
-    if (!continueImport) {
-      return;
+  // If the plugin is already downloaded, we check if it is cached, and if it is, we start it if it's enabled
+  if (existingPlugin) {
+    enabled = existingPlugin.enabled;
+    if (manifestJson) {
+      if (existingPlugin.manifest.hash == manifestJson.hash) {
+        // Update manifest if it's changed
+        if (existingPlugin.manifest != manifestJson) {
+          existingPlugin.manifest = manifestJson;
+          storage.setPlugin(baseUrlTrailing, existingPlugin)
+        }
+
+        if (enabled) {
+          loadPlugin(baseUrlTrailing)
+
+          return;
+        }
+      }
+      // Always load if server is not accessible
+    } else {
+      if (enabled) {
+        loadPlugin(baseUrlTrailing)
+
+        return;
+      }
     }
-  }*/
+  }
 
   // Initialize plugin request variable
   let pluginReq;
@@ -126,18 +161,18 @@ export async function importPlugin(baseUrl) {
   }
 
   // Get the plugin's JS code
-  const plugin = await pluginReq.text();
+  const js = await pluginReq.text();
 
   // Add the plugin to persistent storage
   storage.setPlugin(baseUrlTrailing, {
     manifest: manifestJson,
-    plugin,
+    js,
     enabled
   });
 
   // Start it if it's enabled
   if (enabled) {
-    startPlugin(baseUrlTrailing);
+    loadPlugin(baseUrlTrailing);
   }
 
   return true
