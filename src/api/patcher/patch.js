@@ -42,9 +42,9 @@ function unpatch(patchId, hookId) {
 
       return true;
     }
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 function unpatchAll() {
