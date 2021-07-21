@@ -6,7 +6,9 @@ function hook(patchId, args) {
   var iterationDone = false;
   var previousResponse;
 
-  for (const hook of patches[patchId]["hooks"]) {
+  const hooks = patches[patchId]["hooks"]
+  for (const hookId in hooks) {
+    const hook = hooks[hookId];
     if (hook.runInstead) {
       previousResponse = hook.callback(args);
       iterationDone = true;
@@ -30,18 +32,19 @@ function unpatch(patchId, hookId) {
   if (patch) {
     const hooks = patch["hooks"];
 
-    for (const hook in hooks) {
-      if (hooks[hook].id == hookId) {
+    if (hooks[hookId]) {
+      delete hooks[hookId];
+      if (Object.keys(hooks).length == 0) {
         patch.functionParent[patch.functionName] = patch.originalFunction;
-        delete hooks[hook];
-        unpatched = true;
+        delete patch.functionParent.CUMCORD_INJECTIONS[patch.functionName];
+        delete patches[patchId];
       }
+
+      return true;
     }
-
-    if (!patch.hooks[0]) delete patches[patchId];
+  } else {
+    return false;
   }
-
-  return unpatched;
 }
 
 function unpatchAll() {
@@ -51,7 +54,7 @@ function unpatchAll() {
   for (const patch in patches) {
     const hooks = patches[patch]["hooks"];
     for (const hook in hooks) {
-      unpatch(patch, hooks[hook].id);
+      unpatch(patch, hook);
     }
   }
 }
@@ -82,18 +85,17 @@ const patcher = {
         originalFunction,
         functionParent,
         functionName,
-        hooks: [],
+        hooks: {},
       };
 
       functionParent[functionName] = (...args) => hook(injectionId, args);
     }
 
     const hookId = uuidv4();
-    patches[injectionId].hooks.push({
-      id: hookId,
+    patches[injectionId].hooks[hookId] = {
       instead: runInstead,
       callback,
-    });
+    };
 
     return () => unpatch(injectionId, hookId);
   },
