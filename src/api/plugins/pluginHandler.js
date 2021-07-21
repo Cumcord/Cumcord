@@ -58,6 +58,7 @@ export function enablePlugin(pluginId) {
 
 export function disablePlugin(pluginId) {
   const plugin = storage.getPlugin(pluginId);
+  const loaded = window.cumcord.plugins.loadedPlugins[pluginId];
 
   if (loaded) {
     unloadPlugin(pluginId);
@@ -139,9 +140,9 @@ export async function importPlugin(baseUrl) {
     } else {
       if (enabled) {
         loadPlugin(baseUrlTrailing)
-
-        return;
       }
+
+      return;
     }
   }
 
