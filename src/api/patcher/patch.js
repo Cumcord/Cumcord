@@ -93,7 +93,7 @@ const patcher = {
 
     const hookId = uuidv4();
     patches[injectionId].hooks[hookId] = {
-      instead: runInstead,
+      runInstead,
       callback,
     };
 
