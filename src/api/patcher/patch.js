@@ -2,7 +2,8 @@ import { v4 as uuidv4 } from "uuid";
 import logger from "../../util/logger";
 let patches = {};
 
-function hook(patchId, args) {
+function hook(patchId, args, context) {
+  // I'm only using this because previousResponse can return undefined.
   var iterationDone = false;
   var previousResponse;
 
@@ -10,15 +11,19 @@ function hook(patchId, args) {
   for (const hookId in hooks) {
     const hook = hooks[hookId];
     if (hook.runInstead) {
-      previousResponse = hook.callback(args);
+      previousResponse = hook.callback.call(context, args);
       iterationDone = true;
     } else {
       if (!iterationDone) {
-        previousResponse = patches[patchId].originalFunction(...args);
+        previousResponse = patches[patchId].originalFunction.call(context, ...args);
         iterationDone = true;
       }
 
-      hook.callback(args, previousResponse);
+      let hookResponse = hook.callback.call(context, args, previousResponse);
+
+      if (hookResponse !== undefined) {
+        previousResponse = hookResponse;
+      }
     }
   }
 
@@ -88,7 +93,7 @@ const patcher = {
         hooks: {},
       };
 
-      functionParent[functionName] = (...args) => hook(injectionId, args);
+      functionParent[functionName] = function (...args) { return hook(injectionId, args, this); };
     }
 
     const hookId = uuidv4();
