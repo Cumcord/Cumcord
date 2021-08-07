@@ -1,5 +1,7 @@
 import storage from "./storage";
 
+const evalPtTwoTheEvalening = eval;
+
 const noStore = { cache: "no-store" }
 const corsProxyUrl = "https://cors.bridged.cc/"
 
@@ -15,7 +17,7 @@ export function loadPlugin(pluginId) {
     throw new Error(`Plugin ${pluginId} already loaded`);
   }
 
-  const pluginObject = eval(plugin.js);
+  const pluginObject = evalPtTwoTheEvalening(plugin.js);
 
   window.cumcord.plugins.loadedPlugins[pluginId] = pluginObject;
 
@@ -33,6 +35,7 @@ export function unloadPlugin(pluginId) {
 
   if (pluginObject) {
     pluginObject.onUnload();
+    window.cumcord.plugins.loadedPlugins[pluginId] = undefined;
     delete window.cumcord.plugins.loadedPlugins[pluginId];
   } else {
     throw new Error(`Plugin ${pluginId} not loaded`);

@@ -18,6 +18,10 @@ export default {
           find: "webpackModules",
           replacement: "./src/api/modules/webpackModules.js",
         },
+        {
+          find: "patcher",
+          replacement: "./src/api/patcher/patcher.js",
+        }
       ],
     }),
     babel({
@@ -33,9 +37,10 @@ export default {
     plugins: [
       terser({
         mangle: true,
-        compress: true,
-        toplevel: true,
-        keep_classnames: false,
+        compress: {
+          side_effects: false,
+          negate_iife: false,
+        },
       }),
     ],
   },

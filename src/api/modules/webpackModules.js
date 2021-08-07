@@ -7,7 +7,9 @@ function getModules() {
     [["__extra_id__"]],
   ]);
 
+  modules.m.__extra_id__ = undefined;
   delete modules.m.__extra_id__;
+  modules.c.__extra_id__ = undefined;
   delete modules.c.__extra_id__;
 
   return modules.c;

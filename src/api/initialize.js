@@ -2,7 +2,8 @@
 import logger from "../util/logger";
 import webpackModules from "webpackModules";
 import commonModules from "commonModules";
-import patcher from "./patcher/patch";
+import patcher from "./patcher/patcher";
+import settings from "./ui/settings/settings";
 
 // Plugin management
 import storage from "./plugins/storage";
@@ -16,6 +17,9 @@ function uninject() {
   }
 
   patcher.unpatchAll();
+  patcher.unpatchAllCss();
+
+  window.cumcord = undefined;
   delete window.cumcord;
   return true;
 }
@@ -31,9 +35,11 @@ async function initializeAPI() {
     },
     plugins: {},
     patcher,
+    cum: () => { logger.log("8==D ~~~") }
   };
 
   await storage.initializePlugins();
+  settings.initializeSettings();
 }
 
 export default initializeAPI;

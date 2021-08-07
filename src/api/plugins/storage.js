@@ -5,6 +5,7 @@ function removePlugin(pluginId) {
   unloadPlugin(pluginId);
 
   delete window.cumcord.plugins.pluginCache[pluginId]
+  window.cumcord.plugins.pluginCache[pluginId] = undefined;
   set("CumcordCache", window.cumcord.plugins.pluginCache)
 }
 
