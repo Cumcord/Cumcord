@@ -49,7 +49,7 @@ export default () => {
       { 
         plugins.map(
           plugin => {
-            return <PluginCard pluginId={plugin}/>;
+            return <PluginCard updatePlugins={updatePlugins} pluginId={plugin}/>;
           }
         )
       }

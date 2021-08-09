@@ -28,6 +28,25 @@ export default {
     .cumcord-card-title, .cumcord-card-author {
       display: inline;
     }
+
+    .cumcord-card-right {
+      display: flex;
+    }
+
+    .cumcord-card-delete {
+      fill: var(--interactive-normal);
+      cursor: pointer;
+      width: 20px;
+    }
+
+    .cumcord-card-delete:hover {
+      fill: var(--interactive-hover);
+    }
+
+    .cumcord-card-buttons {
+      display: flex;
+      margin-right: 4px;
+    }
     `);
 
     const Settings = webpackModules.findByDisplayName("SettingsView");

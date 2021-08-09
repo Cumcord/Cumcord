@@ -2,8 +2,8 @@ import storage from "./storage";
 
 const evalPtTwoTheEvalening = eval;
 
-const noStore = { cache: "no-store" }
-const corsProxyUrl = "https://cors.bridged.cc/"
+const noStore = { cache: "no-store" };
+const corsProxyUrl = "https://cors.bridged.cc/";
 
 // These functions handle the loading and unloading of plugins without modifying whether or not they start with Discord.
 export function loadPlugin(pluginId) {

@@ -2,10 +2,12 @@ import { get, set } from "idb-keyval";
 import { importPlugin, unloadPlugin, enablePlugin, disablePlugin, togglePlugin } from "./pluginHandler";
 
 function removePlugin(pluginId) {
-  unloadPlugin(pluginId);
-
-  delete window.cumcord.plugins.pluginCache[pluginId]
+  try {
+    unloadPlugin(pluginId);
+  } catch {}
+  
   window.cumcord.plugins.pluginCache[pluginId] = undefined;
+  delete window.cumcord.plugins.pluginCache[pluginId]
   set("CumcordCache", window.cumcord.plugins.pluginCache)
 }
 
