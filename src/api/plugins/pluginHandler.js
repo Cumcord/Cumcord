@@ -21,7 +21,11 @@ export function loadPlugin(pluginId) {
 
   window.cumcord.plugins.loadedPlugins[pluginId] = pluginObject;
 
-  pluginObject.onLoad();
+  try {
+    pluginObject.onLoad();
+  } catch {
+
+  }
 }
 
 export function unloadPlugin(pluginId) {
@@ -43,6 +47,7 @@ export function unloadPlugin(pluginId) {
 }
 
 // These functions handle the enabling and disabling of plugins at startup.
+// TODO: These need better error handling via toasts. I would implement them now, but we do not have a toast API yet.
 export function enablePlugin(pluginId) {
   const plugin = storage.getPlugin(pluginId);
   const loaded = window.cumcord.plugins.loadedPlugins[pluginId];
@@ -83,7 +88,7 @@ export function togglePlugin(pluginId) {
   }
 }
 
-// TODO: DO NOT FUCKING EXPORT THIS FUNCTION TO THE USER. WRAP THIS IN A FUNCTION THAT SHOWS A MODAL TO MAKE THE DECISION.
+// TODO: WRAP THIS IN A FUNCTION THAT SHOWS A MODAL TO MAKE THE DECISION.
 export async function importPlugin(baseUrl) {
   // Create standardized versions of the URL with a trailing / to prevent the ability to load plugins multiple times by removing a slash
   const baseUrlTrailing = baseUrl.replace(/\/?$/, '/');
@@ -179,5 +184,5 @@ export async function importPlugin(baseUrl) {
     loadPlugin(baseUrlTrailing);
   }
 
-  return true
+  return;
 }

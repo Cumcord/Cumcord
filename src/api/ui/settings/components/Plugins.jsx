@@ -1,4 +1,5 @@
 import { React } from "commonModules";
+const useState = React.useState;
 import webpackModules from "webpackModules";
 
 import PluginCard from "./PluginCard.jsx";
@@ -15,6 +16,13 @@ const Button = webpackModules.findByProps(
 const FormDivider = webpackModules.findByDisplayName("FormDivider");
 
 export default () => {
+  const [input, setInput] = useState("");
+  const [plugins, setPlugins] = useState(Object.keys(window.cumcord.plugins.pluginCache));
+
+  const updatePlugins = () => {
+    setPlugins(Object.keys(window.cumcord.plugins.pluginCache));
+  };
+
   return (
     <FormSection>
       <FormTitle tag="h1">Plugins</FormTitle>
@@ -23,14 +31,23 @@ export default () => {
           className="cumcord-plugin-import"
           placeholder="https://example.com/plugin"
           type="text"
+          value={input}
+          onChange={e => setInput(e)}
         ></TextInput>
-        <Button color={Button.Colors.BRAND} size={Button.Sizes.MEDIUM}>
+        <Button color={Button.Colors.BRAND} size={Button.Sizes.MEDIUM} onClick={
+          () => {
+            setInput("");
+            window.cumcord.plugins.importPlugin(input).then(() => {
+              updatePlugins();
+            });
+          }
+        }>
           Add plugin
         </Button>
       </Flex>
       <FormDivider className="cumcord-plugin-divider" />
       { 
-        Object.keys(window.cumcord.plugins.pluginCache).map(
+        plugins.map(
           plugin => {
             return <PluginCard pluginId={plugin}/>;
           }
