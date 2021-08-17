@@ -7,12 +7,12 @@ const Flex = webpackModules.findByDisplayName('Flex');
 const Text = webpackModules.findByDisplayName('Text');
 const Markdown = webpackModules.findByDisplayName('Markdown');
 
-export default () => {
+export default (props) => {
   return (
     <Card className="cumcord-toast" type="cardPrimary" outline={false} editable={false}>
       <Flex justify={Flex.Justify.BETWEEN} align={Flex.Align.CENTER}>
         <div className="cumcord-toast-header">
-          <Header className="cumcord-toast-title">test test test test test</Header>
+          <Header className="cumcord-toast-title">{props.children}</Header>
         </div>
       </Flex>
     </Card>

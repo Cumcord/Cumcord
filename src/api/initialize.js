@@ -4,7 +4,7 @@ import webpackModules from 'webpackModules';
 import commonModules from 'commonModules';
 import patcher from './patcher/patcher';
 import settings from './ui/settings/settings';
-import toasts from './ui/toasts/toasts';
+import toasts from './ui/toasts/toasts.jsx';
 
 // Plugin management
 import storage from './plugins/storage';
@@ -37,6 +37,9 @@ async function initializeAPI() {
     },
     plugins: {},
     patcher,
+    ui: {
+      showToast: toasts.showToast,
+    },
     cum: () => {
       logger.log('8==D ~~~');
     },
