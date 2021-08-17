@@ -1,23 +1,25 @@
 // API Utils
-import logger from "../util/logger";
-import webpackModules from "webpackModules";
-import commonModules from "commonModules";
-import patcher from "./patcher/patcher";
-import settings from "./ui/settings/settings";
+import logger from '../util/logger';
+import webpackModules from 'webpackModules';
+import commonModules from 'commonModules';
+import patcher from './patcher/patcher';
+import settings from './ui/settings/settings';
+import toasts from './ui/toasts/toasts';
 
 // Plugin management
-import storage from "./plugins/storage";
-import { unloadPlugin } from "./plugins/pluginHandler";
+import storage from './plugins/storage';
+import { unloadPlugin } from './plugins/pluginHandler';
 
 function uninject() {
   for (let plugin of Object.keys(window.cumcord.plugins.pluginCache)) {
     try {
       unloadPlugin(plugin);
-    } catch { }
+    } catch {}
   }
 
   patcher.unpatchAll();
   patcher.unpatchAllCss();
+  toasts.uninitializeToasts();
 
   window.cumcord = undefined;
   delete window.cumcord;
@@ -25,7 +27,7 @@ function uninject() {
 }
 
 async function initializeAPI() {
-  logger.log("Initializing Cumcord API");
+  logger.log('Initializing Cumcord API');
 
   window.cumcord = {
     uninject,
@@ -35,11 +37,14 @@ async function initializeAPI() {
     },
     plugins: {},
     patcher,
-    cum: () => { logger.log("8==D ~~~") }
+    cum: () => {
+      logger.log('8==D ~~~');
+    },
   };
 
   await storage.initializePlugins();
   settings.initializeSettings();
+  toasts.initializeToasts();
 }
 
 export default initializeAPI;
