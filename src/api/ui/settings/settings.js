@@ -52,7 +52,7 @@ export default {
     const Settings = webpackModules.findByDisplayName("SettingsView");
 
     // Same goes for patching JS, it'll be uninjected when cumcord.uninject() is called
-    patcher.patch("getPredicateSections", Settings.prototype, (args, items) => {
+    patcher.after("getPredicateSections", Settings.prototype, (args, items) => {
       const position = items.findIndex((item) => { return item.section == "changelog" }) - 1;
 
       // Check if we're in the user settings menu, if not, fuck off
