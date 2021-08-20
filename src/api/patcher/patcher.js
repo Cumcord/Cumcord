@@ -91,7 +91,7 @@ function hook(patchId, originalArgs, context) {
 
   // Instead patches
   let insteadCallbacks = Object.values(hooks.instead);
-  let originalFunc = (args) => { return patch.originalFunction.call(context, args) };
+  let originalFunc = (...args) => { return patch.originalFunction.call(context, ...args) };
   if (insteadCallbacks.length > 0) {
     let patchFunc = (args) => { return insteadCallbacks[0].call(context, args, originalFunc) }
 
