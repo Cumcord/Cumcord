@@ -12,9 +12,8 @@ const commonModules = {
   ),
 
   i18n: webpackModules.findByProps(
-    "getLanguages",
-    "_requestedLocale",
-    "languages"
+    'Messages',
+    '_requestedLocale'
   ),
 
   // Note: I use these because they are the two most React-specific things in React's props
