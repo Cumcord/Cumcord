@@ -3,14 +3,14 @@
 function getModules() {
   const modules = window.webpackJsonp.push([
     [],
-    { __extra_id__: (module, exports, req) => (module.exports = req) },
-    [["__extra_id__"]],
+    { cum: (module, _, req) => (module.exports = req) },
+    [["cum"]],
   ]);
 
-  modules.m.__extra_id__ = undefined;
-  delete modules.m.__extra_id__;
-  modules.c.__extra_id__ = undefined;
-  delete modules.c.__extra_id__;
+  modules.m.cum = undefined;
+  delete modules.m.cum;
+  modules.c.cum = undefined;
+  delete modules.c.cum;
 
   return modules.c;
 }
