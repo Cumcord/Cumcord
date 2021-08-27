@@ -39,7 +39,7 @@ function patch(functionName, functionParent, callback, type) {
     );
   }
 
-  if (!functionParent.hasOwnProperty("CUMCORD_INJECTIONS")) {
+  if (!Object.hasOwnProperty.bind(functionParent)("CUMCORD_INJECTIONS")) {
     functionParent.CUMCORD_INJECTIONS = {};
   }
 
