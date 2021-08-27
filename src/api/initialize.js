@@ -4,6 +4,7 @@ import webpackModules from "webpackModules";
 import commonModules from "commonModules";
 import patcher from "./patcher/patcher";
 import settings from "./ui/settings/settings";
+import toasts from "./ui/toasts/toasts.jsx";
 
 // Plugin management
 import storage from "./plugins/storage";
@@ -17,6 +18,7 @@ function uninject() {
   }
 
   patcher.unpatchAll();
+  toasts.uninitializeToasts();
   patcher.unpatchAllCss();
 
   window.cumcord = undefined;
@@ -35,9 +37,13 @@ async function initializeAPI() {
     },
     plugins: {},
     patcher,
+    ui: {
+      toasts: toasts.apis,
+    },
     cum: () => { logger.log("8==D ~~~") }
   };
 
+  toasts.initializeToasts();
   await storage.initializePlugins();
   settings.initializeSettings();
 }
