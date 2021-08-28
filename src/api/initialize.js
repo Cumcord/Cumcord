@@ -3,6 +3,7 @@ import logger from "../util/logger";
 import webpackModules from "webpackModules";
 import commonModules from "commonModules";
 import patcher from "patcher";
+import websocket from "websocket";
 import settings from "./ui/settings/settings";
 import toasts from "./ui/toasts/toasts.jsx";
 
@@ -17,6 +18,7 @@ function uninject() {
     } catch { }
   }
 
+  websocket.uninitializeSocket();
   patcher.unpatchAll();
   toasts.uninitializeToasts();
   patcher.unpatchAllCss();
@@ -40,12 +42,14 @@ async function initializeAPI() {
     ui: {
       toasts: toasts.apis,
     },
+    websocket,
     cum: () => { logger.log("8==D ~~~") }
   };
 
   toasts.initializeToasts();
   await storage.initializePlugins();
   settings.initializeSettings();
+  websocket.initializeSocket();
 }
 
 export default initializeAPI;

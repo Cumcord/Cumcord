@@ -21,6 +21,10 @@ export default {
         {
           find: "patcher",
           replacement: "./src/api/patcher/patcher.js",
+        },
+        {
+          find: "websocket",
+          replacement: "./src/api/websocket/websocket.js",
         }
       ],
     }),
