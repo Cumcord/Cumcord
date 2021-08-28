@@ -1,5 +1,5 @@
 import { React, ReactDOM } from 'commonModules';
-import patcher from 'patcher';
+import patcher from "patcher";
 import Toast from './components/Toast.jsx';
 
 let toastContainer = document.createElement('div');

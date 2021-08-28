@@ -8,9 +8,10 @@ const patcher = {
   after,
   unpatchAll,
   unpatchAllCss,
-  patches: {},
   injectCSS,
 };
+
+let patches = [];
 
 function injectCSS(css) {
   const style = document.createElement("style");
@@ -50,10 +51,10 @@ function patch(functionName, functionParent, callback, type) {
 
   const injectionId = functionParent.CUMCORD_INJECTIONS[functionName];
 
-  if (!window.cumcord.patcher.patches[injectionId]) {
+  if (!patches[injectionId]) {
     const originalFunction = Object.assign({}, functionParent)[functionName];
 
-    window.cumcord.patcher.patches[injectionId] = {
+    patches[injectionId] = {
       originalFunction,
       functionParent,
       functionName,
@@ -68,13 +69,13 @@ function patch(functionName, functionParent, callback, type) {
   }
 
   const hookId = uuidv4();
-  window.cumcord.patcher.patches[injectionId].hooks[type][hookId] = callback;
+  patches[injectionId].hooks[type][hookId] = callback;
 
   return () => unpatch(injectionId, hookId, type);
 }
 
 function hook(patchId, originalArgs, context) {
-  const patch = window.cumcord.patcher.patches[patchId];
+  const patch = patches[patchId];
   const hooks = patch["hooks"];
   let args = originalArgs;
 
@@ -132,7 +133,7 @@ function after(functionName, functionParent, callback) {
 }
 
 function unpatch(patchId, hookId, type) {
-  const patch = window.cumcord.patcher.patches[patchId];
+  const patch = patches[patchId];
 
   if (patch) {
     const hooks = patch["hooks"];
@@ -147,8 +148,8 @@ function unpatch(patchId, hookId, type) {
       if (types.every(type => { return Object.values(hooks[type]).length == 0 })) {
         patch.functionParent[patch.functionName] = patch.originalFunction;
         delete patch.functionParent.CUMCORD_INJECTIONS;
-        window.cumcord.patcher.patches[patchId] = undefined;
-        delete window.cumcord.patcher.patches[patchId];
+        patches[patchId] = undefined;
+        delete patches[patchId];
       }
 
       return true;
@@ -162,13 +163,13 @@ function unpatchAll() {
   logger.log(
     "If you're a plugin developer and you ran this because you're curious as to what it does, I highly recommend you refresh your client because unfortunately everything that relies on the patcher has been unpatched."
   );
-  for (const patch in window.cumcord.patcher.patches) {
-    for (const type of Object.keys(window.cumcord.patcher.patches[patch]["hooks"])) {
-      if (!window.cumcord.patcher.patches[patch]) {
+  for (const patch in patches) {
+    for (const type of Object.keys(patches[patch]["hooks"])) {
+      if (!patches[patch]) {
         return;
       }
 
-      const hooks = window.cumcord.patcher.patches[patch]["hooks"][type];
+      const hooks = patches[patch]["hooks"][type];
       for (const hook in hooks) {
         unpatch(patch, hook, type);
       }

@@ -2,7 +2,7 @@
 import logger from "../util/logger";
 import webpackModules from "webpackModules";
 import commonModules from "commonModules";
-import patcher from "./patcher/patcher";
+import patcher from "patcher";
 import settings from "./ui/settings/settings";
 import toasts from "./ui/toasts/toasts.jsx";
 
