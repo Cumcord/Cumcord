@@ -1,5 +1,5 @@
 import { ReactDOM } from 'commonModules';
-import patcher from "patcher";
+import { injectCSS } from "patcher";
 import Toast from './components/Toast.jsx';
 
 let toastContainer = document.createElement('div');
@@ -11,7 +11,7 @@ function forceRender() {
 
 
 function initializeToasts() {
-  patcher.injectCSS(`.cumcord-toast-container{position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;display:flex;flex-direction:column-reverse;align-items:flex-end;z-index:999999}.cumcord-toast{min-width:120px;min-height:50px;padding:5px;margin-right:10px;margin-bottom:10px;display:flex;justify-content:center;align-items:center;align-content:center;pointer-events:all}.cumcord-toast-title{font-size:30px;top:0;bottom:0;left:0;right:0}`);
+  injectCSS(`.cumcord-toast-container{position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;display:flex;flex-direction:column-reverse;align-items:flex-end;z-index:999999}.cumcord-toast{min-width:120px;min-height:50px;padding:5px;margin-right:10px;margin-bottom:10px;display:flex;justify-content:center;align-items:center;align-content:center;pointer-events:all}.cumcord-toast-title{font-size:30px;top:0;bottom:0;left:0;right:0}`);
   toastContainer.className = 'cumcord-toast-container';
   document.getElementById('app-mount').prepend(toastContainer);
   forceRender();

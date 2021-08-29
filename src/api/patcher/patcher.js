@@ -1,15 +1,5 @@
 import webpackModules from "webpackModules";
 const uuidv4 = webpackModules.findByProps("v4").v4;
-import logger from "../../util/logger";
-
-const patcher = {
-  instead,
-  before,
-  after,
-  unpatchAll,
-  unpatchAllCss,
-  injectCSS,
-};
 
 let patches = [];
 
@@ -105,18 +95,18 @@ function hook(patchId, originalArgs, context) {
   } else {
     response = originalFunc(...args);
   }
-  
+
   // After patches
   for (const hookId in hooks.after) {
     const hook = hooks.after[hookId];
-    
+
     const hookResp = hook.call(context, args, response);
 
     if (typeof hookResp !== "undefined") {
       response = hookResp;
     }
   }
-  
+
   return response;
 }
 
@@ -142,7 +132,7 @@ function unpatch(patchId, hookId, type) {
 
       patch.functionParent.CUMCORD_INJECTIONS[patch.functionName] = undefined;
       delete patch.functionParent.CUMCORD_INJECTIONS[patch.functionName];
-      
+
       // If there are no more hooks for every type, remove the patch
       const types = Object.keys(hooks);
       if (types.every(type => { return Object.values(hooks[type]).length == 0 })) {
@@ -160,9 +150,6 @@ function unpatch(patchId, hookId, type) {
 }
 
 function unpatchAll() {
-  logger.log(
-    "If you're a plugin developer and you ran this because you're curious as to what it does, I highly recommend you refresh your client because unfortunately everything that relies on the patcher has been unpatched."
-  );
   for (const patch in patches) {
     for (const type of Object.keys(patches[patch]["hooks"])) {
       if (!patches[patch]) {
@@ -177,4 +164,11 @@ function unpatchAll() {
   }
 }
 
-export default patcher;
+export {
+  instead,
+  before,
+  after,
+  unpatchAll,
+  unpatchAllCss,
+  injectCSS,
+}

@@ -2,8 +2,8 @@
 import logger from "../util/logger";
 import webpackModules from "webpackModules";
 import commonModules from "commonModules";
-import patcher from "patcher";
 import settings from "./ui/settings/settings";
+import * as patcher from "patcher";
 import * as websocket from "websocket";
 import * as toasts from "toasts";
 
@@ -36,7 +36,12 @@ async function initializeAPI() {
       removePlugin: plugins.removePlugin,
       togglePlugin: plugins.togglePlugin,
     },
-    patcher,
+    patcher: {
+      before: patcher.before,
+      after: patcher.after,
+      instead: patcher.instead,
+      injectCSS: patcher.injectCSS,
+    },
     ui: {
       toasts: {
         showToast: toasts.showToast,
