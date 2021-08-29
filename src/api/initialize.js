@@ -3,21 +3,15 @@ import logger from "../util/logger";
 import webpackModules from "webpackModules";
 import commonModules from "commonModules";
 import patcher from "patcher";
-import websocket from "websocket";
 import settings from "./ui/settings/settings";
-import toasts from "./ui/toasts/toasts.jsx";
+import * as websocket from "websocket";
+import * as toasts from "toasts";
 
 // Plugin management
-import storage from "./plugins/storage";
-import { unloadPlugin } from "./plugins/pluginHandler";
+import * as plugins from "plugins";
 
 function uninject() {
-  for (let plugin of Object.keys(window.cumcord.plugins.pluginCache)) {
-    try {
-      unloadPlugin(plugin);
-    } catch { }
-  }
-
+  plugins.unloadAllPlugins();
   websocket.uninitializeSocket();
   patcher.unpatchAll();
   toasts.uninitializeToasts();
@@ -37,17 +31,22 @@ async function initializeAPI() {
       webpackModules,
       common: commonModules,
     },
-    plugins: {},
+    plugins: {
+      importPlugin: plugins.importPlugin,
+      removePlugin: plugins.removePlugin,
+      togglePlugin: plugins.togglePlugin,
+    },
     patcher,
     ui: {
-      toasts: toasts.apis,
+      toasts: {
+        showToast: toasts.showToast,
+      }
     },
-    websocket,
-    cum: () => { logger.log("8==D ~~~") }
+    cum: () => logger.log("8==D ~~~")
   };
 
   toasts.initializeToasts();
-  await storage.initializePlugins();
+  plugins.initializePlugins();
   settings.initializeSettings();
   websocket.initializeSocket();
 }

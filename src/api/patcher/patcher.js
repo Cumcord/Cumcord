@@ -177,6 +177,4 @@ function unpatchAll() {
   }
 }
 
-
-
 export default patcher;

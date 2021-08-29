@@ -1,5 +1,5 @@
-import { React } from "commonModules";
 const useState = React.useState;
+
 import webpackModules from "webpackModules";
 
 import PluginCard from "./PluginCard.jsx";
@@ -15,12 +15,13 @@ const Button = webpackModules.findByProps(
 );
 const FormDivider = webpackModules.findByDisplayName("FormDivider");
 
+import * as plugins from "plugins";
 export default () => {
   const [input, setInput] = useState("");
-  const [plugins, setPlugins] = useState(Object.keys(window.cumcord.plugins.pluginCache));
+  const [knownPlugins, setPlugins] = useState(Object.keys(plugins.pluginCache));
 
   const updatePlugins = () => {
-    setPlugins(Object.keys(window.cumcord.plugins.pluginCache));
+    setPlugins(Object.keys(plugins.pluginCache));
   };
 
   return (
@@ -37,7 +38,7 @@ export default () => {
         <Button color={Button.Colors.BRAND} size={Button.Sizes.MEDIUM} onClick={
           () => {
             setInput("");
-            window.cumcord.plugins.importPlugin(input).then(() => {
+            plugins.importPlugin(input).then(() => {
               updatePlugins();
             });
           }
@@ -47,7 +48,7 @@ export default () => {
       </Flex>
       <FormDivider className="cumcord-plugin-divider" />
       { 
-        plugins.map(
+        knownPlugins.map(
           plugin => {
             return <PluginCard updatePlugins={updatePlugins} pluginId={plugin}/>;
           }

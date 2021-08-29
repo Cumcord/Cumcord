@@ -1,4 +1,3 @@
-import { React } from 'commonModules';
 import webpackModules from 'webpackModules';
 
 const Card = webpackModules.findByDisplayName('Card');

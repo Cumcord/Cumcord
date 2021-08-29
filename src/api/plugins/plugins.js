@@ -1,25 +1,46 @@
-import storage from "./storage";
+import { get, set } from "idb-keyval";
 
 const evalPtTwoTheEvalening = eval;
 
 const noStore = { cache: "no-store" };
 const corsProxyUrl = "https://cors.bridged.cc/";
 
+let loadedPlugins = {};
+let pluginCache = {};
+
+function unloadAllPlugins() {
+  for (let plugin of Object.keys(pluginCache)) {
+    try {
+      unloadPlugin(plugin);
+    } catch { }
+  }
+}
+
+// These functions handle plugin storage
+function getPlugin(pluginId) {
+  return pluginCache[pluginId];
+}
+
+function setPlugin(pluginId, pluginData) {
+  pluginCache[pluginId] = pluginData;
+  set("CumcordCache", pluginCache);
+}
+
 // These functions handle the loading and unloading of plugins without modifying whether or not they start with Discord.
-export function loadPlugin(pluginId) {
-  const plugin = storage.getPlugin(pluginId);
+function loadPlugin(pluginId) {
+  const plugin = getPlugin(pluginId);
 
   if (!plugin) {
     throw new Error(`Plugin ${pluginId} not found`);
   }
 
-  if (window.cumcord.plugins.loadedPlugins[pluginId]) {
+  if (loadedPlugins[pluginId]) {
     throw new Error(`Plugin ${pluginId} already loaded`);
   }
 
   const pluginObject = evalPtTwoTheEvalening(plugin.js);
 
-  window.cumcord.plugins.loadedPlugins[pluginId] = pluginObject;
+  loadedPlugins[pluginId] = pluginObject;
 
   try {
     pluginObject.onLoad();
@@ -28,29 +49,55 @@ export function loadPlugin(pluginId) {
   }
 }
 
-export function unloadPlugin(pluginId) {
-  const plugin = storage.getPlugin(pluginId);
+function unloadPlugin(pluginId) {
+  const plugin = getPlugin(pluginId);
 
   if (!plugin) {
     throw new Error(`Plugin ${pluginId} not found`);
   }
 
-  const pluginObject = window.cumcord.plugins.loadedPlugins[pluginId];
+  const pluginObject = loadedPlugins[pluginId];
 
   if (pluginObject) {
     pluginObject.onUnload();
-    window.cumcord.plugins.loadedPlugins[pluginId] = undefined;
-    delete window.cumcord.plugins.loadedPlugins[pluginId];
+    loadedPlugins[pluginId] = undefined;
+    delete loadedPlugins[pluginId];
   } else {
     throw new Error(`Plugin ${pluginId} not loaded`);
   }
 }
 
+function removePlugin(pluginId) {
+  try {
+    unloadPlugin(pluginId);
+  } catch { }
+
+  pluginCache[pluginId] = undefined;
+  delete pluginCache[pluginId]
+  set("CumcordCache", pluginCache)
+}
+
+async function initializePlugins() {
+  let plugins = await get("CumcordCache");
+
+  loadedPlugins = {};
+  if (plugins) {
+    pluginCache = plugins;
+  } else {
+    await set("CumcordCache", {});
+    pluginCache = {};
+  }
+
+  for (let plugin of Object.keys(pluginCache)) {
+    importPlugin(plugin);
+  }
+}
+
 // These functions handle the enabling and disabling of plugins at startup.
 // TODO: These need better error handling via toasts. I would implement them now, but we do not have a toast API yet.
-export function enablePlugin(pluginId) {
-  const plugin = storage.getPlugin(pluginId);
-  const loaded = window.cumcord.plugins.loadedPlugins[pluginId];
+function enablePlugin(pluginId) {
+  const plugin = getPlugin(pluginId);
+  const loaded = loadedPlugins[pluginId];
 
   if (loaded) {
     unloadPlugin(pluginId);
@@ -60,13 +107,13 @@ export function enablePlugin(pluginId) {
 
   if (!plugin.enabled) {
     plugin.enabled = true;
-    storage.setPlugin(pluginId, plugin);
+    setPlugin(pluginId, plugin);
   }
 }
 
-export function disablePlugin(pluginId) {
-  const plugin = storage.getPlugin(pluginId);
-  const loaded = window.cumcord.plugins.loadedPlugins[pluginId];
+function disablePlugin(pluginId) {
+  const plugin = getPlugin(pluginId);
+  const loaded = loadedPlugins[pluginId];
 
   if (loaded) {
     unloadPlugin(pluginId);
@@ -74,12 +121,12 @@ export function disablePlugin(pluginId) {
 
   if (plugin.enabled) {
     plugin.enabled = false;
-    storage.setPlugin(pluginId, plugin);
+    setPlugin(pluginId, plugin);
   }
 }
 
-export function togglePlugin(pluginId) {
-  const plugin = storage.getPlugin(pluginId);
+function togglePlugin(pluginId) {
+  const plugin = getPlugin(pluginId);
 
   if (plugin.enabled) {
     disablePlugin(pluginId);
@@ -89,7 +136,7 @@ export function togglePlugin(pluginId) {
 }
 
 // TODO: WRAP THIS IN A FUNCTION THAT SHOWS A MODAL TO MAKE THE DECISION.
-export async function importPlugin(baseUrl) {
+async function importPlugin(baseUrl) {
   // Create standardized versions of the URL with a trailing / to prevent the ability to load plugins multiple times by removing a slash
   const baseUrlTrailing = baseUrl.replace(/\/?$/, '/');
   const manifestUrl = new URL("plugin.json", baseUrlTrailing);
@@ -97,7 +144,7 @@ export async function importPlugin(baseUrl) {
 
   // By default, the plugin will be "enabled" and started when imported
   let enabled = true;
-  const existingPlugin = storage.getPlugin(baseUrlTrailing);
+  const existingPlugin = getPlugin(baseUrlTrailing);
 
   // Disable the cors proxy by default
   let corsMode = false;
@@ -135,7 +182,7 @@ export async function importPlugin(baseUrl) {
         // Update manifest if it's changed
         if (existingPlugin.manifest != manifestJson) {
           existingPlugin.manifest = manifestJson;
-          storage.setPlugin(baseUrlTrailing, existingPlugin)
+          setPlugin(baseUrlTrailing, existingPlugin)
         }
 
         if (enabled) {
@@ -173,7 +220,7 @@ export async function importPlugin(baseUrl) {
   const js = await pluginReq.text();
 
   // Add the plugin to persistent storage
-  storage.setPlugin(baseUrlTrailing, {
+  setPlugin(baseUrlTrailing, {
     manifest: manifestJson,
     js,
     enabled
@@ -185,4 +232,14 @@ export async function importPlugin(baseUrl) {
   }
 
   return;
+}
+
+export {
+  initializePlugins,
+  pluginCache,
+  loadedPlugins,
+  unloadAllPlugins,
+  importPlugin,
+  removePlugin,
+  togglePlugin
 }
