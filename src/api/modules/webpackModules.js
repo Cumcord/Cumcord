@@ -126,8 +126,7 @@ const webpackModules = {
     }),
 
   // THIS IS NOT PERFORMANT. This function is exclusively to be used by those searching for modules to later fetch with other parts of Cumcord's webpackModules API.
-
-  findByKeyword: (...searchStrings) =>
+  findByKeywordAll: (...searchStrings) =>
     webpackModules.findAll((module) =>
       searchStrings.every(
         (searchString) =>
@@ -146,6 +145,7 @@ export const findByProps = webpackModules.findByProps;
 export const findByPropsAll = webpackModules.findByPropsAll;
 export const findByPrototypes = webpackModules.findByPrototypes;
 export const findByDisplayName = webpackModules.findByDisplayName;
-export const findByKeyword = webpackModules.findByKeyword;
+export const findByStrings = webpackModules.findByStrings;
+export const findByKeywordAll = webpackModules.findByKeywordAll;
 
 export default webpackModules;
