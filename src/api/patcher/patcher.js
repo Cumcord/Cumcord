@@ -42,7 +42,7 @@ function patch(functionName, functionParent, callback, type) {
   const injectionId = functionParent.CUMCORD_INJECTIONS[functionName];
 
   if (!patches[injectionId]) {
-    const originalFunction = Object.assign({}, functionParent)[functionName];
+    const originalFunction = _.cloneWith(functionParent, (obj) => obj)[functionName];
 
     patches[injectionId] = {
       originalFunction,
