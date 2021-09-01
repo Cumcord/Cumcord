@@ -26,6 +26,8 @@ const commonModules = {
     "__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED",
     "hydrate"
   ),
+
+  Redux: webpackModules.findByProps("createStore", "__DO_NOT_USE__ActionTypes")
 };
 
 // export all of the "common" modules
@@ -33,6 +35,7 @@ export const React = commonModules.React;
 export const ReactDOM = commonModules.ReactDOM;
 export const Flux = commonModules.Flux;
 export const FluxDispatcher = commonModules.FluxDispatcher;
+export const Redux = commonModules.Redux;
 export const constants = commonModules.constants;
 export const channels = commonModules.channels;
 export const i18n = commonModules.i18n;
