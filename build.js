@@ -16,7 +16,8 @@ esbuild.build({
       "patcher": path.resolve("./src/api/patcher/patcher.js"),
       "websocket": path.resolve("./src/api/websocket/websocket.js"),
       "plugins": path.resolve("./src/api/plugins/plugins.js"),
-      "toasts": path.resolve("./src/api/ui/toasts/toasts.jsx")
+      "toasts": path.resolve("./src/api/ui/toasts/toasts.jsx"),
+      "modals": path.resolve("./src/api/ui/modals/modals.jsx")
     })
   ],
-})
+});

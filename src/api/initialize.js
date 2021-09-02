@@ -6,6 +6,7 @@ import settings from "./ui/settings/settings";
 import * as patcher from "patcher";
 import * as websocket from "websocket";
 import * as toasts from "toasts";
+import * as modals from "modals";
 
 // Plugin management
 import * as plugins from "plugins";
@@ -45,7 +46,13 @@ async function initializeAPI() {
     ui: {
       toasts: {
         showToast: toasts.showToast,
+      },
+      modals: {
+        showConfirmationModal: modals.showConfirmationModal,
       }
+    },
+    modals: {
+      openModal: modals,
     },
     cum: () => logger.log("8==D ~~~")
   };
