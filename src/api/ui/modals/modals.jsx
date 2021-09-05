@@ -15,6 +15,7 @@ async function showConfirmationModal({
 } = {}, callback = () => {}) {
   return new Promise((resolve) => {
     var buttonColor;
+    var confirmed = false;
 
     switch (type.toLowerCase()) {
       case "danger":
@@ -28,10 +29,17 @@ async function showConfirmationModal({
         break;
     }
 
+    function handleConfirm(value) {
+      if (!confirmed) {
+        confirmed = true;
+        callback(value);
+        resolve(value);
+      }
+    }
+
     openModal((props) => {
       if (props.transitionState === 3) {
-        callback(false);
-        resolve(false);
+        handleConfirm(false);
       }
 
       return (
@@ -43,19 +51,16 @@ async function showConfirmationModal({
           confirmButtonColor={buttonColor}
 
           onClose = {() => {
-            callback(false);
-            resolve(false);
+            handleConfirm(false);
           }}
 
           onCancel = {() => {
-            callback(false);
-            resolve(false);
+            handleConfirm(false);
             props.onClose();
           }}
 
           onConfirm = {() => {
-            callback(true);
-            resolve(true);
+            handleConfirm(true);
             props.onClose();
           }}
         >
