@@ -52,9 +52,6 @@ async function initializeAPI() {
         showConfirmationModal: modals.showConfirmationModal,
       }
     },
-    modals: {
-      openModal: modals,
-    },
     cum: () => logger.log("8==D ~~~")
   };
 
