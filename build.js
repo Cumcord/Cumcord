@@ -17,7 +17,9 @@ esbuild.build({
       "websocket": path.resolve("./src/api/websocket/websocket.js"),
       "plugins": path.resolve("./src/api/plugins/plugins.js"),
       "toasts": path.resolve("./src/api/ui/toasts/toasts.jsx"),
-      "modals": path.resolve("./src/api/ui/modals/modals.jsx")
+      "modals": path.resolve("./src/api/ui/modals/modals.jsx"),
+      "devmode": path.resolve("./src/api/devmode/devmode.js"),
+      "logger": path.resolve("./src/util/logger.js"),
     })
   ],
 });

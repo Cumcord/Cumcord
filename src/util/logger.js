@@ -1,12 +1,17 @@
-// This may include error logging, etc, later on
+function log(input, color, type) {
+  console[type](`%cCumcord%c`, `background-color: ${color}; color: white; border-radius: 4px; padding: 0px 6px 0px 6px; font-weight: bold`, "", ...input);
+}
+
 const logger = {
-  log: (input) => {
-    console.log(
-      `%cCumcord%c ${input}`,
-      "background-color: #7289da; color: white; border-radius: 4px; padding: 0px 6px 0px 6px; font-weight: bold",
-      ""
-    );
+  log: (...input) => {
+    log(input, "#7289da", "log")
   },
+  error: (...input) => {
+    log(input, "red", "error")
+  },
+  warn: (...input) => {
+    log(input, "red", "warn")
+  }
 };
 
 export default logger;

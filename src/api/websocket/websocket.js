@@ -1,4 +1,5 @@
-import webpackModules from "webpackModules";
+import { findByProps } from "webpackModules";
+import commandHandler from "./commandHandler";
 import { instead } from "patcher";
 
 let connectedClients = [];
@@ -6,14 +7,14 @@ let connectedClients = [];
 function initializeSocket() {
   if (window["DiscordNative"]) {
     // Todo: Add proper websocket API
-    instead("handleConnection", webpackModules.findByProps("handleConnection").__proto__, (args, orig) => {
+    instead("handleConnection", findByProps("handleConnection").__proto__, (args, orig) => {
       let ws = args[0];
       if ((ws.upgradeReq()).url == "/cumcord") {
         connectedClients.push(ws);
         ws.send("Welcome to the Cumcord websocket API :D");
 
         ws.on("message", (msg) => {
-          ws.send(`You said: ${msg}`);
+          return commandHandler(msg, ws);
         });
 
         ws.on("close", () => {

@@ -1,5 +1,5 @@
 // API Utils
-import logger from "../util/logger";
+import logger from "logger";
 import webpackModules from "webpackModules";
 import commonModules from "commonModules";
 import settings from "./ui/settings/settings";
@@ -7,6 +7,7 @@ import * as patcher from "patcher";
 import * as websocket from "websocket";
 import * as toasts from "toasts";
 import * as modals from "modals";
+import * as devmode from "devmode";
 
 // Plugin management
 import * as plugins from "plugins";
@@ -57,6 +58,13 @@ async function initializeAPI() {
     cum: () => logger.log("8==D ~~~")
   };
 
+  // Native-only APIs
+  if (window["DiscordNative"]) {
+    window.cumcord["dev"] = {
+      toggleDevMode: devmode.toggleDevMode,
+    }
+  }
+  
   toasts.initializeToasts();
   plugins.initializePlugins();
   settings.initializeSettings();
