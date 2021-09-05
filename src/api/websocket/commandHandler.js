@@ -32,11 +32,9 @@ export default function commandHandler(msg, ws) {
           }))
           return;
         }
-
-        if (window["DiscordNative"]) {
-          // Focus the window to make sure the modal is visible.
-          DiscordNative.window.focus();
-        }
+        
+        // Focus the window to make sure the modal is visible.
+        DiscordNative.window.focus();
 
         showConfirmationModal({header: "Do you want to install this plugin?", content: `Cumcord plugins can run code on your computer and can be potentially dangerous. Only click confirm if you trust the plugin from \`${parsed["url"]}\`.`, confirmText: "Install", cancelText: "Cancel", type: "danger"}, (result) => {
           if (result) {
