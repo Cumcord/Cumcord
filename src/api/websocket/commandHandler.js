@@ -41,6 +41,11 @@ export default function commandHandler(msg, ws) {
         showConfirmationModal({header: "Do you want to install this plugin?", content: `Cumcord plugins can run code on your computer and can be potentially dangerous. Only click confirm if you trust the plugin from \`${parsed["url"]}\`.`, confirmText: "Install", cancelText: "Cancel", type: "danger"}, (result) => {
           if (result) {
             importPlugin(parsed["url"]);
+            ws.send(JSON.stringify({
+              "name": "CUMCORD_WEBSOCKET",
+              "uuid": parsed["uuid"] || Math.random(),
+              "status": "OK",
+            }));
             return;
           } else {
             ws.send(JSON.stringify({
