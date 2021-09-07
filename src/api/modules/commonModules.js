@@ -27,7 +27,15 @@ const commonModules = {
     "hydrate"
   ),
 
-  Redux: webpackModules.findByProps("createStore", "__DO_NOT_USE__ActionTypes")
+  Redux: webpackModules.findByProps("createStore", "__DO_NOT_USE__ActionTypes"),
+
+  zustand: webpackModules.find((module) => {
+    if (typeof module == "function") {
+      if (module.toString().includes("[useStore, api] = create() is deprecated and will be removed in v4")) {
+        return module;
+      }
+    }
+  })
 };
 
 // export all of the "common" modules
@@ -39,5 +47,6 @@ export const Redux = commonModules.Redux;
 export const constants = commonModules.constants;
 export const channels = commonModules.channels;
 export const i18n = commonModules.i18n;
+export const zustand = commonModules.zustand;
 
 export default commonModules;
