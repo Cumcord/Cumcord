@@ -74,7 +74,7 @@ const webpackModules = {
           return true;
         }
       } else {
-        findInTree(module, (obj) => {
+        return findInTree(module, (obj) => {
           if (obj) {
             for (const item of Object.values(obj)) {
               if (typeof item === "function") {
