@@ -11,8 +11,7 @@ function initializeSocket() {
       let ws = args[0];
       if ((ws.upgradeReq()).url == "/cumcord") {
         connectedClients.push(ws);
-        ws.send("Welcome to the Cumcord websocket API :D");
-
+        
         ws.on("message", (msg) => {
           return commandHandler(msg, ws);
         });
