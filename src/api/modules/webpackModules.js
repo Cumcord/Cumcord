@@ -1,4 +1,5 @@
 // My implmementation is 1:1 compatible with GooseMod's own API, but is implemented differently
+import { findInTree } from "utils";
 
 function getModules() {
   const modules = window.webpackJsonp.push([
@@ -13,57 +14,6 @@ function getModules() {
   delete modules.c.cum;
 
   return modules.c;
-}
-
-// TODO: Replace this with ANYTHING ELSE.
-function findInTree(
-  tree,
-  filter,
-  {
-    walkable = [],
-    exclude = [],
-    maxStack = 100,
-  } = {}
-) {
-  try {
-    JSON.stringify(tree);
-  } catch {
-    return false;
-  }
-  if (tree === null || tree === undefined) return null;
-  if (typeof tree !== "object") return null;
-
-  if (typeof filter === "string") return tree[filter];
-
-  const stack = [tree];
-  while (stack.length) {
-    const node = stack.pop();
-    try {
-      if (filter(node)) return node;
-    } catch { }
-    if (stack.length >= maxStack) continue;
-    if (Array.isArray(node)) {
-      stack.push(...node);
-    } else if (typeof node === "object" && node !== null) {
-      if (walkable.length > 0) {
-        stack.push(
-          ...Object.entries(node)
-            .filter(
-              ([key, value]) =>
-                walkable.indexOf(key) !== -1 && exclude.indexOf(key) === -1
-            )
-            .map(([key, value]) => value)
-        );
-      } else {
-        stack.push(
-          ...Object.values(node).filter(
-            (key) => exclude.indexOf(key) === -1 && node
-          )
-        );
-      }
-    }
-  }
-  return null;
 }
 
 function filterModules(moduleList, filter) {
@@ -116,13 +66,26 @@ const webpackModules = {
   findByDisplayName: (displayName) =>
     webpackModules.find((module) => module.displayName === displayName),
 
+  // HELL.
   findByStrings: (...searchStrings) =>
     webpackModules.find((module) => {
-      return findInTree(module, (obj) => {
-        if (typeof obj == "function") {
-          return searchStrings.every((str) => obj.toString().includes(str));
+      if (typeof module === "function") {
+        if (searchStrings.every((searchString) => module.toString().includes(searchString))) {
+          return true;
         }
-      })
+      } else {
+        findInTree(module, (obj) => {
+          if (obj) {
+            for (const item of Object.values(obj)) {
+              if (typeof item === "function") {
+                if (searchStrings.every((searchString) => item.toString().includes(searchString))) {
+                  return true;
+                }
+              }
+            }
+          }
+        })
+      }
     }),
 
   // THIS IS NOT PERFORMANT. This function is exclusively to be used by those searching for modules to later fetch with other parts of Cumcord's webpackModules API.

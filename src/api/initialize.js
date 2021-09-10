@@ -1,8 +1,8 @@
 // API Utils
-import logger from "logger";
 import webpackModules from "webpackModules";
 import commonModules from "commonModules";
 import settings from "./ui/settings/settings";
+import * as utils from "utils";
 import * as patcher from "patcher";
 import * as websocket from "websocket";
 import * as toasts from "toasts";
@@ -25,7 +25,7 @@ function uninject() {
 }
 
 async function initializeAPI() {
-  logger.log("Initializing Cumcord API");
+  utils.logger.log("Initializing Cumcord API");
 
   window.cumcord = {
     uninject,
@@ -52,7 +52,12 @@ async function initializeAPI() {
         showConfirmationModal: modals.showConfirmationModal,
       }
     },
-    cum: () => logger.log("8==D ~~~")
+    utils: {
+      logger: utils.logger,
+      findInTree: utils.findInTree,
+      findInReactTree: utils.findInReactTree,
+    },
+    cum: () => utils.logger.log("8==D ~~~")
   };
 
   // Native-only APIs

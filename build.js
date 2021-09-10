@@ -19,7 +19,7 @@ esbuild.build({
       "toasts": path.resolve("./src/api/ui/toasts/toasts.jsx"),
       "modals": path.resolve("./src/api/ui/modals/modals.jsx"),
       "devmode": path.resolve("./src/api/devmode/devmode.js"),
-      "logger": path.resolve("./src/util/logger.js"),
+      "utils": path.resolve("./src/api/utils/utils.js"),
     })
   ],
 });
