@@ -57,7 +57,7 @@ async function initializeAPI() {
       findInTree: utils.findInTree,
       findInReactTree: utils.findInReactTree,
     },
-    cum: () => utils.logger.log("8==D ~~~~~~")
+    cum: () => utils.logger.log("8===D ~~~~~~")
   };
 
   // Native-only APIs
