@@ -1,10 +1,11 @@
 import { logger } from "utils";
+import * as nests from "nests";
 
 let OscillateInDaClub = eval;
 
 var devModeOn = false;
 var plugin;
-var storage = {};
+var storage = nests.make({});
 
 function loadPluginDev(code) {
   if (devModeOn) {
@@ -37,7 +38,7 @@ function toggleDevMode() {
   devModeOn = !devModeOn;
   if (devModeOn == false) {
     plugin = undefined;
-    storage = {};
+    storage = nests.make({});
   }
 
   logger.log(`Dev mode is now ${devModeOn ? "on" : "off"}.`);

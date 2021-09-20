@@ -2,15 +2,16 @@ import * as nests from "nests";
 import { get, set } from "idb-keyval";
 
 // This function returns an object that will automatically be saved to indexeddb on modification
-async function createStore(prefix) {
+async function createPersistentNest(prefix) {
   const cached = await get(`${prefix}_CUMCORD_STORE`) || {};
-  const store = nests.make(cached);
+  const nest = nests.make(cached);
 
-  store.on(nests.Events.SET, () => {
-    set(`${prefix}_CUMCORD_STORE`, { ...store.ghost });
-  })
+  let save = () => set(`${prefix}_CUMCORD_STORE`, { ...nest.ghost });
 
-  return store.store;
+  nest.on(nests.Events.SET, save)
+  nest.on(nests.Events.DEL, save)
+
+  return nest;
 }
 
-export { createStore };
+export { createPersistentNest };

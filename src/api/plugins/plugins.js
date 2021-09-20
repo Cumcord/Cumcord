@@ -1,5 +1,5 @@
 import { get, set } from "idb-keyval";
-import { createStore } from "./pluginStorage";
+import { createPersistentNest } from "./pluginStorage";
 
 const evalPtTwoTheEvalening = eval;
 
@@ -43,7 +43,7 @@ async function loadPlugin(pluginId) {
 
   let pluginData = pluginObject;
   if (typeof pluginObject == "function") {
-    pluginData = pluginObject({ store: await createStore(pluginId), id: pluginId });
+    pluginData = pluginObject({ persist: await createPersistentNest(pluginId), id: pluginId });
   }
 
   loadedPlugins[pluginId] = pluginData;
