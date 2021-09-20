@@ -20,7 +20,7 @@ function loadPluginDev(code) {
     pluginObject = OscillateInDaClub(code);
     var plugin = pluginObject;
 
-    if (typeof plugin.onLoad == "function") {
+    if (typeof plugin == "function") {
       plugin = pluginObject(storage);
     }
 
