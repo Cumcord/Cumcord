@@ -13,6 +13,7 @@ esbuild.build({
     alias({
       "commonModules": path.resolve("./src/api/modules/commonModules.js"),
       "webpackModules": path.resolve("./src/api/modules/webpackModules.js"),
+      "internalModules": path.resolve("./src/api/modules/internalModules.js"),
       "patcher": path.resolve("./src/api/patcher/patcher.js"),
       "websocket": path.resolve("./src/api/websocket/websocket.js"),
       "plugins": path.resolve("./src/api/plugins/plugins.js"),

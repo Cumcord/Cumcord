@@ -1,6 +1,7 @@
 // API Utils
 import webpackModules from "webpackModules";
 import commonModules from "commonModules";
+import internalModules from "internalModules";
 import settings from "./ui/settings/settings";
 import * as utils from "utils";
 import * as patcher from "patcher";
@@ -33,6 +34,7 @@ async function initializeAPI() {
       webpackModules,
       webpack: webpackModules,
       common: commonModules,
+      internal: internalModules,
     },
     plugins: {
       importPlugin: plugins.importPlugin,
