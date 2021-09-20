@@ -22,4 +22,5 @@ esbuild.build({
       "utils": path.resolve("./src/api/utils/utils.js"),
     })
   ],
+  target: ["es2021"]
 });

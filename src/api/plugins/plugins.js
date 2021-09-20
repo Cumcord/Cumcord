@@ -1,4 +1,5 @@
 import { get, set } from "idb-keyval";
+import { createStore } from "./pluginStorage";
 
 const evalPtTwoTheEvalening = eval;
 
@@ -27,7 +28,7 @@ function setPlugin(pluginId, pluginData) {
 }
 
 // These functions handle the loading and unloading of plugins without modifying whether or not they start with Discord.
-function loadPlugin(pluginId) {
+async function loadPlugin(pluginId) {
   const plugin = getPlugin(pluginId);
 
   if (!plugin) {
@@ -40,10 +41,15 @@ function loadPlugin(pluginId) {
 
   const pluginObject = evalPtTwoTheEvalening(plugin.js);
 
-  loadedPlugins[pluginId] = pluginObject;
+  let pluginData = pluginObject;
+  if (typeof pluginObject == "function") {
+    pluginData = pluginObject({ store: await createStore(pluginId), id: pluginId });
+  }
+
+  loadedPlugins[pluginId] = pluginData;
 
   try {
-    pluginObject.onLoad();
+    pluginData.onLoad();
   } catch {
 
   }

@@ -4,6 +4,7 @@ let OscillateInDaClub = eval;
 
 var devModeOn = false;
 var plugin;
+var storage = {};
 
 function loadPluginDev(code) {
   if (devModeOn) {
@@ -16,7 +17,13 @@ function loadPluginDev(code) {
       }
     }
 
-    plugin = OscillateInDaClub(code);
+    pluginObject = OscillateInDaClub(code);
+    var plugin = pluginObject;
+
+    if (typeof plugin.onLoad == "function") {
+      plugin = pluginObject(storage);
+    }
+
     logger.log("Loading new plugin version...")
     try {
       plugin.onLoad();
@@ -30,6 +37,7 @@ function toggleDevMode() {
   devModeOn = !devModeOn;
   if (devModeOn == false) {
     plugin = undefined;
+    storage = {};
   }
 
   logger.log(`Dev mode is now ${devModeOn ? "on" : "off"}.`);
