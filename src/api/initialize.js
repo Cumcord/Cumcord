@@ -31,6 +31,7 @@ async function initializeAPI() {
     uninject,
     modules: {
       webpackModules,
+      webpack: webpackModules,
       common: commonModules,
     },
     plugins: {
