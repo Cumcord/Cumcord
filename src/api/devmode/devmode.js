@@ -22,7 +22,7 @@ function loadPluginDev(code) {
     plugin = pluginObject;
 
     if (typeof plugin == "function") {
-      plugin = pluginObject({store: storage, id: "FAKE_PLUGIN_ID"});
+      plugin = pluginObject({persist: storage, id: "FAKE_PLUGIN_ID"});
     }
 
     logger.log("Loading new plugin version...")
