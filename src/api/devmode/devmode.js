@@ -27,7 +27,9 @@ function loadPluginDev(code) {
 
     logger.log("Loading new plugin version...")
     try {
-      plugin.onLoad();
+      if (plugin["onLoad"]) {
+        plugin.onLoad();
+      }
     } catch (e) {
       logger.error("Failed to load:", e);
     }

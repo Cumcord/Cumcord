@@ -49,7 +49,9 @@ async function loadPlugin(pluginId) {
   loadedPlugins[pluginId] = pluginData;
 
   try {
-    pluginData.onLoad();
+    if (pluginData["onLoad"]) {
+      pluginData.onLoad();
+    }
   } catch {
 
   }

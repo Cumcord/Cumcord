@@ -21,6 +21,7 @@ esbuild.build({
       "modals": path.resolve("./src/api/ui/modals/modals.jsx"),
       "devmode": path.resolve("./src/api/devmode/devmode.js"),
       "utils": path.resolve("./src/api/utils/utils.js"),
+      "pluginSettings": path.resolve("./src/api/ui/settings/pluginSettings.jsx"),
     })
   ],
   target: ["es2021"]
