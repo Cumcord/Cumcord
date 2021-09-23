@@ -38,7 +38,7 @@ async function startPlugin(pluginId) {
 
   try {
     if (evaledPlugin["onLoad"]) {
-      pluginData.onLoad();
+      evaledPlugin.onLoad();
     }
   } catch {}
 
