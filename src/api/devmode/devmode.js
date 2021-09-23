@@ -1,8 +1,7 @@
 import { logger } from "utils";
 import { showPluginSettings } from "pluginSettings";
+import { evalPlugin } from "../plugins/plugins";
 import * as nests from "nests";
-
-let OscillateInDaClub = eval;
 
 var devModeOn = false;
 var plugin;
@@ -17,17 +16,12 @@ function loadPluginDev(code) {
       } catch (e) {
         logger.error("Failed to unload:", e);
       }
-    }
-
-    pluginObject = OscillateInDaClub(code);
-    plugin = pluginObject;
-
-    if (typeof plugin == "function") {
-      plugin = pluginObject({persist: storage, id: "FAKE_PLUGIN_ID"});
-    }
+    };
 
     logger.log("Loading new plugin version...")
+    
     try {
+      plugin = evalPlugin(code, {persist: storage, id: "FAKE_PLUGIN_ID"});
       if (plugin["onLoad"]) {
         plugin.onLoad();
       }

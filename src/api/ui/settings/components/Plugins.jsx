@@ -1,8 +1,9 @@
-const useState = React.useState;
-
 import webpackModules from "webpackModules";
-
+import { useNest } from "utils";
 import PluginCard from "./PluginCard.jsx";
+import * as plugins from "plugins";
+
+const useState = React.useState;
 const FormTitle = webpackModules.findByDisplayName("FormTitle");
 const FormSection = webpackModules.findByDisplayName("FormSection");
 const Flex = webpackModules.findByDisplayName("Flex");
@@ -15,14 +16,10 @@ const Button = webpackModules.findByProps(
 );
 const FormDivider = webpackModules.findByDisplayName("FormDivider");
 
-import * as plugins from "plugins";
 export default () => {
   const [input, setInput] = useState("");
-  const [knownPlugins, setPlugins] = useState(Object.keys(plugins.pluginCache));
 
-  const updatePlugins = () => {
-    setPlugins(Object.keys(plugins.pluginCache));
-  };
+  useNest(plugins.pluginCache);
 
   return (
     <FormSection>
@@ -38,9 +35,7 @@ export default () => {
         <Button color={Button.Colors.BRAND} size={Button.Sizes.MEDIUM} onClick={
           () => {
             setInput("");
-            plugins.importPlugin(input).then(() => {
-              updatePlugins();
-            });
+            plugins.importPlugin(input);
           }
         }>
           Add plugin
@@ -48,9 +43,9 @@ export default () => {
       </Flex>
       <FormDivider className="cumcord-plugin-divider" />
       { 
-        knownPlugins.map(
+        Object.keys(plugins.pluginCache.ghost).map(
           plugin => {
-            return <PluginCard updatePlugins={updatePlugins} pluginId={plugin}/>;
+            return <PluginCard pluginId={plugin}/>;
           }
         )
       }

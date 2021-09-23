@@ -1,158 +1,96 @@
-import { get, set } from "idb-keyval";
-import { createPersistentNest } from "./pluginStorage";
+import { createPersistentNest } from "pluginStorage";
+import * as nests from "nests";
 
 const evalPtTwoTheEvalening = eval;
 
 const noStore = { cache: "no-store" };
 const corsProxyUrl = "https://cors.bridged.cc/";
 
-let loadedPlugins = {};
+let loadedPlugins = nests.make({});
+// Placeholder before initialization
 let pluginCache = {};
 
-function unloadAllPlugins() {
-  for (let plugin of Object.keys(pluginCache)) {
-    try {
-      unloadPlugin(plugin);
-    } catch { }
+// This can be used to make other implementations of plugin loading (e.g dev mode)
+function evalPlugin(pluginCode, data) {
+  const pluginObject = evalPtTwoTheEvalening(pluginCode);
+  let pluginData = pluginObject;
+
+  if (typeof pluginObject == "function") {
+    // Typically { persist: await createPersistentNest(pluginId), id: pluginId }
+    pluginData = pluginObject(data);
   }
+
+  return pluginData;
 }
 
-// These functions handle plugin storage
-function getPlugin(pluginId) {
-  return pluginCache[pluginId];
-}
-
-function setPlugin(pluginId, pluginData) {
-  pluginCache[pluginId] = pluginData;
-  set("CumcordCache", pluginCache);
-}
-
-// These functions handle the loading and unloading of plugins without modifying whether or not they start with Discord.
-async function loadPlugin(pluginId) {
-  const plugin = getPlugin(pluginId);
+async function startPlugin(pluginId) {
+  const plugin = pluginCache.ghost[pluginId];
 
   if (!plugin) {
     throw new Error(`Plugin ${pluginId} not found`);
   }
 
-  if (loadedPlugins[pluginId]) {
+  if (loadedPlugins.ghost[pluginId]) {
     throw new Error(`Plugin ${pluginId} already loaded`);
   }
 
-  const pluginObject = evalPtTwoTheEvalening(plugin.js);
-
-  let pluginData = pluginObject;
-  if (typeof pluginObject == "function") {
-    pluginData = pluginObject({ persist: await createPersistentNest(pluginId), id: pluginId });
-  }
-
-  loadedPlugins[pluginId] = pluginData;
+  const evaledPlugin = evalPlugin(plugin.js, { persist: await createPersistentNest(pluginId), id: pluginId });
 
   try {
-    if (pluginData["onLoad"]) {
+    if (evaledPlugin["onLoad"]) {
       pluginData.onLoad();
     }
-  } catch {
+  } catch {}
 
-  }
+  loadedPlugins.store[pluginId] = evaledPlugin;
 }
 
-function unloadPlugin(pluginId) {
-  const plugin = getPlugin(pluginId);
+function stopPlugin(pluginId) {
+  const plugin = loadedPlugins.ghost[pluginId];
 
   if (!plugin) {
     throw new Error(`Plugin ${pluginId} not found`);
   }
 
-  const pluginObject = loadedPlugins[pluginId];
-
-  if (pluginObject) {
-    pluginObject.onUnload();
-    loadedPlugins[pluginId] = undefined;
-    delete loadedPlugins[pluginId];
-  } else {
-    throw new Error(`Plugin ${pluginId} not loaded`);
+  if (!loadedPlugins.ghost[pluginId]) {
+    throw new Error(`Plugin ${pluginId} isn't loaded`);
   }
-}
 
-function removePlugin(pluginId) {
   try {
-    unloadPlugin(pluginId);
-  } catch { }
+    plugin.onUnload();
+  } catch {}
 
-  pluginCache[pluginId] = undefined;
-  delete pluginCache[pluginId]
-  set("CumcordCache", pluginCache)
-}
-
-async function initializePlugins() {
-  let plugins = await get("CumcordCache");
-
-  loadedPlugins = {};
-  if (plugins) {
-    pluginCache = plugins;
-  } else {
-    await set("CumcordCache", {});
-    pluginCache = {};
-  }
-
-  for (let plugin of Object.keys(pluginCache)) {
-    importPlugin(plugin);
-  }
-}
-
-// These functions handle the enabling and disabling of plugins at startup.
-// TODO: These need better error handling via toasts. I would implement them now, but we do not have a toast API yet.
-function enablePlugin(pluginId) {
-  const plugin = getPlugin(pluginId);
-  const loaded = loadedPlugins[pluginId];
-
-  if (loaded) {
-    unloadPlugin(pluginId);
-  }
-
-  loadPlugin(pluginId);
-
-  if (!plugin.enabled) {
-    plugin.enabled = true;
-    setPlugin(pluginId, plugin);
-  }
-}
-
-function disablePlugin(pluginId) {
-  const plugin = getPlugin(pluginId);
-  const loaded = loadedPlugins[pluginId];
-
-  if (loaded) {
-    unloadPlugin(pluginId);
-  }
-
-  if (plugin.enabled) {
-    plugin.enabled = false;
-    setPlugin(pluginId, plugin);
-  }
+  delete loadedPlugins.store[pluginId];
 }
 
 function togglePlugin(pluginId) {
-  const plugin = getPlugin(pluginId);
+  const plugin = pluginCache.store[pluginId];
+
+  if (!pluginCache.ghost[pluginId]) {
+    throw new Error(`Plugin ${pluginId} not found`);
+  }
 
   if (plugin.enabled) {
-    disablePlugin(pluginId);
+    stopPlugin(pluginId);
+    plugin.enabled = false;
   } else {
-    enablePlugin(pluginId);
+    startPlugin(pluginId);
+    plugin.enabled = true;
   }
 }
 
-// TODO: WRAP THIS IN A FUNCTION THAT SHOWS A MODAL TO MAKE THE DECISION.
+
 async function importPlugin(baseUrl) {
   // Create standardized versions of the URL with a trailing / to prevent the ability to load plugins multiple times by removing a slash
   const baseUrlTrailing = baseUrl.replace(/\/?$/, '/');
   const manifestUrl = new URL("plugin.json", baseUrlTrailing);
   const pluginUrl = new URL("plugin.js", baseUrlTrailing);
 
+  const pluginExists = pluginCache.ghost[baseUrlTrailing];
+  const existingPlugin = pluginCache.store[baseUrlTrailing];
+
   // By default, the plugin will be "enabled" and started when imported
-  let enabled = true;
-  const existingPlugin = getPlugin(baseUrlTrailing);
+  let enabled = (pluginExists ? existingPlugin.enabled : true);
 
   // Disable the cors proxy by default
   let corsMode = false;
@@ -168,41 +106,37 @@ async function importPlugin(baseUrl) {
     manifestData = await fetch(corsProxyUrl + manifestUrl, noStore);
   }
 
-
   // If the plugin already exists in the cache then even if we cannot fetch it we can use the cached version, and as such these errors will not apply
   // Check if the server is returning a success
   if (manifestData.status != 200) {
-    if (!existingPlugin) throw new Error("Plugin manifest not returning success");
+    if (!pluginExists) throw new Error("Plugin manifest not returning success");
   }
 
   try {
     // Attempt to parse the manifest
     manifestJson = await manifestData.json();
   } catch {
-    if (!existingPlugin) throw new Error("Plugin manifest cannot be parsed");
+    if (!pluginExists) throw new Error("Plugin manifest cannot be parsed");
   }
 
   // If the plugin is already downloaded, we check if it is cached, and if it is, we start it if it's enabled
-  if (existingPlugin) {
-    enabled = existingPlugin.enabled;
+  if (pluginExists) {
     if (manifestJson) {
       if (existingPlugin.manifest.hash == manifestJson.hash) {
         // Update manifest if it's changed
         if (existingPlugin.manifest != manifestJson) {
           existingPlugin.manifest = manifestJson;
-          setPlugin(baseUrlTrailing, existingPlugin)
         }
 
         if (enabled) {
-          loadPlugin(baseUrlTrailing)
-
-          return;
+          startPlugin(baseUrlTrailing)
         }
-      }
-      // Always load if server is not accessible
+
+        return;
+      } // The plugin will load if the server is unreachable
     } else {
       if (enabled) {
-        loadPlugin(baseUrlTrailing)
+        startPlugin(baseUrlTrailing)
       }
 
       return;
@@ -228,26 +162,54 @@ async function importPlugin(baseUrl) {
   const js = await pluginReq.text();
 
   // Add the plugin to persistent storage
-  setPlugin(baseUrlTrailing, {
+  pluginCache.store[baseUrlTrailing] = {
     manifest: manifestJson,
     js,
     enabled
-  });
+  };
 
   // Start it if it's enabled
   if (enabled) {
-    loadPlugin(baseUrlTrailing);
+    await startPlugin(baseUrlTrailing);
   }
 
   return;
 }
 
+function removePlugin(pluginId) {
+  // I'd check if it's loaded before doing this, but unloadPlugin already checks if it's loaded so I just catch the error
+  try {
+    stopPlugin(pluginId);
+  } catch {}
+
+  delete pluginCache.store[pluginId];
+}
+
+async function initializePlugins() {
+  // Initialize plugin cache
+  pluginCache = await createPersistentNest("PLUGIN_CACHE");
+  for (let plugin of Object.keys(pluginCache.ghost)) {
+    importPlugin(plugin);
+  }
+}
+
+function unloadAllPlugins() {
+  for (let plugin of Object.keys(pluginCache.ghost)) {
+    try {
+      stopPlugin(plugin);
+    } catch {}
+  }
+}
+
 export {
-  initializePlugins,
-  pluginCache,
-  loadedPlugins,
-  unloadAllPlugins,
+  evalPlugin,
+  startPlugin,
+  stopPlugin,
+  togglePlugin,
   importPlugin,
   removePlugin,
-  togglePlugin
+  initializePlugins,
+  unloadAllPlugins,
+  pluginCache,
+  loadedPlugins
 }
