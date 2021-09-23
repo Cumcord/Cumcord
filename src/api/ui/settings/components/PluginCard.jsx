@@ -8,7 +8,6 @@ const Text = webpackModules.findByDisplayName("Text");
 const Flex = webpackModules.findByDisplayName("Flex");
 const Markdown = webpackModules.findByDisplayName("Markdown");
 const Switch = webpackModules.findByDisplayName("Switch");
-const { Separator } = webpackModules.findByProps("Separator");
 
 export default (props) => {
   const plugin = plugins.pluginCache[props.pluginId];
@@ -47,7 +46,6 @@ export default (props) => {
             } />
         </div>
       </Flex>
-      {/* <Separator margin="10px" /> */}
       <Markdown>{plugin.manifest.description}</Markdown>
     </Card>
   )
