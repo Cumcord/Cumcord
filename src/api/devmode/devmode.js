@@ -1,4 +1,5 @@
 import { logger } from "utils";
+import { showPluginSettings } from "pluginSettings";
 import * as nests from "nests";
 
 let OscillateInDaClub = eval;
@@ -46,4 +47,12 @@ function toggleDevMode() {
   logger.log(`Dev mode is now ${devModeOn ? "on" : "off"}.`);
 }
 
-export { loadPluginDev, toggleDevMode, devModeOn };
+function showSettings() {
+  if (devModeOn) {
+    if (plugin) {
+      showPluginSettings("Fake Dev Plugin", plugin.settings);
+    }
+  }
+}
+
+export { loadPluginDev, toggleDevMode, devModeOn, showSettings };

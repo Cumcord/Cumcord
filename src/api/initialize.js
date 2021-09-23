@@ -67,6 +67,7 @@ async function initializeAPI() {
   if (window["DiscordNative"]) {
     window.cumcord["dev"] = {
       toggleDevMode: devmode.toggleDevMode,
+      showSettings: devmode.showSettings,
     }
   }
   
