@@ -1,17 +1,17 @@
 lockfileVersion: 5.3
 
 specifiers:
-  esbuild: ^0.12.24
+  esbuild: ^0.12.29
   esbuild-plugin-alias: ^0.1.2
-  idb-keyval: ^5.0.6
-  nests: ^2.0.0-alpha.11
+  idb-keyval: ^5.1.5
+  nests: ^2.0.4
 
 dependencies:
-  idb-keyval: 5.1.3
-  nests: 2.0.0-alpha.11
+  idb-keyval: 5.1.5
+  nests: 2.0.4
 
 devDependencies:
-  esbuild: 0.12.24
+  esbuild: 0.12.29
   esbuild-plugin-alias: 0.1.2
 
 packages:
@@ -20,24 +20,24 @@ packages:
     resolution: {integrity: sha512-WsX0OJy8IGOsGZV+4oHEU5B6XQUpxOsZN1iSoYf9COTDbY7WXcOwd1oCLYNWUIWCExyGXSghIGq2k7sXBldxwQ==}
     dev: true
 
-  /esbuild/0.12.24:
-    resolution: {integrity: sha512-C0ibY+HsXzYB6L/pLWEiWjMpghKsIc58Q5yumARwBQsHl9DXPakW+5NI/Y9w4YXiz0PEP6XTGTT/OV4Nnsmb4A==}
+  /esbuild/0.12.29:
+    resolution: {integrity: sha512-w/XuoBCSwepyiZtIRsKsetiLDUVGPVw1E/R3VTFSecIy8UR7Cq3SOtwKHJMFoVqqVG36aGkzh4e8BvpO1Fdc7g==}
     hasBin: true
     requiresBuild: true
     dev: true
 
-  /idb-keyval/5.1.3:
-    resolution: {integrity: sha512-N9HbCK/FaXSRVI+k6Xq4QgWxbcZRUv+SfG1y7HJ28JdV8yEJu6k+C/YLea7npGckX2DQJeEVuMc4bKOBeU/2LQ==}
+  /idb-keyval/5.1.5:
+    resolution: {integrity: sha512-J1utxYWQokYjy01LvDQ7WmiAtZCGUSkVi9EIBfUSyLOr/BesnMIxNGASTh9A1LzeISSjSqEPsfFdTss7EE7ofQ==}
     dependencies:
-      safari-14-idb-fix: 1.0.4
+      safari-14-idb-fix: 1.0.6
     dev: false
 
-  /nests/2.0.0-alpha.11:
-    resolution: {integrity: sha512-M3T7kScddUZEqvovEgXzROe+neDzXU0Bk9I7y3xpKKLve0C2aGvty8XXPB6l7BcnGwFQFNlbTI7BuzhIXKIT/w==}
+  /nests/2.0.4:
+    resolution: {integrity: sha512-zt9cykHs005YzXQrTkOmnPVO8d9DYx5sQsHT+Bf2d10saLN0TBja+Bo5zuTsnxxx5fx261PyVDocUMF40JdCmg==}
     peerDependencies:
       react: '>=16.8'
     dev: false
 
-  /safari-14-idb-fix/1.0.4:
-    resolution: {integrity: sha512-4+Y2baQdgJpzu84d0QjySl70Kyygzf0pepVg8NVg4NnQEPpfC91fAn0baNvtStlCjUUxxiu0BOMiafa98fRRuA==}
+  /safari-14-idb-fix/1.0.6:
+    resolution: {integrity: sha512-oTEQOdMwRX+uCtWCKT1nx2gAeSdpr8elg/2gcaKUH00SJU2xWESfkx11nmXwTRHy7xfQoj1o4TTQvdmuBosTnA==}
     dev: false

@@ -9,7 +9,7 @@ async function createPersistentNest(prefix) {
   let save = () => set(`${prefix}_CUMCORD_STORE`, { ...nest.ghost });
 
   nest.on(nests.Events.SET, save)
-  nest.on(nests.Events.DEL, save)
+  nest.on(nests.Events.DELETE, save)
 
   return nest;
 }

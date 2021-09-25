@@ -15,7 +15,7 @@ export default function useNest(nest, transient = false, filter = () => true) {
 
     if (!transient) {
       nest.on(Events.SET, listener);
-      nest.on(Events.DEL, listener);
+      nest.on(Events.DELETE, listener);
     }
 
     return () => {
@@ -23,7 +23,7 @@ export default function useNest(nest, transient = false, filter = () => true) {
 
       if (!transient) {
         nest.off(Events.SET, listener);
-        nest.off(Events.DEL, listener);
+        nest.off(Events.DELETE, listener);
       }
     };
   }, []);
