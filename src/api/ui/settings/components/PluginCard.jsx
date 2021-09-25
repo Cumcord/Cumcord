@@ -83,7 +83,7 @@ export default (props) => {
           />
         </div>
       </Flex>
-      <Markdown>{plugin.manifest.description}</Markdown>
+      <Markdown className="cumcord-card-description">{plugin.manifest.description}</Markdown>
     </Card>
   );
 };
