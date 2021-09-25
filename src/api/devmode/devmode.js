@@ -44,8 +44,16 @@ function toggleDevMode() {
 function showSettings() {
   if (devModeOn) {
     if (plugin) {
-      showPluginSettings("Fake Dev Plugin", plugin.settings);
+      if (plugin.settings) {
+        showPluginSettings("Fake Dev Plugin", plugin.settings);
+      } else {
+        logger.log("No settings for this plugin.");
+      }
+    } else {
+      logger.error("No plugin loaded!");
     }
+  } else {
+    logger.error("Dev mode is off!");
   }
 }
 
