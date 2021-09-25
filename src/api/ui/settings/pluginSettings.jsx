@@ -10,7 +10,7 @@ function showPluginSettings(pluginName, settings) {
     return (
       <ModalComponents.ModalRoot
         transitionState={e.transitionState}
-        size="medium"
+        size="large"
       >
         <ModalComponents.ModalHeader separator={false}>
           <Flex.Child basis="auto" grow={1} shrink={1} wrap={false}>
