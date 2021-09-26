@@ -72,7 +72,7 @@ async function initializeAPI() {
   }
   
   toasts.initializeToasts();
-  plugins.initializePlugins();
+  await plugins.initializePlugins();
   settings.initializeSettings();
   websocket.initializeSocket();
 }
