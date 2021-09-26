@@ -75,6 +75,7 @@ async function initializeAPI() {
   await plugins.initializePlugins();
   settings.initializeSettings();
   websocket.initializeSocket();
+  utils.logger.log("Cumcord is injected!");
 }
 
 export default initializeAPI;
