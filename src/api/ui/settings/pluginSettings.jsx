@@ -13,6 +13,7 @@ function showPluginSettings(pluginName, settings) {
       <ModalComponents.ModalRoot
         transitionState={e.transitionState}
         size="large"
+        className="cumcord-settings-modal"
       >
         <ErrorBoundary>
           <ModalComponents.ModalHeader separator={false}>
