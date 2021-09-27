@@ -1,5 +1,5 @@
 import webpackModules from "webpackModules";
-const uuidv4 = webpackModules.findByProps("v4").v4;
+import { uuid } from "commonModules";
 
 let patches = [];
 
@@ -35,7 +35,7 @@ function patch(functionName, functionParent, callback, type) {
   }
 
   if (!functionParent.CUMCORD_INJECTIONS.hasOwnProperty(functionName)) {
-    const patchId = uuidv4();
+    const patchId = uuid.v4();
     functionParent.CUMCORD_INJECTIONS[functionName] = patchId;
   }
 
@@ -58,7 +58,7 @@ function patch(functionName, functionParent, callback, type) {
     functionParent[functionName] = function (...args) { return hook(injectionId, args, this); };
   }
 
-  const hookId = uuidv4();
+  const hookId = uuid.v4();
   patches[injectionId].hooks[type][hookId] = callback;
 
   return () => unpatch(injectionId, hookId, type);

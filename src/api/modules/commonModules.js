@@ -35,7 +35,11 @@ const commonModules = {
         return module;
       }
     }
-  })
+  }),
+  
+  uuid: { 
+    v4: webpackModules.findByProps("v4").v4
+  },
 };
 
 // export all of the "common" modules
@@ -48,5 +52,6 @@ export const constants = commonModules.constants;
 export const channels = commonModules.channels;
 export const i18n = commonModules.i18n;
 export const zustand = commonModules.zustand;
+export const uuid = commonModules.uuid;
 
 export default commonModules;
