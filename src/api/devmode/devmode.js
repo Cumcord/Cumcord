@@ -34,6 +34,7 @@ function loadPluginDev(code) {
 function toggleDevMode() {
   devModeOn = !devModeOn;
   if (devModeOn == false) {
+    plugin.onUnload();
     plugin = undefined;
     storage = nests.make({});
   }
