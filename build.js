@@ -22,7 +22,7 @@ esbuild.build({
       "devmode": path.resolve("./src/api/devmode/devmode.js"),
       "utils": path.resolve("./src/api/utils/utils.js"),
       "pluginSettings": path.resolve("./src/api/ui/settings/pluginSettings.jsx"),
-      "pluginStorage": path.resolve("./src/api/plugins/PluginStorage.js"),
+      "pluginStorage": path.resolve("./src/api/plugins/pluginStorage.js"),
       "components": path.resolve("./src/api/ui/components/components.js"),
     })
   ],
