@@ -9,7 +9,13 @@ function injectCSS(css) {
   style.textContent = css;
   document.head.appendChild(style);
 
-  return () => { style.remove() }
+  return (newCss) => {
+    if (typeof newCss === "undefined") {
+      style.remove();
+    } else {
+      style.textContent = newCss;
+    }
+  };
 }
 
 function unpatchAllCss() {
@@ -21,7 +27,7 @@ function unpatchAllCss() {
 function patch(functionName, functionParent, callback, type) {
   // Unnecessary since this is a private function.
   if (!(type == "before" || type == "instead" || type == "after")) {
-    throw new Error("Go fuck yourself.")
+    throw new Error("Go fuck yourself.");
   }
 
   if (typeof functionParent[functionName] !== "function") {
@@ -51,11 +57,13 @@ function patch(functionName, functionParent, callback, type) {
       hooks: {
         before: {},
         instead: {},
-        after: {}
+        after: {},
       },
     };
 
-    functionParent[functionName] = function (...args) { return hook(injectionId, args, this); };
+    functionParent[functionName] = function (...args) {
+      return hook(injectionId, args, this);
+    };
   }
 
   const hookId = uuid.v4();
@@ -82,13 +90,19 @@ function hook(patchId, originalArgs, context) {
 
   // Instead patches
   let insteadCallbacks = Object.values(hooks.instead);
-  let originalFunc = (...args) => { return patch.originalFunction.call(context, ...args) };
+  let originalFunc = (...args) => {
+    return patch.originalFunction.call(context, ...args);
+  };
   if (insteadCallbacks.length > 0) {
-    let patchFunc = (args) => { return insteadCallbacks[0].call(context, args, originalFunc) }
+    let patchFunc = (args) => {
+      return insteadCallbacks[0].call(context, args, originalFunc);
+    };
 
     for (const callback of insteadCallbacks.slice(1)) {
       let oldPatchFunc = patchFunc;
-      patchFunc = (args) => { return callback.call(context, args, oldPatchFunc) }
+      patchFunc = (args) => {
+        return callback.call(context, args, oldPatchFunc);
+      };
     }
 
     response = patchFunc(args);
@@ -135,7 +149,11 @@ function unpatch(patchId, hookId, type) {
 
       // If there are no more hooks for every type, remove the patch
       const types = Object.keys(hooks);
-      if (types.every(type => { return Object.values(hooks[type]).length == 0 })) {
+      if (
+        types.every((type) => {
+          return Object.values(hooks[type]).length == 0;
+        })
+      ) {
         patch.functionParent[patch.functionName] = patch.originalFunction;
         delete patch.functionParent.CUMCORD_INJECTIONS;
         patches[patchId] = undefined;
@@ -164,11 +182,4 @@ function unpatchAll() {
   }
 }
 
-export {
-  instead,
-  before,
-  after,
-  unpatchAll,
-  unpatchAllCss,
-  injectCSS,
-}
+export { instead, before, after, unpatchAll, unpatchAllCss, injectCSS };
