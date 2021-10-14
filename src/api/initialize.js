@@ -64,6 +64,7 @@ async function initializeAPI() {
       findInTree: utils.findInTree,
       findInReactTree: utils.findInReactTree,
       useNest: utils.useNest,
+      copyText: utils.copyText
     },
     cum: () => utils.logger.log("8==D ~~~~~~")
   };
