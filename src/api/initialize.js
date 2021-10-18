@@ -81,6 +81,8 @@ async function initializeAPI() {
   patcher.injectCSS(`.cumcord-error-handler{font-family: var(--font-display);color:var(--text-normal);padding:16px}.cumcord-error-handler-title{margin-bottom:7px;font-weight:bold;font-size:24px}.cumcord-error-handler-code{background-color:var(--background-secondary);font-family:var(--font-code);user-select:text}`);
   
   toasts.initializeToasts();
+  await plugins.initializePluginStore();
+  window.cumcord.plugins.installed = plugins.pluginCache;
   await plugins.initializePlugins();
   settings.initializeSettings();
   websocket.initializeSocket();

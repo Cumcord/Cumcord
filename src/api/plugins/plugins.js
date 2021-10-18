@@ -185,13 +185,16 @@ function removePlugin(pluginId) {
   delete pluginCache.store[pluginId];
 }
 
-async function initializePlugins() {
-  // Initialize plugin cache
+async function initializePluginStore() {
   pluginCache = await createPersistentNest("PLUGIN_CACHE");
+}
+
+async function initializePlugins() {
   for (let plugin of Object.keys(pluginCache.ghost)) {
     importPlugin(plugin);
   }
 }
+
 
 function unloadAllPlugins() {
   for (let plugin of Object.keys(pluginCache.ghost)) {
@@ -208,6 +211,7 @@ export {
   togglePlugin,
   importPlugin,
   removePlugin,
+  initializePluginStore,
   initializePlugins,
   unloadAllPlugins,
   pluginCache,
