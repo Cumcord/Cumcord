@@ -38,7 +38,7 @@ const commonModules = {
   }),
   
   uuid: { 
-    v4: webpackModules.findByProps("v4").v4
+    v4: webpackModules.findByProps("v4", "v1")
   },
 };
 

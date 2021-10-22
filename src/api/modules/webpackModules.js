@@ -2,18 +2,30 @@
 import { findInTree } from "utils";
 
 function getModules() {
-  const modules = window.webpackJsonp.push([
-    [],
-    { cum: (module, _, req) => (module.exports = req) },
-    [["cum"]],
-  ]);
+  if (window.webpackJsonp) {
+    const modules = window.webpackJsonp.push([
+      [],
+      { cum: (module, _, req) => (module.exports = req) },
+      [["cum"]],
+    ]);
 
-  modules.m.cum = undefined;
-  delete modules.m.cum;
-  modules.c.cum = undefined;
-  delete modules.c.cum;
+    modules.m.cum = undefined;
+    modules.c.cum = undefined;
 
-  return modules.c;
+    return modules.c;
+  } else if (window.webpackChunkdiscord_app) {
+    let modules;
+
+    webpackChunkdiscord_app.push([
+      [Math.random().toString(36)],
+      {},
+      (e) => {
+        modules = e;
+      },
+    ]);
+
+    return modules.c;
+  }
 }
 
 function filterModules(moduleList, filter) {
@@ -70,7 +82,11 @@ const webpackModules = {
   findByStrings: (...searchStrings) =>
     webpackModules.find((module) => {
       if (typeof module === "function") {
-        if (searchStrings.every((searchString) => module.toString().includes(searchString))) {
+        if (
+          searchStrings.every((searchString) =>
+            module.toString().includes(searchString)
+          )
+        ) {
           return true;
         }
       } else {
@@ -78,13 +94,17 @@ const webpackModules = {
           if (obj) {
             for (const item of Object.values(obj)) {
               if (typeof item === "function") {
-                if (searchStrings.every((searchString) => item.toString().includes(searchString))) {
+                if (
+                  searchStrings.every((searchString) =>
+                    item.toString().includes(searchString)
+                  )
+                ) {
                   return true;
                 }
               }
             }
           }
-        })
+        });
       }
     }),
 
@@ -97,9 +117,8 @@ const webpackModules = {
             key.toLowerCase().includes(searchString.toLowerCase())
           ) == true
       )
-    )
-}
-
+    ),
+};
 
 // export webpackModules;
 export const find = webpackModules.find;
