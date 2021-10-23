@@ -4,10 +4,10 @@ import { useNest } from "utils";
 import * as plugins from "plugins";
 
 const Card = webpackModules.findByDisplayName("Card");
-const Header = webpackModules.findByDisplayName("Header");
+const Header = webpackModules.findByDisplayNameAll("Header")[1];
 const Text = webpackModules.findByDisplayName("Text");
 const Flex = webpackModules.findByDisplayName("Flex");
-const Markdown = webpackModules.findByDisplayName("Markdown");
+const Markdown = webpackModules.findByDisplayNameAll("Markdown")[1];
 const Switch = webpackModules.findByDisplayName("Switch");
 
 export default (props) => {
