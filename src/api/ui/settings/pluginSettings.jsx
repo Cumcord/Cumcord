@@ -1,9 +1,9 @@
-import { findByProps, findByDisplayName } from "webpackModules";
+import { findByProps, findByDisplayName, findByDisplayNameAll } from "webpackModules";
 
 const ModalComponents = findByProps("ModalCloseButton");
-const Header = findByDisplayName('Header');
+const Header = findByDisplayNameAll('Header')[1];
 const Flex = findByDisplayName('Flex');
-const { openModal } = findByProps("openModal");
+const { openModal } = findByProps("openModal", "openModalLazy");
 import { ErrorBoundary } from "components";
 
 function showPluginSettings(pluginName, settings) {

@@ -130,6 +130,7 @@ export const findByProps = webpackModules.findByProps;
 export const findByPropsAll = webpackModules.findByPropsAll;
 export const findByPrototypes = webpackModules.findByPrototypes;
 export const findByDisplayName = webpackModules.findByDisplayName;
+export const findByDisplayNameAll = webpackModules.findByDisplayNameAll;
 export const findByStrings = webpackModules.findByStrings;
 export const findByKeywordAll = webpackModules.findByKeywordAll;
 

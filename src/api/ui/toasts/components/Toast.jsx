@@ -3,7 +3,7 @@ import webpackModules from 'webpackModules';
 const Card = webpackModules.findByDisplayName('Card');
 const Header = webpackModules.findByDisplayName('Header');
 const Text = webpackModules.findByDisplayName('Text');
-const Markdown = webpackModules.findByDisplayName('Markdown');
+const Markdown = webpackModules.findByDisplayNameAll('Markdown')[1];
 
 export default (props) => {
   return (

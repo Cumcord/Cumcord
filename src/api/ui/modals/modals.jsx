@@ -1,10 +1,10 @@
-import { findByProps, findByDisplayName } from "webpackModules";
+import { findByProps, findByDisplayName, findByDisplayNameAll } from "webpackModules";
 
-const openModal = findByProps("openModal").openModal;
+const { openModal } = findByProps("openModal", "openModalLazy");
 
 const Colors = findByProps('button', 'colorRed');
 const ConfirmModal = findByDisplayName("ConfirmModal");
-const Markdown = findByDisplayName("Markdown");
+const Markdown = findByDisplayNameAll("Markdown")[1];
 
 async function showConfirmationModal({
   header = "Are you sure?",
