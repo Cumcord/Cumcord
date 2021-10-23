@@ -78,6 +78,9 @@ const webpackModules = {
   findByDisplayName: (displayName) =>
     webpackModules.find((module) => module.displayName === displayName),
 
+  findByDisplayNameAll: (displayName) =>
+    webpackModules.findAll((module) => module.displayName === displayName),
+
   // HELL.
   findByStrings: (...searchStrings) =>
     webpackModules.find((module) => {
