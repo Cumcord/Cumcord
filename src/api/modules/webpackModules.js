@@ -2,30 +2,17 @@
 import { findInTree } from "utils";
 
 function getModules() {
-  if (window.webpackJsonp) {
-    const modules = window.webpackJsonp.push([
-      [],
-      { cum: (module, _, req) => (module.exports = req) },
-      [["cum"]],
-    ]);
+  let modules;
 
-    modules.m.cum = undefined;
-    modules.c.cum = undefined;
+  webpackChunkdiscord_app.push([
+    [Math.random().toString(36)],
+    {},
+    (e) => {
+      modules = e;
+    },
+  ]);
 
-    return modules.c;
-  } else if (window.webpackChunkdiscord_app) {
-    let modules;
-
-    webpackChunkdiscord_app.push([
-      [Math.random().toString(36)],
-      {},
-      (e) => {
-        modules = e;
-      },
-    ]);
-
-    return modules.c;
-  }
+  return modules.c;
 }
 
 function filterModules(moduleList, filter) {
