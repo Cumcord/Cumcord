@@ -4,29 +4,31 @@ import { instead } from "patcher";
 
 let connectedClients = [];
 
-let websocketModule = find((mod) => {
-  return mod.Z?.__proto__?.handleConnection
-}).Z
-
 function initializeSocket() {
   if (window["DiscordNative"]) {
     // Todo: Add proper websocket API
-    instead("handleConnection", websocketModule.__proto__, (args, orig) => {
-      let ws = args[0];
-      if ((ws.upgradeReq()).url == "/cumcord") {
-        connectedClients.push(ws);
-        
-        ws.on("message", (msg) => {
-          return commandHandler(msg, ws);
-        });
+    instead(
+      "handleConnection",
+      find((mod) => {
+        return mod.Z?.__proto__?.handleConnection;
+      }).Z,
+      (args, orig) => {
+        let ws = args[0];
+        if (ws.upgradeReq().url == "/cumcord") {
+          connectedClients.push(ws);
 
-        ws.on("close", () => {
-          connectedClients.splice(connectedClients.indexOf(ws), 1);
-        });
-      } else {
-        return orig(...args);
+          ws.on("message", (msg) => {
+            return commandHandler(msg, ws);
+          });
+
+          ws.on("close", () => {
+            connectedClients.splice(connectedClients.indexOf(ws), 1);
+          });
+        } else {
+          return orig(...args);
+        }
       }
-    })
+    );
   }
 }
 
