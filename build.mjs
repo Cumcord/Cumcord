@@ -1,9 +1,10 @@
-const esbuild = require("esbuild");
-const alias = require("esbuild-plugin-alias");
-const path = require("path");
+import esbuild from "esbuild";
+import alias from "esbuild-plugin-alias";
+import path from "path";
+import fs from "fs/promises"
 
 try {
-  esbuild.build({
+  await esbuild.build({
     entryPoints: ["./src/index.js"],
     outfile: "./dist/build.js",
     minify: true,
@@ -31,6 +32,8 @@ try {
     ],
     target: ["esnext"],
   });
+
+  await fs.appendFile("./dist/build.js", `//# sourceURL=Cumcord`)
   console.log("Build successful!");
 } catch (err) {
   console.error(err);
