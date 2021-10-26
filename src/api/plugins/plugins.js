@@ -12,7 +12,7 @@ let pluginCache = {};
 
 // This can be used to make other implementations of plugin loading (e.g dev mode)
 function evalPlugin(pluginCode, data) {
-  const pluginObject = evalPtTwoTheEvalening(pluginCode);
+  const pluginObject = evalPtTwoTheEvalening(pluginCode + `\n//# sourceURL=${data.id}`);
   let pluginData = pluginObject;
 
   if (typeof pluginObject == "function") {
