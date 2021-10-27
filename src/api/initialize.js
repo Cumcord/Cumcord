@@ -84,6 +84,7 @@ async function initializeAPI() {
   await plugins.initializePluginStore();
   settings.initializeSettings();
   window.cumcord.plugins.installed = plugins.pluginCache;
+  window.cumcord.plugins.loaded = plugins.loadedPlugins;
   await plugins.initializePlugins();
   websocket.initializeSocket();
   utils.logger.log("Cumcord is injected!");
