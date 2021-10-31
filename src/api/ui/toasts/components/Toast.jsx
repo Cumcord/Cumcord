@@ -1,7 +1,6 @@
 import webpackModules from "webpackModules";
 const Header = webpackModules.findByDisplayNameAll("Header")[1];
 const Text = webpackModules.findByDisplayName("Text");
-const Markdown = webpackModules.findByDisplayNameAll("Markdown")[1];
 
 export default ({ title, content }) => {
   return (
