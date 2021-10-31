@@ -22,12 +22,10 @@ function filterModules(moduleList, filter, defaults = false) {
     if (moduleList.hasOwnProperty(mod)) {
       const module = moduleList[mod].exports;
       if (module) {
-        if (module.default && module.__esModule && filter(module.default))
-          if (!defaults) {
-            modules.push(module.default);
-          } else {
-            modules.push(module);
-          }
+        if (module.default && module.__esModule && filter(module.default)) {
+          modules.push(module.default);
+        }
+        
         if (filter(module)) modules.push(module);
       }
     }
@@ -39,12 +37,12 @@ function filterModules(moduleList, filter, defaults = false) {
 const webpackModules = {
   modules: getModules(),
 
-  find: (filter, defaults) => {
-    return filterModules(webpackModules.modules, filter, defaults)[0];
+  find: (filter) => {
+    return filterModules(webpackModules.modules, filter)[0];
   },
 
-  findAll: (filter, defaults) => {
-    return filterModules(webpackModules.modules, filter, defaults);
+  findAll: (filter) => {
+    return filterModules(webpackModules.modules, filter);
   },
 
   findByProps: (...propNames) =>
