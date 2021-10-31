@@ -63,6 +63,7 @@ async function initializeAPI() {
       logger: utils.logger,
       findInTree: utils.findInTree,
       findInReactTree: utils.findInReactTree,
+      getReactInstance: utils.getReactInstance,
       useNest: utils.useNest,
       copyText: utils.copyText
     },
