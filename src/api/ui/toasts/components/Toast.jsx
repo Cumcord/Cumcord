@@ -1,16 +1,19 @@
-import webpackModules from 'webpackModules';
+import webpackModules from "webpackModules";
+const Header = webpackModules.findByDisplayNameAll("Header")[1];
+const Text = webpackModules.findByDisplayName("Text");
+const Markdown = webpackModules.findByDisplayNameAll("Markdown")[1];
 
-const Card = webpackModules.findByDisplayName('Card');
-const Header = webpackModules.findByDisplayName('Header');
-const Text = webpackModules.findByDisplayName('Text');
-const Markdown = webpackModules.findByDisplayNameAll('Markdown')[1];
-
-export default (props) => {
+export default ({ title, content }) => {
   return (
-    <Card className="cumcord-toast" type="cardPrimary" outline={false} editable={false}>
-      <div className="cumcord-toast-header">
-        <Header className="cumcord-toast-title">{props.children}</Header>
+    <div className="cumcord-toast">
+      {title ? (
+        <div className="cumcord-toast-header">
+          <Header tag="h3" className="cumcord-toast-title">{title}</Header>
+        </div>
+      ) : null}
+      <div className="cumcord-toast-content">
+        <Text size={Text.Sizes.SIZE_16}>{content}</Text>
       </div>
-    </Card>
+    </div>
   );
 };

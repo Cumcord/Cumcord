@@ -1,7 +1,8 @@
 import { React } from "commonModules";
-import useStore from "../store.js";
+import { useNest } from "utils";
+import toastStore from "../store.js";
 
 export default () => {
-  const toasts = useStore(state => state.toasts);
-  return <>{toasts}</>;
-}
+  useNest(toastStore);
+  return <>{toastStore.ghost.toasts.map((toast) => toast())}</>;
+};
