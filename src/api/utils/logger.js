@@ -10,7 +10,7 @@ const logger = {
     log(input, "red", "error")
   },
   warn: (...input) => {
-    log(input, "red", "warn")
+    log(input, "#debf18", "warn")
   }
 };
 
