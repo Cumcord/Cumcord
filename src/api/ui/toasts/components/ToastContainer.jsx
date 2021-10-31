@@ -3,5 +3,5 @@ import toastStore from "../store.js";
 
 export default () => {
   useNest(toastStore);
-  return <>{toastStore.ghost.toasts.map((toast) => toast())}</>;
+  return <>{toastStore.ghost.toasts.map((toast) => toast() )}</>;
 };

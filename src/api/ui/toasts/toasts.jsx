@@ -22,6 +22,9 @@ function showToast({title, content, duration = 3000}) {
   const toast = () => <Toast title={title} content={content}></Toast>;
   toastStore.store.toasts.push(toast);
 
+  // wtf?
+  toastStore.update();
+
   function removeFunc() {
     let index = toastStore.ghost.toasts.indexOf(toast);
 
@@ -33,7 +36,7 @@ function showToast({title, content, duration = 3000}) {
   if (duration != Infinity) {
     setTimeout(removeFunc, duration);
   }
-
+  
   return removeFunc;
 }
 
