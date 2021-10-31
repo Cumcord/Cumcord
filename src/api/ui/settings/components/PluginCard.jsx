@@ -1,6 +1,8 @@
 import webpackModules from "webpackModules";
 import { showPluginSettings } from "pluginSettings";
 import { useNest } from "utils";
+import { showConfirmationModal } from "modals";
+import { del } from "idb-keyval";
 import * as plugins from "plugins";
 
 const Card = webpackModules.findByDisplayName("Card");
@@ -69,7 +71,20 @@ export default (props) => {
             {/* Delete button */}
             <svg
               onClick={() => {
-                plugins.removePlugin(props.pluginId);
+                showConfirmationModal(
+                  {
+                    header: "Do you want to remove this plugin?",
+                    content: `All of ${plugin.manifest.name}'s data will be deleted and cannot be recovered.`,
+                    type: "danger",
+                    confirmText: "Delete",
+                  },
+                  (conf) => {
+                    if (conf) {
+                      plugins.removePlugin(props.pluginId);
+                      del(`${props.pluginId}_CUMCORD_STORE`);
+                    }
+                  }
+                );
               }}
               className="cumcord-card-delete"
               xmlns="http://www.w3.org/2000/svg"
