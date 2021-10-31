@@ -64,6 +64,8 @@ async function initializeAPI() {
       findInTree: utils.findInTree,
       findInReactTree: utils.findInReactTree,
       getReactInstance: utils.getReactInstance,
+      getOwnerInstance: utils.getOwnerInstance,
+      sleep: utils.sleep,
       useNest: utils.useNest,
       copyText: utils.copyText
     },
