@@ -65,21 +65,13 @@ export default function commandHandler(msg, ws) {
         return;
       }
       return;
-    case "install_plugin_dev":
+    case "update_plugin_dev":
       if (devModeOn) {
-        if (parsed["code"]) {
-          loadPluginDev(parsed["code"]);
-          ws.send(JSON.stringify({
-            "uuid": parsed["uuid"] || Math.random(),
-            "status": "OK",
-          }))
-        } else {
-          ws.send(JSON.stringify({
-            "uuid": parsed["uuid"] || Math.random(),
-            "status": "ERROR",
-            "message": "No code provided.",
-          }))
-        }
+        loadPluginDev();
+        ws.send(JSON.stringify({
+          "uuid": parsed["uuid"] || Math.random(),
+          "status": "OK",
+        }))
       } else {
         ws.send(JSON.stringify({
           "uuid": parsed["uuid"] || Math.random(),

@@ -7,7 +7,7 @@ var devModeOn = false;
 var plugin;
 var storage = nests.make({});
 
-function loadPluginDev(code) {
+async function loadPluginDev() {
   if (devModeOn) {
     if (plugin) {
       logger.log("Unloading previous plugin version...")
@@ -21,6 +21,7 @@ function loadPluginDev(code) {
     logger.log("Loading new plugin version...")
     
     try {
+      const code = await (await fetch("http://127.0.0.1:42069")).text();
       plugin = evalPlugin(code, {persist: storage, id: "FAKE_PLUGIN_ID"});
       if (plugin["onLoad"]) {
         plugin.onLoad();
