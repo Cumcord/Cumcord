@@ -2,13 +2,13 @@ import webpackModules from "webpackModules";
 const Header = webpackModules.findByDisplayNameAll("Header")[1];
 const Text = webpackModules.findByDisplayName("Text");
 
-export default ({ title, content }) => {
+export default (props) => {
   return (
-    <div className="cumcord-toast">
-      {title ? <Header className="cumcord-toast-title">{title}</Header> : null}
-      {content ? (
+    <div onClick={props.onClick} className={"cumcord-toast" + (props.className ? ` ${props.className}` : "")}>
+      {props.title ? <Header className="cumcord-toast-title">{props.title}</Header> : null}
+      {props.content ? (
         <div className="cumcord-toast-content">
-          <Text size={Text.Sizes.SIZE_16}>{content}</Text>
+          <Text size={Text.Sizes.SIZE_16}>{props.content}</Text>
         </div>
       ) : null}
     </div>

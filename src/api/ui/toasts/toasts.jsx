@@ -18,8 +18,8 @@ function uninitializeToasts() {
   toastDiv.remove();
 }
 
-function showToast({title, content, duration = 3000}) {
-  const toast = () => <Toast title={title} content={content}></Toast>;
+function showToast({title, content, onClick = () => {}, className, duration = 3000}) {
+  const toast = () => <Toast onClick={onClick} className={className} title={title} content={content}></Toast>;
   toastStore.store.toasts.push(toast);
 
   // wtf?
