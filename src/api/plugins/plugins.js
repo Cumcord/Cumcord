@@ -85,10 +85,15 @@ async function importPlugin(baseUrl) {
   const manifestUrl = new URL("plugin.json", baseUrlTrailing);
   const pluginUrl = new URL("plugin.js", baseUrlTrailing);
 
-  const existingPlugin = pluginCache.ghost[baseUrlTrailing];
-  
+  const pluginExists = pluginCache.ghost[baseUrlTrailing];
+  let existingPlugin;
+
+  if (pluginExists) {
+    existingPlugin = pluginCache.store[baseUrlTrailing];
+  }  
+
   // By default, the plugin will be "enabled" and started when imported
-  let enabled = (existingPlugin ? existingPlugin.enabled : true);
+  let enabled = (pluginExists ? existingPlugin.enabled : true);
 
   let manifestJson;
 
@@ -99,16 +104,16 @@ async function importPlugin(baseUrl) {
 
     // The server *must* return a success
     if (manifestData.status != 200) {
-      if (!existingPlugin) throw new Error("Plugin manifest not returning success");
+      if (!pluginExists) throw new Error("Plugin manifest not returning success");
     }
 
   } catch {
     // If this errors out then there's a problem with the manifest
-    if (!existingPlugin) throw new Error("Plugin manifest cannot be parsed"); 
+    if (!pluginExists) throw new Error("Plugin manifest cannot be parsed"); 
   }
 
   // If the plugin is already downloaded, we check if it is cached, and if it is, we start it if it's enabled
-  if (existingPlugin) {
+  if (pluginExists) {
     if (manifestJson) {
       if (existingPlugin.manifest.hash == manifestJson.hash) {
         // Update manifest if it's changed
