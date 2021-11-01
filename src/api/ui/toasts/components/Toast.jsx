@@ -5,14 +5,12 @@ const Text = webpackModules.findByDisplayName("Text");
 export default ({ title, content }) => {
   return (
     <div className="cumcord-toast">
-      {title ? (
-        <div className="cumcord-toast-header">
-          <Header tag="h3" className="cumcord-toast-title">{title}</Header>
+      {title ? <Header className="cumcord-toast-title">{title}</Header> : null}
+      {content ? (
+        <div className="cumcord-toast-content">
+          <Text size={Text.Sizes.SIZE_16}>{content}</Text>
         </div>
       ) : null}
-      <div className="cumcord-toast-content">
-        <Text size={Text.Sizes.SIZE_16}>{content}</Text>
-      </div>
     </div>
   );
 };
