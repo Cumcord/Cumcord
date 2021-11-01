@@ -73,7 +73,7 @@ export default (props) => {
             {/* Copy button */}
             <svg
               onClick={() => {
-                showToast({ title: "Copied plugin URL!", duration: 1300 });
+                showToast({ content: "Copied plugin URL to clipboard.", duration: 1300 });
                 copyText(props.pluginId);
               }}
               className="cumcord-card-copy"
