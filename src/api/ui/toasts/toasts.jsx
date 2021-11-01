@@ -20,16 +20,24 @@ function uninitializeToasts() {
 
 function showToast({title, content, onClick = () => {}, className, duration = 3000}) {
   const toast = () => <Toast onClick={onClick} className={className} title={title} content={content}></Toast>;
-  toastStore.store.toasts.push(toast);
 
-  // wtf?
+  /*
+    Nests is built around automatic event-firing when your store is modified.
+    Unfortunately, for no apparent reason, a toast being added is not properly firing the event.
+    As such, we do all of the modification on the ghost, and fire the event manually.
+
+    This is a hack, and will be fixed in the future.
+  */
+ 
+  toastStore.ghost.toasts.push(toast);
   toastStore.update();
 
   function removeFunc() {
     let index = toastStore.ghost.toasts.indexOf(toast);
 
     if (index > -1) {
-      toastStore.store.toasts.splice(index, 1);
+      toastStore.ghost.toasts.splice(index, 1);
+      toastStore.update();
     }
   };
 
