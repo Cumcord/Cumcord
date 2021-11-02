@@ -21,6 +21,20 @@ const FormDivider = webpackModules.findByDisplayName("FormDivider");
 export default () => {
   const [input, setInput] = useState("");
 
+  function handleImport() {
+    setInput("");
+    plugins
+      .importPlugin(input)
+      .then(() => {})
+      .catch((err) =>
+        showToast({
+          title: "Failed to import plugin",
+          content: err.message,
+          duration: 3000,
+        })
+      );
+  }
+
   useNest(plugins.pluginCache);
 
   return (
@@ -34,14 +48,16 @@ export default () => {
             type="text"
             value={input}
             onChange={(e) => setInput(e)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleImport();
+              }
+            }}
           ></TextInput>
           <Button
             color={Button.Colors.BRAND}
             size={Button.Sizes.MEDIUM}
-            onClick={() => {
-              setInput("");
-              plugins.importPlugin(input).then(() => {}).catch(err => showToast({title: "Failed to import plugin", content: err.message, duration: 3000}));
-            }}
+            onClick={handleImport}
           >
             Add plugin
           </Button>
