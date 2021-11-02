@@ -1,8 +1,9 @@
-import webpackModules from "webpackModules";
-import { useNest } from "utils";
 import PluginCard from "./PluginCard.jsx";
-import { ErrorBoundary } from "components";
+import webpackModules from "webpackModules";
 import * as plugins from "plugins";
+import { showToast } from "toasts";
+import { useNest } from "utils";
+import { ErrorBoundary } from "components";
 
 const useState = React.useState;
 const FormTitle = webpackModules.findByDisplayName("FormTitle");
@@ -39,7 +40,7 @@ export default () => {
             size={Button.Sizes.MEDIUM}
             onClick={() => {
               setInput("");
-              plugins.importPlugin(input);
+              plugins.importPlugin(input).then(() => {}).catch(err => showToast({title: "Failed to import plugin", content: err.message, duration: 3000}));
             }}
           >
             Add plugin
