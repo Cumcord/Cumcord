@@ -44,7 +44,15 @@ const webpackModules = {
   findAll: (filter) => {
     return filterModules(webpackModules.modules, filter);
   },
+  getModule: (module) => {
+    for (const modId in webpackModules.modules) {
+      const mod = webpackModules.modules[modId]?.exports;
 
+      if (mod === module || mod?.default === module) {
+        return mod;
+      }
+    }
+  },
   findByProps: (...propNames) =>
     webpackModules.find((module) =>
       propNames.every((prop) => module[prop] !== undefined)
@@ -120,6 +128,7 @@ const webpackModules = {
 // export webpackModules;
 export const find = webpackModules.find;
 export const findAll = webpackModules.findAll;
+export const getModule = webpackModules.getModule;
 export const findByProps = webpackModules.findByProps;
 export const findByPropsAll = webpackModules.findByPropsAll;
 export const findByPrototypes = webpackModules.findByPrototypes;
