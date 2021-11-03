@@ -25,7 +25,7 @@ function filterModules(moduleList, filter, defaults = false) {
         if (module.default && module.__esModule && filter(module.default)) {
           modules.push(module.default);
         }
-        
+
         if (filter(module)) modules.push(module);
       }
     }
@@ -64,8 +64,13 @@ const webpackModules = {
         )
     ),
 
-  findByDisplayName: (displayName) =>
-    webpackModules.find((module) => module.displayName === displayName),
+  findByDisplayName: (displayName, defaultExport = true) => {
+    return defaultExport
+      ? webpackModules.find((module) => module.displayName === displayName)
+      : webpackModules.find(
+          (module) => module?.default?.displayName === displayName
+        );
+  },
 
   findByDisplayNameAll: (displayName) =>
     webpackModules.findAll((module) => module.displayName === displayName),
