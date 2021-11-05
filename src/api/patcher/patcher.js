@@ -24,6 +24,8 @@ function unpatchAllCss() {
   }
 }
 
+const INJECTION_STRING = Symbol("_CUMCORD_INJECTIONS");
+
 function patch(functionName, functionParent, callback, type) {
   // Unnecessary since this is a private function.
   if (!(type == "before" || type == "instead" || type == "after")) {
@@ -36,16 +38,16 @@ function patch(functionName, functionParent, callback, type) {
     );
   }
 
-  if (!Object.hasOwnProperty.bind(functionParent)("CUMCORD_INJECTIONS")) {
-    functionParent.CUMCORD_INJECTIONS = {};
+  if (!Object.hasOwnProperty.bind(functionParent)(INJECTION_STRING)) {
+    functionParent[INJECTION_STRING] = {};
   }
 
-  if (!functionParent.CUMCORD_INJECTIONS.hasOwnProperty(functionName)) {
+  if (!functionParent[INJECTION_STRING].hasOwnProperty(functionName)) {
     const patchId = uuid.v4();
-    functionParent.CUMCORD_INJECTIONS[functionName] = patchId;
+    functionParent[INJECTION_STRING][functionName] = patchId;
   }
 
-  const injectionId = functionParent.CUMCORD_INJECTIONS[functionName];
+  const injectionId = functionParent[INJECTION_STRING][functionName];
 
   if (!patches[injectionId]) {
     const originalFunction = functionParent[functionName];
@@ -61,8 +63,10 @@ function patch(functionName, functionParent, callback, type) {
       },
     };
 
-    functionParent[functionName] = function (...args) {
-      return hook(injectionId, args, this);
+    
+
+    functionParent[functionName] = function () {
+      return hook(injectionId, arguments, this);
     };
 
     // Assign original props to the function
@@ -86,7 +90,7 @@ function hook(patchId, originalArgs, context) {
   // Before patches
   for (const hookId in hooks.before) {
     const hook = hooks.before[hookId];
-    const response = hook.call(context, args);
+    const response = hook.apply(context, [args]);
     if (Array.isArray(response)) {
       args = response;
     }
@@ -96,31 +100,33 @@ function hook(patchId, originalArgs, context) {
 
   // Instead patches
   let insteadCallbacks = Object.values(hooks.instead);
-  let originalFunc = (...args) => {
-    return patch.originalFunction.call(context, ...args);
+
+  function originalFunc(args) {
+    return patch.originalFunction.apply(context, args);
   };
+
   if (insteadCallbacks.length > 0) {
     let patchFunc = (args) => {
-      return insteadCallbacks[0].call(context, args, originalFunc);
+      return insteadCallbacks[0].apply(context, [args, originalFunc]);
     };
 
     for (const callback of insteadCallbacks.slice(1)) {
       let oldPatchFunc = patchFunc;
       patchFunc = (args) => {
-        return callback.call(context, args, oldPatchFunc);
+        return callback.apply(context, [args, oldPatchFunc]);
       };
     }
 
     response = patchFunc(args);
   } else {
-    response = originalFunc(...args);
+    response = originalFunc(args);
   }
 
   // After patches
   for (const hookId in hooks.after) {
     const hook = hooks.after[hookId];
 
-    const hookResp = hook.call(context, args, response);
+    const hookResp = hook.apply(context, [args, response]);
 
     if (typeof hookResp !== "undefined") {
       response = hookResp;
@@ -150,8 +156,8 @@ function unpatch(patchId, hookId, type) {
     if (hooks[type][hookId]) {
       delete hooks[type][hookId];
 
-      patch.functionParent.CUMCORD_INJECTIONS[patch.functionName] = undefined;
-      delete patch.functionParent.CUMCORD_INJECTIONS[patch.functionName];
+      patch.functionParent[INJECTION_STRING][patch.functionName] = undefined;
+      delete patch.functionParent[INJECTION_STRING][patch.functionName];
 
       // If there are no more hooks for every type, remove the patch
       const types = Object.keys(hooks);
@@ -161,7 +167,7 @@ function unpatch(patchId, hookId, type) {
         })
       ) {
         patch.functionParent[patch.functionName] = patch.originalFunction;
-        delete patch.functionParent.CUMCORD_INJECTIONS;
+        delete patch.functionParent[INJECTION_STRING];
         patches[patchId] = undefined;
         delete patches[patchId];
       }
@@ -177,7 +183,7 @@ function unpatchAll() {
   for (const patch in patches) {
     for (const type of Object.keys(patches[patch]["hooks"])) {
       if (!patches[patch]) {
-        return;
+        continue;
       }
 
       const hooks = patches[patch]["hooks"][type];
