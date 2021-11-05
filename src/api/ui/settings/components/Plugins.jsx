@@ -17,8 +17,14 @@ const Button = webpackModules.findByProps(
   "DropdownSizes"
 );
 const FormDivider = webpackModules.findByDisplayName("FormDivider");
+const SearchBar = webpackModules.findByDisplayName("SearchBar");
+
+function filterCount(str, filter) {
+  return str.toLowerCase().split(filter.toLowerCase()).length - 1;
+}
 
 export default () => {
+  const [searchFilter, setFilter] = useState("");
   const [input, setInput] = useState("");
 
   function handleImport() {
@@ -62,10 +68,37 @@ export default () => {
             Add plugin
           </Button>
         </Flex>
+        <SearchBar
+          className="cumcord-plugin-search"
+          query={searchFilter}
+          onQueryChange={(e) => {
+            setFilter(e);
+          }}
+          placeholder="Search..."
+          size={SearchBar.Sizes.MEDIUM}
+        />
         <FormDivider className="cumcord-plugin-divider" />
-        {Object.keys(plugins.pluginCache.ghost).map((plugin) => {
-          return <PluginCard pluginId={plugin} />;
-        })}
+        {searchFilter
+          ? Object.keys(plugins.pluginCache.ghost)
+              .sort((a, b) => {
+                const pluginA = Object.values(
+                  plugins.pluginCache.ghost[a].manifest
+                ).join("");
+                const pluginB = Object.values(
+                  plugins.pluginCache.ghost[b].manifest
+                ).join("");
+
+                return (
+                  filterCount(pluginB, searchFilter) -
+                  filterCount(pluginA, searchFilter)
+                );
+              })
+              .map((plugin) => {
+                return <PluginCard pluginId={plugin} />;
+              })
+          : Object.keys(plugins.pluginCache.ghost).map((plugin) => {
+              return <PluginCard pluginId={plugin} />;
+            })}
       </FormSection>
     </ErrorBoundary>
   );
