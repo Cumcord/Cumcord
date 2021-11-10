@@ -26,6 +26,8 @@ function uninject() {
   return true;
 }
 
+let resolveQueue = [];
+
 async function initializeAPI() {
   utils.logger.log("Initializing Cumcord API");
 
@@ -69,7 +71,15 @@ async function initializeAPI() {
       useNest: utils.useNest,
       copyText: utils.copyText
     },
-    cum: () => utils.logger.log("8==D ~~~~~~")
+    cum: () => {
+      if (Array.isArray(resolveQueue)) {
+        return new Promise(resolve => {
+          resolveQueue.push(resolve);
+        })
+      } else {
+        return "8==D ~~~~~~";
+      }
+    }
   };
 
   // Native-only APIs
@@ -91,6 +101,13 @@ async function initializeAPI() {
   await plugins.initializePlugins();
   websocket.initializeSocket();
   utils.logger.log("Cumcord is injected!");
+
+  for (let resolve of resolveQueue) {
+    resolve("8==D ~~~~~~");
+  }
+
+  // Clean up queue
+  resolveQueue = undefined;
 }
 
 export default initializeAPI;
