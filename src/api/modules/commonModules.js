@@ -11,10 +11,10 @@ const commonModules = {
     "_waitQueue"
   ),
 
-  i18n: webpackModules.findByProps(
+  i18n: webpackModules.findByPropsAll(
     'Messages',
     '_requestedLocale'
-  ),
+  )[1],
 
   // Note: I use these because they are the two most React-specific things in React's props
   React: webpackModules.findByProps(
