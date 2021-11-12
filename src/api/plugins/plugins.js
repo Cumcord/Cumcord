@@ -9,10 +9,14 @@ let pluginCache = {};
 
 // This can be used to make other implementations of plugin loading (e.g dev mode)
 function evalPlugin(pluginCode, data) {
+  const ccPluginEdition = Object.assign({}, cumcord);
+  // Setup plugin-specific functions
+  ccPluginEdition.pluginData = data;
+
   const pluginObject = new Function(
-    "__CUMCORD_PLUGIN_DATA",
+    "cumcord",
     "return " + pluginCode + `\n//# sourceURL=${data.id}`
-  )(data);
+  )(ccPluginEdition);
   let pluginData = pluginObject;
 
   if (typeof pluginObject == "function") {
