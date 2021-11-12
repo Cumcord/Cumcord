@@ -100,7 +100,14 @@ async function importPlugin(baseUrl) {
   }
 
   // By default, the plugin will be "enabled" and started when imported
-  let enabled = pluginExists ? existingPlugin.enabled : true;
+  let enabled = pluginExists ? pluginExists?.enabled : true;
+  let update = pluginExists ? pluginExists?.update : true;
+
+  // Resolution for people who used Cumcord before this update
+  if (pluginExists?.update == undefined && pluginExists) {
+    existingPlugin.update = true;
+    update = true;
+  }
 
   let manifestJson;
 
@@ -121,7 +128,7 @@ async function importPlugin(baseUrl) {
 
   // If the plugin is already downloaded, we check if it is cached, and if it is, we start it if it's enabled
   if (pluginExists) {
-    if (manifestJson) {
+    if (manifestJson && update) {
       if (existingPlugin.manifest.hash == manifestJson.hash) {
         // Update manifest if it's changed
         if (existingPlugin.manifest != manifestJson) {
@@ -159,6 +166,7 @@ async function importPlugin(baseUrl) {
     manifest: manifestJson,
     js,
     enabled,
+    update
   };
 
   // Start it if it's enabled
