@@ -69,11 +69,13 @@ function patch(functionName, functionParent, callback, type) {
       return hook(injectionId, arguments, this);
     };
 
+    const originalCode = originalFunction.toString();
+
     // Assign original props to the function
     Object.assign(functionParent[functionName], originalFunction);
 
     // Add original toString to the function for easier debugging
-    functionParent[functionName].toString = originalFunction.toString;
+    functionParent[functionName].toString = () => originalCode;
   }
 
   const hookId = uuid.v4();
