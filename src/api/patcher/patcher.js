@@ -158,7 +158,6 @@ function unpatch(patchId, hookId, type) {
     if (hooks[type][hookId]) {
       delete hooks[type][hookId];
 
-      patch.functionParent[INJECTION_STRING][patch.functionName] = undefined;
       delete patch.functionParent[INJECTION_STRING][patch.functionName];
 
       // If there are no more hooks for every type, remove the patch
@@ -170,7 +169,6 @@ function unpatch(patchId, hookId, type) {
       ) {
         patch.functionParent[patch.functionName] = patch.originalFunction;
         delete patch.functionParent[INJECTION_STRING];
-        patches[patchId] = undefined;
         delete patches[patchId];
       }
 

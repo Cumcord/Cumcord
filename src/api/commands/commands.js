@@ -78,7 +78,7 @@ function initializeCommands() {
 }
 
 function uninitializeCommands() {
-  builtIn.BUILT_IN_SECTIONS[applicationId] = undefined;
+  delete builtIn.BUILT_IN_SECTIONS[applicationId];
 }
 
 function addCommand({ name, description, args, handler }) {
@@ -163,7 +163,7 @@ function addCommand({ name, description, args, handler }) {
     if (index > -1) commands.splice(index, 1);
 
     if (commands.length === 0) {
-      builtIn.BUILT_IN_SECTIONS[applicationId] = undefined;
+      delete builtIn.BUILT_IN_SECTIONS[applicationId];
     }
   };
 }
