@@ -116,7 +116,7 @@ function addCommand({ name, description, args, handler }) {
     const handledOpts = {};
 
     if (args) {
-      for (opt in opts) {
+      for (const opt in opts) {
         const val = opts[opt][0];
 
         // this finds the argument, figures out what type it is, and handles for it
