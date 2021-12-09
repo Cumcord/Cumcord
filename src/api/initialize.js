@@ -10,6 +10,7 @@ import * as toasts from "toasts";
 import * as modals from "modals";
 import * as devmode from "devmode";
 import * as components from "components";
+import * as commands from "commands";
 
 // Plugin management
 import * as plugins from "plugins";
@@ -20,7 +21,9 @@ function uninject() {
   patcher.unpatchAll();
   toasts.uninitializeToasts();
   patcher.unpatchAllCss();
-
+  try {
+    commands.uninitializeCommands();
+  } catch {}
   window.cumcord = undefined;
   delete window.cumcord;
   return true;
@@ -71,6 +74,9 @@ async function initializeAPI() {
       useNest: utils.useNest,
       copyText: utils.copyText
     },
+    commands: {
+      addCommand: commands.addCommand
+    },
     cum: () => {
       if (Array.isArray(resolveQueue)) {
         return new Promise(resolve => {
@@ -98,6 +104,9 @@ async function initializeAPI() {
   settings.initializeSettings();
   window.cumcord.plugins.installed = plugins.pluginCache;
   window.cumcord.plugins.loaded = plugins.loadedPlugins;
+  try {
+    commands.initializeCommands();
+  } catch {} // intense patching is done here, could explode and break everything
   await plugins.initializePlugins();
   websocket.initializeSocket();
   utils.logger.log("Cumcord is injected!");

@@ -28,6 +28,7 @@ try {
         ),
         pluginStorage: path.resolve("./src/api/plugins/pluginStorage.js"),
         components: path.resolve("./src/api/ui/components/components.js"),
+        commands: path.resolve("./src/api/commands/commands.js"),
       }),
     ],
     target: ["esnext"],
