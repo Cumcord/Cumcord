@@ -64,7 +64,6 @@ function initializeCommands() {
 
     const cloneResp = { ...resp };
 
-    cloneResp.discoveryCommands = [...cloneResp.discoveryCommands, ...commands];
     cloneResp.discoverySections.push({
       data: commands,
       section: cumcordSection,
