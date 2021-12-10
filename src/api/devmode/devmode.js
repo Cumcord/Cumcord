@@ -22,7 +22,7 @@ async function loadPluginDev() {
     
     try {
       const code = await (await fetch("http://127.0.0.1:42069")).text();
-      plugin = evalPlugin(code, {persist: storage, id: "FAKE_PLUGIN_ID"});
+      plugin = evalPlugin(code, {persist: storage, id: "https://FAKE_PLUGIN_ID"});
       if (plugin["onLoad"]) {
         plugin.onLoad();
       }

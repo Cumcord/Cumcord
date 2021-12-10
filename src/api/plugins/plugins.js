@@ -7,16 +7,28 @@ let loadedPlugins = nests.make({});
 // Placeholder before initialization
 let pluginCache = {};
 
+const evalPartTwoTheEvalening = window.eval;
+
 // This can be used to make other implementations of plugin loading (e.g dev mode)
 function evalPlugin(pluginCode, data) {
   const ccPluginEdition = Object.assign({}, cumcord);
   // Setup plugin-specific functions
   ccPluginEdition.pluginData = data;
 
-  const pluginObject = new Function(
-    "cumcord",
-    "return " + pluginCode + `\n//# sourceURL=${data.id}`
-  )(ccPluginEdition);
+  // Add plugin URL to eval to make it easier to debug
+  const pluginURL = new URL(data.id);
+  const pluginString =
+    `(cumcord)=>{return ${pluginCode}}` +
+    /*
+      I know it's sketchy to add an atob to the eval but JS tools like prettifiers
+      freak out when there's a comment *in* the code. To back up this claim you can
+      run previous Cumcord versions through de4js (https://lelinhtinh.github.io/de4js/)
+      and see that halfway through the code cuts off.
+    */
+    atob("Ci8v") + // Turns into "(newline)(slash)(slash)"
+    `# sourceURL=${pluginURL.hostname}${pluginURL.pathname}`;
+
+  const pluginObject = evalPartTwoTheEvalening(pluginString)(ccPluginEdition);
   let pluginData = pluginObject;
 
   if (typeof pluginObject == "function") {
@@ -166,7 +178,7 @@ async function importPlugin(baseUrl) {
     manifest: manifestJson,
     js,
     enabled,
-    update
+    update,
   };
 
   // Start it if it's enabled
