@@ -109,7 +109,7 @@ function addCommand({ name, description, args, handler }) {
     });
   }
 
-  (commandObj.execute = async (opts, ctx) => {
+  (commandObj.execute = (opts, ctx) => {
     if (!handler) return;
 
     const handledOpts = {};
@@ -124,33 +124,36 @@ function addCommand({ name, description, args, handler }) {
       }
     }
 
-    try {
-      const resp = await handler({ args: handledOpts, ...ctx }, (input) => {
-        let msg = createBotMessage(ctx.channel.id);
-
-        msg.author.username = "Cumcord";
-        msg.author.avatar = botIconId;
-        msg.author.id = applicationId;
-
-        if (typeof input === "string") {
-          msg.content = input;
-        } else {
-          msg = { ...msg, ...input };
+    // We do this like this to prevent the Discord UI from freezing up when an async command takes a while
+    (async () => {
+      try {
+        const resp = await handler({ args: handledOpts, ...ctx }, (input) => {
+          let msg = createBotMessage(ctx.channel.id);
+  
+          msg.author.username = "Cumcord";
+          msg.author.avatar = botIconId;
+          msg.author.id = applicationId;
+  
+          if (typeof input === "string") {
+            msg.content = input;
+          } else {
+            msg = { ...msg, ...input };
+          }
+  
+          receiveMessage(msg.channel_id, msg);
+        });
+  
+        if (resp) {
+          if (typeof resp === "string") {
+            sendMessage(ctx.channel.id, { content: resp });
+          } else {
+            sendMessage(ctx.channel.id, resp);
+          }
         }
-
-        receiveMessage(msg.channel_id, msg);
-      });
-
-      if (resp) {
-        if (typeof resp === "string") {
-          sendMessage(ctx.channel.id, { content: resp });
-        } else {
-          sendMessage(ctx.channel.id, resp);
-        }
+      } catch (err) {
+        logger.error(err);
       }
-    } catch (err) {
-      logger.error(err);
-    }
+    })()
   }),
     commands.push(commandObj);
   // Abstraction ends here!
