@@ -3,6 +3,7 @@ import webpackModules from "webpackModules";
 import commonModules from "commonModules";
 import internalModules from "internalModules";
 import settings from "./ui/settings/settings";
+import pluginEmbeds from "./ui/pluginEmbeds/pluginEmbeds";
 import * as utils from "utils";
 import * as patcher from "patcher";
 import * as websocket from "websocket";
@@ -62,7 +63,7 @@ async function initializeAPI() {
       },
       components: {
         ErrorBoundary: components.ErrorBoundary,
-      }
+      },
     },
     utils: {
       logger: utils.logger,
@@ -72,20 +73,20 @@ async function initializeAPI() {
       getOwnerInstance: utils.getOwnerInstance,
       sleep: utils.sleep,
       useNest: utils.useNest,
-      copyText: utils.copyText
+      copyText: utils.copyText,
     },
     commands: {
-      addCommand: commands.addCommand
+      addCommand: commands.addCommand,
     },
     cum: () => {
       if (Array.isArray(resolveQueue)) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           resolveQueue.push(resolve);
-        })
+        });
       } else {
         return "8==D ~~~~~~";
       }
-    }
+    },
   };
 
   // Native-only APIs
@@ -93,12 +94,14 @@ async function initializeAPI() {
     window.cumcord["dev"] = {
       toggleDevMode: devmode.toggleDevMode,
       showSettings: devmode.showSettings,
-    }
+    };
   }
-  
+
   // Inject error boundary CSS
-  patcher.injectCSS(`.cumcord-error-handler{font-family: var(--font-display);color:var(--text-normal);padding:16px}.cumcord-error-handler-title{margin-bottom:7px;font-weight:bold;font-size:24px}.cumcord-error-handler-code{background-color:var(--background-secondary);font-family:var(--font-code);user-select:text}`);
-  
+  patcher.injectCSS(
+    `.cumcord-error-handler{font-family: var(--font-display);color:var(--text-normal);padding:16px}.cumcord-error-handler-title{margin-bottom:7px;font-weight:bold;font-size:24px}.cumcord-error-handler-code{background-color:var(--background-secondary);font-family:var(--font-code);user-select:text}`
+  );
+
   toasts.initializeToasts();
   await plugins.initializePluginStore();
   settings.initializeSettings();
@@ -108,6 +111,9 @@ async function initializeAPI() {
     commands.initializeCommands();
   } catch {} // intense patching is done here, could explode and break everything
   await plugins.initializePlugins();
+  try {
+    pluginEmbeds.initializePluginEmbeds();
+  } catch {}
   websocket.initializeSocket();
   utils.logger.log("Cumcord is injected!");
 

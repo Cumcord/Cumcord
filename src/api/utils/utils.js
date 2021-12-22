@@ -6,5 +6,6 @@ import copyText from "./copyText.js";
 import getReactInstance from "./getReactInstance.js";
 import getOwnerInstance from "./getOwnerInstance.js";
 import sleep from "./sleep.js";
+import useFetchPlugin from "./moduleData.js";
 
-export { findInTree, findInReactTree, logger, useNest, copyText, getReactInstance, getOwnerInstance, sleep };
+export { findInTree, findInReactTree, logger, useNest, copyText, getReactInstance, getOwnerInstance, sleep, useFetchPlugin };
