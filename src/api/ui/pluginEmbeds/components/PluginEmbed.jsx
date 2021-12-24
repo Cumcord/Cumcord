@@ -44,7 +44,7 @@ export default function PluginEmbed({ url }) {
                 {...props}
                 title="What is this?"
                 body={
-                  <p id="cumcord-plugembeds-alerttext">
+                  <p className="cumcord-plugembeds-alerttext">
                     This is a Cumcord feature. It allows you to install plugins straight from chat.
                     <br />
                     Simply hit the install button on the embed.

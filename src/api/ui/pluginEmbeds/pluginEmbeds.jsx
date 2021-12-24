@@ -11,7 +11,7 @@ function isModuleUrl(input) {
 
 export default {
   initializePluginEmbeds() {
-    injectCSS(`#cumcord-plugembeds-alerttext{margin:0;}`);
+    injectCSS(`.cumcord-plugembeds-alerttext{margin:0;}`);
     after("react", defaultParse.defaultRules.link, (args) => {
       if (isModuleUrl(args[0].target)) {
         if (!args[0].target.endsWith("/")) args[0].target += "/";
