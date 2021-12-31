@@ -6,7 +6,7 @@ import fs from "fs/promises"
 try {
   await esbuild.build({
     entryPoints: ["./src/index.js"],
-    outfile: "./dist/build.js",
+    outfile: "./dist/new-build.js",
     minify: true,
     bundle: true,
     format: "iife",
@@ -34,7 +34,7 @@ try {
     target: ["esnext"],
   });
 
-  await fs.appendFile("./dist/build.js", `//# sourceURL=Cumcord`)
+  await fs.appendFile("./dist/new-build.js", `//# sourceURL=Cumcord`)
   console.log("Build successful!");
 } catch (err) {
   console.error(err);
