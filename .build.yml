@@ -1,0 +1,11 @@
+image: alpine/3.14
+secrets:
+  - 90412a77-7bc1-4bc2-891f-519bae9c7c11
+tasks:
+  - clone: |
+      git clone --mirror https://git.sr.ht/~creatable/Cumcord
+  - add-host: |
+      ssh-keyscan -t rsa -H github.com >> ~/.ssh/known_hosts
+  - push: |
+      cd Cumcord.git
+      git push --mirror git@github.com:Cumcord/Cumcord.git
