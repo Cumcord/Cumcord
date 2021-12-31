@@ -1,0 +1,32 @@
+image: alpine/3.14
+packages:
+  - npm
+secrets:
+  - 90412a77-7bc1-4bc2-891f-519bae9c7c11
+sources:
+  - https://git.sr.ht/~creatable/Cumcord
+tasks:
+  - install-pnpm: |
+      sudo npm install -g pnpm
+  - switch-to-stable: |
+      cd Cumcord
+      git switch stable
+  - install-dependencies: |
+      cd Cumcord
+      npm exec pnpm install
+  - build: |
+      cd Cumcord
+      node build.mjs
+  - add-host: |
+      ssh-keyscan -t rsa -H github.com >> ~/.ssh/known_hosts
+  - clone-builds: |
+      git clone git@github.com:Cumcord/builds.git
+  - copy-build: |
+      cp Cumcord/dist/new-build.js builds/build.js
+  - commit: |
+      cd builds
+      git add --all
+      git commit -m "[CI] Update build"
+  - push: |
+      cd builds
+      git push
