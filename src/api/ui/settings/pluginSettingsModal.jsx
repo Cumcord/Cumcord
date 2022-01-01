@@ -27,7 +27,7 @@ function showPluginSettings(pluginName, settings) {
             </Flex.Child>
           </ModalComponents.ModalHeader>
           <ModalComponents.ModalContent>
-            {settings}
+            {typeof settings === "function" ? React.createElement(settings) : settings}
           </ModalComponents.ModalContent>
         </ErrorBoundary>
       </ModalComponents.ModalRoot>
