@@ -1,19 +1,6 @@
 // My implmementation is 1:1 compatible with GooseMod's own API, but is implemented differently
 import { findInTree } from "utils";
-
-function getModules() {
-  let modules;
-
-  webpackChunkdiscord_app.push([
-    [Math.random().toString(36)],
-    {},
-    (e) => {
-      modules = e;
-    },
-  ]);
-
-  return modules.c;
-}
+import getModules from "getModules";
 
 function filterModules(moduleList, filter, defaults = false) {
   let modules = [];

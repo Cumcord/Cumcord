@@ -1,7 +1,7 @@
 import esbuild from "esbuild";
 import alias from "esbuild-plugin-alias";
 import path from "path";
-import fs from "fs/promises"
+import fs from "fs/promises";
 
 try {
   await esbuild.build({
@@ -10,9 +10,19 @@ try {
     minify: true,
     bundle: true,
     format: "iife",
-    inject: ["react-shim.js"],
+    inject: ["./shims/react-shim.js"],
+    external: ["react"],
     plugins: [
+      {
+        name: "external-react",
+        setup(build) {
+          build.onResolve({ filter: /^react$/ }, () => ({
+            path: path.resolve("./shims/alt-react-shim.cjs")
+          }));
+        },
+      },
       alias({
+        getModules: path.resolve("./getModules.js"),
         commonModules: path.resolve("./src/api/modules/commonModules.js"),
         webpackModules: path.resolve("./src/api/modules/webpackModules.js"),
         internalModules: path.resolve("./src/api/modules/internalModules.js"),
@@ -34,7 +44,7 @@ try {
     target: ["esnext"],
   });
 
-  await fs.appendFile("./dist/new-build.js", `//# sourceURL=Cumcord`)
+  await fs.appendFile("./dist/new-build.js", `//# sourceURL=Cumcord`);
   console.log("Build successful!");
 } catch (err) {
   console.error(err);
