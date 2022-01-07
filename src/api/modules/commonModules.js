@@ -4,7 +4,7 @@ const commonModules = {
   constants: webpackModules.findByProps("API_HOST", "APP_URL_PREFIX"),
   channels: webpackModules.findByProps("getChannelId", "getVoiceChannelId"),
 
-  Flux: webpackModules.findByProps("CachedStore", "Store", "connectStores"),
+  Flux: webpackModules.findByProps("Store", "connectStores"),
   FluxDispatcher: webpackModules.findByProps(
     "_currentDispatchActionType",
     "_subscriptions",
