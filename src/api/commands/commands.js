@@ -143,7 +143,7 @@ function addCommand({ name, description, args, handler }) {
   
         if (resp) {
           if (typeof resp === "string") {
-            sendMessage(ctx.channel.id, { content: resp });
+            sendMessage(ctx.channel.id, { content: resp, validNonShortcutEmojis: [] /* no idea. */ });
           } else {
             sendMessage(ctx.channel.id, resp);
           }
