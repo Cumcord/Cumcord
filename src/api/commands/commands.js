@@ -115,12 +115,10 @@ function addCommand({ name, description, args, handler }) {
     const handledOpts = {};
 
     if (args) {
-      for (const opt in opts) {
-        const val = opts[opt][0];
-
+      for (const opt of opts) {
         // this finds the argument, figures out what type it is, and handles for it
-        handledOpts[opt] =
-          typeMap[args.find((arg) => arg.name == opt).type].handle(val);
+        handledOpts[opt.name] =
+          typeMap[args.find((arg) => arg.name == opt.name).type].handle(opt);
       }
     }
 
