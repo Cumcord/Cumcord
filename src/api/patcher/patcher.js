@@ -168,7 +168,12 @@ function unpatch(patchId, hookId, type) {
         })
       ) {
         patch.functionParent[patch.functionName] = patch.originalFunction;
-        delete patch.functionParent[INJECTION_STRING];
+        // remove the patch data for this function only
+        delete patch.functionParent[INJECTION_STRING][patch.functionName];
+        // if we're the only patch for this OBJECT, remove the patch data
+        if (Object.keys(patch.functionParent[INJECTION_STRING]).length === 0)
+          delete patch.functionName[INJECTION_STRING];
+
         delete patches[patchId];
       }
 
