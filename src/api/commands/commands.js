@@ -21,33 +21,11 @@ const cumcordSection = {
 
 const commands = [];
 const typeMap = {
-  string: {
-    val: 3,
-    handle: (opt) => opt.text,
-  },
-  bool: {
-    val: 5,
-    handle: (opt) => (opt.text == "True" ? true : false),
-  },
-  user: {
-    val: 6,
-    handle: (opt) => opt.userId,
-  },
-  channel: {
-    val: 7,
-    handle: (opt) => opt.channelId,
-  },
-  role: {
-    val: 8,
-    handle(opt) {
-      switch (opt.type) {
-        case "textMention":
-          return opt.text;
-        case "roleMention":
-          return opt.roleId;
-      }
-    },
-  },
+  string: 3,
+  bool: 5,
+  user: 6,
+  channel: 7,
+  role: 8
 };
 
 function initializeCommands() {
@@ -103,7 +81,7 @@ function addCommand({ name, description, args, handler }) {
 
       const newArg = { ...arg };
 
-      newArg.type = typeMap[arg.type].val;
+      newArg.type = typeMap[arg.type];
       newArg.required = newArg.required === undefined ? true : newArg.required;
       return newArg;
     });
@@ -116,9 +94,7 @@ function addCommand({ name, description, args, handler }) {
 
     if (args) {
       for (const opt of opts) {
-        // this finds the argument, figures out what type it is, and handles for it
-        handledOpts[opt.name] =
-          typeMap[args.find((arg) => arg.name == opt.name).type].handle(opt);
+        handledOpts[opt.name] = opt.value;
       }
     }
 
