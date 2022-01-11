@@ -22,6 +22,7 @@ const cumcordSection = {
 const commands = [];
 const typeMap = {
   string: 3,
+  int: 	4,
   bool: 5,
   user: 6,
   channel: 7,
