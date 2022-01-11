@@ -65,8 +65,8 @@ function patch(functionName, functionParent, callback, type) {
 
     
 
-    functionParent[functionName] = function () {
-      return hook(injectionId, Array.from(arguments).sort((a, b) => a - b), this);
+    functionParent[functionName] = function (...args) {
+      return hook(injectionId, args, this);
     };
 
     const originalCode = originalFunction.toString();
