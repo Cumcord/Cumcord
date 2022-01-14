@@ -1,4 +1,3 @@
-import webpackModules from "webpackModules";
 import { uuid } from "commonModules";
 
 let patches = [];
@@ -63,8 +62,6 @@ function patch(functionName, functionParent, callback, type) {
       },
     };
 
-    
-
     functionParent[functionName] = function (...args) {
       return hook(injectionId, args, this);
     };
@@ -103,25 +100,25 @@ function hook(patchId, originalArgs, context) {
   // Instead patches
   let insteadCallbacks = Object.values(hooks.instead);
 
-  function originalFunc(args) {
+  function originalFunc(...args) {
     return patch.originalFunction.apply(context, args);
-  };
+  }
 
   if (insteadCallbacks.length > 0) {
-    let patchFunc = (args) => {
+    let patchFunc = (...args) => {
       return insteadCallbacks[0].apply(context, [args, originalFunc]);
     };
 
     for (const callback of insteadCallbacks.slice(1)) {
       let oldPatchFunc = patchFunc;
-      patchFunc = (args) => {
+      patchFunc = (...args) => {
         return callback.apply(context, [args, oldPatchFunc]);
       };
     }
 
-    response = patchFunc(args);
+    response = patchFunc(...args);
   } else {
-    response = originalFunc(args);
+    response = originalFunc(...args);
   }
 
   // After patches
