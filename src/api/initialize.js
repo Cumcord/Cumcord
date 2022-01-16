@@ -78,13 +78,15 @@ async function initializeAPI() {
     commands: {
       addCommand: commands.addCommand,
     },
-    cum: () => {
+    cum: (cockSize = 2, cumshotStrength = 6) => {
+      const cock = `8${"=".repeat(cockSize)}D ${"~".repeat(cumshotStrength)}`;
+
       if (Array.isArray(resolveQueue)) {
         return new Promise((resolve) => {
-          resolveQueue.push(resolve);
+          resolveQueue.push(() => resolve(cock));
         });
       } else {
-        return "8==D ~~~~~~";
+        return cock;
       }
     },
   };
@@ -123,7 +125,7 @@ async function initializeAPI() {
   utils.logger.log("Cumcord is injected!");
 
   for (let resolve of resolveQueue) {
-    resolve("8==D ~~~~~~");
+    resolve();
   }
 
   // Clean up queue
