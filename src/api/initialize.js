@@ -91,10 +91,15 @@ async function initializeAPI() {
 
   // Native-only APIs
   if (window["DiscordNative"]) {
-    window.cumcord["dev"] = {
+    window.cumcord.dev = {
       toggleDevMode: devmode.toggleDevMode,
       showSettings: devmode.showSettings,
     };
+    Object.defineProperty(window.cumcord.dev, "storage", {
+      configurable: true,
+      enumerable: true,
+      get: devmode.getStorage
+    })
   }
 
   // Inject error boundary CSS

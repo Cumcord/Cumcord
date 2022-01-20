@@ -59,4 +59,11 @@ function showSettings() {
   }
 }
 
-export { loadPluginDev, toggleDevMode, devModeOn, showSettings };
+const getStorage = () => {
+  if (devModeOn) {
+    if (plugin) return storage;
+    else logger.error("No plugin loaded!");
+  } else logger.error("Dev mode is off!");
+};
+
+export { loadPluginDev, toggleDevMode, devModeOn, showSettings, getStorage };
