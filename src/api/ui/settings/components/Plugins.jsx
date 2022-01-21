@@ -28,10 +28,9 @@ export default () => {
   const [input, setInput] = useState("");
 
   function handleImport() {
-    setInput("");
     plugins
       .importPlugin(input)
-      .then(() => {})
+      .then(() => setInput(""))
       .catch((err) =>
         showToast({
           title: "Failed to import plugin",
