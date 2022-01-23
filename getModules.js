@@ -11,5 +11,8 @@ export default function getModules() {
     },
   ]);
 
+  // no memory leak lole
+  webpackChunkdiscord_app.pop();
+
   return modules.c;
 }
