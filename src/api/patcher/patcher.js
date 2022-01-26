@@ -25,7 +25,7 @@ function unpatchAllCss() {
 
 const INJECTION_STRING = Symbol("_CUMCORD_INJECTIONS");
 
-function patch(functionName, functionParent, callback, type) {
+function patch(functionName, functionParent, callback, once, type) {
   // Unnecessary since this is a private function.
   if (!(type == "before" || type == "instead" || type == "after")) {
     throw new Error("Go fuck yourself.");
@@ -48,6 +48,8 @@ function patch(functionName, functionParent, callback, type) {
 
   const injectionId = functionParent[INJECTION_STRING][functionName];
 
+  const unpatchFunc = () => unpatch(injectionId, hookId, type);
+
   if (!patches[injectionId]) {
     const originalFunction = functionParent[functionName];
 
@@ -63,7 +65,13 @@ function patch(functionName, functionParent, callback, type) {
     };
 
     functionParent[functionName] = function (...args) {
-      return hook(injectionId, args, this);
+      const retVal = hook(functionName, functionParent, injectionId, args, this);
+
+      if (once) {
+        unpatchFunc();
+      }
+
+      return retVal;
     };
 
     const originalCode = originalFunction.toString();
@@ -78,11 +86,24 @@ function patch(functionName, functionParent, callback, type) {
   const hookId = uuid.v4();
   patches[injectionId].hooks[type][hookId] = callback;
 
-  return () => unpatch(injectionId, hookId, type);
+  return unpatchFunc;
 }
 
-function hook(patchId, originalArgs, context) {
-  const patch = patches[patchId];
+function hook(functionName, functionParent, patchId, originalArgs, context) {
+  let patch = patches[patchId];
+
+  try {
+    if (!patch) {
+      // This is in the event that the patch was removed and the old version of the hook is still being called.
+      patch = patches[functionParent[INJECTION_STRING][functionName]];
+    }
+  } catch {} // epic DRY code.
+
+  if (!patch) {
+    // This is in the event that this function is being called after all patches are removed.
+    return functionParent[functionName].apply(context, originalArgs);
+  }
+
   const hooks = patch["hooks"];
   let args = originalArgs;
 
@@ -135,16 +156,16 @@ function hook(patchId, originalArgs, context) {
   return response;
 }
 
-function before(functionName, functionParent, callback) {
-  return patch(functionName, functionParent, callback, "before");
+function before(functionName, functionParent, callback, once = false) {
+  return patch(functionName, functionParent, callback, once, "before");
 }
 
-function instead(functionName, functionParent, callback) {
-  return patch(functionName, functionParent, callback, "instead");
+function instead(functionName, functionParent, callback, once = false) {
+  return patch(functionName, functionParent, callback, once, "instead");
 }
 
-function after(functionName, functionParent, callback) {
-  return patch(functionName, functionParent, callback, "after");
+function after(functionName, functionParent, callback, once = false) {
+  return patch(functionName, functionParent, callback, once, "after");
 }
 
 function unpatch(patchId, hookId, type) {
@@ -155,8 +176,6 @@ function unpatch(patchId, hookId, type) {
     if (hooks[type][hookId]) {
       delete hooks[type][hookId];
 
-      delete patch.functionParent[INJECTION_STRING][patch.functionName];
-
       // If there are no more hooks for every type, remove the patch
       const types = Object.keys(hooks);
       if (
@@ -165,11 +184,12 @@ function unpatch(patchId, hookId, type) {
         })
       ) {
         patch.functionParent[patch.functionName] = patch.originalFunction;
-        // if we're the only patch for this OBJECT, remove the patch data
-        if (Object.keys(patch.functionParent[INJECTION_STRING]).length === 0)
-          delete patch.functionParent[INJECTION_STRING];
-
+        delete patch.functionParent[INJECTION_STRING][patch.functionName];
         delete patches[patchId];
+      }
+
+      if (Object.keys(patch.functionParent[INJECTION_STRING]).length == 0) {
+        delete patch.functionParent[INJECTION_STRING];
       }
 
       return true;
