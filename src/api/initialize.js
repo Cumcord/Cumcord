@@ -100,8 +100,13 @@ async function initializeAPI() {
     Object.defineProperty(window.cumcord.dev, "storage", {
       configurable: true,
       enumerable: true,
-      get: devmode.getStorage
-    })
+      get: devmode.getStorage,
+    });
+    Object.defineProperty(window.cumcord.dev, "isEnabled", {
+      configurable: true,
+      enumerable: true,
+      get: () => devmode.devModeOn,
+    });
   }
 
   // Inject error boundary CSS
