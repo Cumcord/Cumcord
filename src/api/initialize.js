@@ -72,6 +72,7 @@ async function initializeAPI() {
       sleep: utils.sleep,
       useNest: utils.useNest,
       copyText: utils.copyText,
+      findByDomNode: utils.findByDomNode
     },
     commands: {
       addCommand: commands.addCommand,
