@@ -38,7 +38,7 @@ export default {
     } else {
       let unpatch = after(
         "default",
-        webpackModules.findByDisplayName("UserBanner", false),
+        webpackModules.findByDisplayName("FormText", false),
         () => {
           const SettingsView = webpackModules.findByDisplayName("SettingsView");
           if (SettingsView) {
