@@ -1,5 +1,3 @@
-import { uuid } from "commonModules";
-
 let patches = [];
 
 function injectCSS(css) {
@@ -42,7 +40,7 @@ function patch(functionName, functionParent, callback, once, type) {
   }
 
   if (!functionParent[INJECTION_STRING].hasOwnProperty(functionName)) {
-    const patchId = uuid.v4();
+    const patchId = Symbol("CUMCORD_PATCH_ID");
     functionParent[INJECTION_STRING][functionName] = patchId;
   }
 
@@ -83,7 +81,7 @@ function patch(functionName, functionParent, callback, once, type) {
     functionParent[functionName].toString = () => originalCode;
   }
 
-  const hookId = uuid.v4();
+  const hookId = Symbol("CUMCORD_HOOK_ID");
   patches[injectionId].hooks[type][hookId] = callback;
 
   return unpatchFunc;
