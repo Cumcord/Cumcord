@@ -1,5 +1,5 @@
-import getModules from "getModules";
+import wpRequire from "wpRequire";
 
-const React = Object.values(getModules()).find(x => x.exports?.useState).exports;
+const React = Object.values(wpRequire.c).find(x => x.exports?.useState).exports;
 
 module.exports = React;

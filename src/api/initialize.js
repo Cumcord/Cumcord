@@ -52,15 +52,7 @@ async function initializeAPI() {
       before: patcher.before,
       after: patcher.after,
       instead: patcher.instead,
-      injectCSS: patcher.injectCSS,
-      /* 
-      all modals appear to be there without lazy loading,
-      please lmk if this is useful for literally anything,
-      since from my testing the modals don't *actually* lazy-load
-      -- sink
-      */
-      // patchModal: patcher.patchModal,
-      patchContextMenu: patcher.patchContextMenu,
+      injectCSS: patcher.injectCSS
     },
     ui: {
       toasts: {
