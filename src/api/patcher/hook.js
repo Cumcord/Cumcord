@@ -38,9 +38,12 @@ export default function (
   let insteadPatchedFunc = (...args) =>
     patch?.originalFunction.apply(context, args);
 
-  for (const callback of insteadCallbacks)
+  for (const callback of insteadCallbacks) {
+    let oldPatchFunc = insteadPatchedFunc;
+
     insteadPatchedFunc = (...args) =>
-      callback.apply(context, [args, insteadPatchedFunc]);
+      callback.apply(context, [args, oldPatchFunc]);
+  }
 
   workingRetVal = insteadPatchedFunc(...newArgs);
 
