@@ -45,8 +45,11 @@ const webpackModules = {
         |*| this shouldnt cause an issue for the code that
         |*| will later actually use these modules
         \*/
-        const moduleIds = Object.keys(args[1]);
+        
+        if (!args[1]) return;
 
+        const moduleIds = Object.keys(args[1]);
+        
         for (m of moduleIds) {
           wpRequire(parseInt(m))
         };
