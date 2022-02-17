@@ -1,5 +1,5 @@
 import getPatchFunc from "./getPatchFunc";
-import { unpatch, unpatchAll } from "./unpatch";
+import { unpatchAll } from "./unpatch";
 
 function injectCSS(css) {
   const style = document.createElement("style");
@@ -14,7 +14,7 @@ function injectCSS(css) {
 }
 
 function unpatchAllCss() {
-  for (const style of document.querySelectorAll(".CUMCORD_INJECTED_CSS"))
+  for (const style of document.getElementsByClassName("CUMCORD_INJECTED_CSS"))
     style.remove();
 }
 
