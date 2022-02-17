@@ -30,10 +30,13 @@ const webpackModules = {
       throw new Error("asyncFind requires a callback function");
     }
 
-    const found = callback();
-    if (found != undefined) return found;
-
     return new Promise((resolve) => {
+      const found = callback();
+      if (found != undefined) {
+        resolve(found)
+        return;
+      };
+
       const unpatch = after("push", window.webpackChunkdiscord_app, ([args]) => {
         /*\
         |*| force load all modules in the chunk
