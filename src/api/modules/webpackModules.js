@@ -50,7 +50,7 @@ const webpackModules = {
 
         const moduleIds = Object.keys(args[1]);
         
-        for (m of moduleIds) {
+        for (const m of moduleIds) {
           wpRequire(parseInt(m))
         };
 
