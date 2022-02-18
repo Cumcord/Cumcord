@@ -41,18 +41,24 @@ export default (patchType) =>
           after: new Map(),
         },
       });
+      
+      function replaceFunc (...args) {
+        const retVal = hook(funcName, funcParent, patchId, args, this);
 
-      Object.defineProperty(funcParent, funcName, {
-        value: function (...args) {
-          const retVal = hook(funcName, funcParent, patchId, args, this);
-  
-          if (oneTimepatch) unpatchThisPatch();
-  
-          return retVal;
-        },
-        configurable: true,
-        writable: true,
-      })
+        if (oneTimepatch) unpatchThisPatch();
+
+        return retVal;
+      }
+
+      try {
+        Object.defineProperty(funcParent, funcName, {
+          value: replaceFunc,
+          configurable: true,
+          writable: true,
+        })
+      } catch {
+        funcParent[funcName] = replaceFunc;
+      }
 
       // Add original toString to the function for easier debugging
       funcParent[funcName].toString = () => originalFunction.toString();

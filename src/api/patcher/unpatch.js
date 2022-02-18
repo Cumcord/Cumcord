@@ -15,11 +15,15 @@ export function unpatch(patchId, hookId, type) {
   const types = Object.keys(hooks);
   if (types.every((type) => hooks[type].size == 0)) {
     
-    Object.defineProperty(patch.functionParent, patch.functionName, {
-      value: patch.originalFunction,
-      writable: true,
-      configurable: true,
-    });
+    try {
+      Object.defineProperty(patch.functionParent, patch.functionName, {
+        value: patch.originalFunction,
+        writable: true,
+        configurable: true,
+      });
+    } catch {
+      patch.functionParent[patch.functionName] = patch.originalFunction;
+    }
 
     patch.functionParent[INJECTION_KEY].delete(patch.functionName);
     patches.delete(patchId);
