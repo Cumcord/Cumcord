@@ -42,7 +42,7 @@ const webpackModules = {
       throw new Error("findAsync requires a callback function");
     }
 
-    let unpatch;
+    let unpatch = () => {};
 
     const mod = new Promise((resolve) => {
       const found = callback();
