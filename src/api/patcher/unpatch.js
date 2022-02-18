@@ -14,7 +14,13 @@ export function unpatch(patchId, hookId, type) {
   // If there are no more hooks for every type, remove the patch
   const types = Object.keys(hooks);
   if (types.every((type) => hooks[type].size == 0)) {
-    patch.functionParent[patch.functionName] = patch.originalFunction;
+    
+    Object.defineProperty(patch.functionParent, patch.functionName, {
+      value: patch.originalFunction,
+      writable: true,
+      configurable: true,
+    });
+
     patch.functionParent[INJECTION_KEY].delete(patch.functionName);
     patches.delete(patchId);
   }

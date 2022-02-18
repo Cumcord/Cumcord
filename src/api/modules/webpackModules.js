@@ -22,45 +22,49 @@ function filterModules(moduleList, filter, defaults = false) {
   return modules;
 }
 
+after("push", window.webpackChunkdiscord_app, ([args]) => {
+  if (!args[1]) return;
+
+  for (const moduleId of Object.keys(args[1])) {
+    try {
+      wpRequire(moduleId)
+    } catch {
+      // sounds like a skill issue to me?
+    }
+  }
+})
+
 const webpackModules = {
   modules: wpRequire.c,
 
-  findAsync(callback) {
+  findAsync(callback, legacycompat = true) {
     if (typeof callback != "function") {
-      throw new Error("asyncFind requires a callback function");
+      throw new Error("findAsync requires a callback function");
     }
 
-    return new Promise((resolve) => {
+    let unpatch;
+
+    const mod = new Promise((resolve) => {
       const found = callback();
       if (found != undefined) {
         resolve(found)
         return;
       };
 
-      const unpatch = after("push", window.webpackChunkdiscord_app, ([args]) => {
-        /*\
-        |*| force load all modules in the chunk
-        |*| shouldnt be too slow since the chunk is already here
-        |*| but noteworthy that we do this 
-        |*| this shouldnt cause an issue for the code that
-        |*| will later actually use these modules
-        \*/
-        
-        if (!args[1]) return;
-
-        const moduleIds = Object.keys(args[1]);
-        
-        for (const m of moduleIds) {
-          wpRequire(parseInt(m))
-        };
-
+      unpatch = after("push", window.webpackChunkdiscord_app, () => {
         const found = callback();
         if (found != undefined) {
           resolve(found);
           unpatch();
         }
-      })
+      });
     })
+
+    if (legacycompat) {
+      return mod
+    } else {
+      return [mod, unpatch]
+    }
   },
 
   find(filter) {

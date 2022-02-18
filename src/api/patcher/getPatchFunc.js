@@ -42,13 +42,17 @@ export default (patchType) =>
         },
       });
 
-      funcParent[funcName] = function (...args) {
-        const retVal = hook(funcName, funcParent, patchId, args, this);
-
-        if (oneTimepatch) unpatchThisPatch();
-
-        return retVal;
-      };
+      Object.defineProperty(funcParent, funcName, {
+        value: function (...args) {
+          const retVal = hook(funcName, funcParent, patchId, args, this);
+  
+          if (oneTimepatch) unpatchThisPatch();
+  
+          return retVal;
+        },
+        configurable: true,
+        writable: true,
+      })
 
       // Add original toString to the function for easier debugging
       funcParent[funcName].toString = () => originalFunction.toString();
