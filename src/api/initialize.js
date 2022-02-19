@@ -52,6 +52,7 @@ async function initializeAPI() {
       before: patcher.before,
       after: patcher.after,
       instead: patcher.instead,
+      findAndPatch: patcher.findAndPatch,
       injectCSS: patcher.injectCSS
     },
     ui: {

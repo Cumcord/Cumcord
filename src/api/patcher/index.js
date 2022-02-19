@@ -1,5 +1,6 @@
 import getPatchFunc from "./getPatchFunc";
 import { unpatchAll } from "./unpatch";
+import findAndPatch from "./findAndPatch";
 
 function injectCSS(css) {
   const style = document.createElement("style");
@@ -22,4 +23,4 @@ const before = getPatchFunc("before");
 const instead = getPatchFunc("instead");
 const after = getPatchFunc("after");
 
-export { instead, before, after, unpatchAll, unpatchAllCss, injectCSS };
+export { instead, before, after, findAndPatch, unpatchAll, unpatchAllCss, injectCSS };
