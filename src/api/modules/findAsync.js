@@ -13,6 +13,10 @@ export default function (filter, legacycompat = true) {
 
   const patches = [];
 
+  function unpatchAll() {
+    for (const unpatch of patches) unpatch();
+  }
+
   const modulePromise = new Promise((resolve) => {
     patches.push(
       before("push", window.webpackChunkdiscord_app, ([[, modules]]) => {
@@ -26,6 +30,7 @@ export default function (filter, legacycompat = true) {
 
                 foundModule = filter();
                 if (foundModule !== undefined) {
+                  unpatchAll();
                   resolve(foundModule);
                 }
               },
@@ -42,9 +47,7 @@ export default function (filter, legacycompat = true) {
   } else {
     return [
       modulePromise,
-      () => {
-        for (const unpatch of patches) unpatch();
-      },
+      unpatchAll
     ];
   }
 }
