@@ -2,8 +2,8 @@ import { before, after } from "patcher";
 
 export default function (filter, legacycompat = true) {
   let foundModule = filter();
-  
-  if (foundModule) {
+
+  if (foundModule !== undefined) {
     if (legacycompat) {
       return Promise.resolve(foundModule);
     }
