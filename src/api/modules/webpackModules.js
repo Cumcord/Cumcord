@@ -1,7 +1,7 @@
 // My implmementation is 1:1 compatible with GooseMod's own API, but is implemented differently
 import { findInTree } from "utils";
 import wpRequire from "wpRequire";
-import { after } from "patcher";
+import findAsync from "./findAsync"
 
 function filterModules(moduleList, filter, defaults = false) {
   let modules = [];
@@ -22,22 +22,11 @@ function filterModules(moduleList, filter, defaults = false) {
   return modules;
 }
 
-after("push", window.webpackChunkdiscord_app, ([args]) => {
-  if (!args[1]) return;
-
-  for (const moduleId of Object.keys(args[1])) {
-    try {
-      wpRequire(moduleId)
-    } catch {
-      // sounds like a skill issue to me?
-    }
-  }
-})
 
 const webpackModules = {
   modules: wpRequire.c,
 
-  findAsync(callback, legacycompat = true) {
+  /*findAsync(callback, legacycompat = true) {
     if (typeof callback != "function") {
       throw new Error("findAsync requires a callback function");
     }
@@ -65,7 +54,9 @@ const webpackModules = {
     } else {
       return [mod, unpatch]
     }
-  },
+  },*/
+
+  findAsync,
 
   find(filter) {
     return filterModules(webpackModules.modules, filter)[0];
@@ -168,6 +159,6 @@ export const findByDisplayName = webpackModules.findByDisplayName;
 export const findByDisplayNameAll = webpackModules.findByDisplayNameAll;
 export const findByStrings = webpackModules.findByStrings;
 export const findByKeywordAll = webpackModules.findByKeywordAll;
-export const findAsync = webpackModules.findAsync;
+export { findAsync };
 
 export default webpackModules;
