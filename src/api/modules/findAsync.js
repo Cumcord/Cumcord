@@ -4,8 +4,10 @@ export default function (filter, legacycompat = true) {
   let foundModule = filter();
 
   if (foundModule !== undefined) {
+    foundModule = Promise.resolve(foundModule);
+
     if (legacycompat) {
-      return Promise.resolve(foundModule);
+      return foundModule;
     }
 
     return [foundModule, () => {}];
