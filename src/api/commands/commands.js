@@ -2,7 +2,7 @@ import { findByProps } from "webpackModules";
 import { after } from "patcher";
 import { logger } from "utils";
 
-const builtIn = findByProps("BUILT_IN_COMMANDS", "BUILT_IN_SECTIONS");
+const commandsModule = findByProps("queryCommands");
 const commandDiscovery = findByProps("useApplicationCommandsDiscoveryState");
 const { sendMessage } = findByProps("sendMessage");
 const { createBotMessage } = findByProps("createBotMessage");
@@ -22,47 +22,48 @@ const cumcordSection = {
 const commands = [];
 const typeMap = {
   string: 3,
-  int: 	4,
+  int: 4,
   bool: 5,
   user: 6,
   channel: 7,
-  role: 8
+  role: 8,
 };
 
 function initializeCommands() {
-  after("getBuiltInCommands", builtIn, (_, resp) => {
+  after("queryCommands", commandsModule, (_, resp) => {
     return [...resp, ...commands];
   });
 
   after("useApplicationCommandsDiscoveryState", commandDiscovery, (_, resp) => {
-    if (
-      resp.applicationCommandSections.find((x) => x == cumcordSection) ||
-      commands.length == 0
-    )
-      return;
+    if (commands.length > 0) {
+      // todo: make the check a function lol
+      if (
+        !resp.discoverySections.find((section) => section.id === applicationId)
+      ) {
+        resp.discoverySections.push({
+          data: commands,
+          section: cumcordSection,
+          key: applicationId,
+        });
 
-    const cloneResp = { ...resp };
+        resp.sectionsOffset.push(commands.length);
 
-    cloneResp.discoverySections.push({
-      data: commands,
-      section: cumcordSection,
-      key: applicationId,
-    });
+        resp.discoveryCommands = [...resp.discoveryCommands, ...commands];
+      }
 
-    cloneResp.applicationCommandSections.push(cumcordSection);
-
-    return cloneResp;
+      if (
+        !resp.applicationCommandSections.find(
+          (section) => section.id === applicationId
+        )
+      ) {
+        resp.applicationCommandSections.push(cumcordSection);
+      }
+    }
   });
-}
-
-function uninitializeCommands() {
-  delete builtIn.BUILT_IN_SECTIONS[applicationId];
 }
 
 function addCommand({ name, description, args, handler }) {
   // Add Cumcord section to command list
-  if (!builtIn.BUILT_IN_SECTIONS[applicationId])
-    builtIn.BUILT_IN_SECTIONS[applicationId] = cumcordSection;
 
   // Abstraction goes here!
   const commandObj = {
@@ -71,7 +72,7 @@ function addCommand({ name, description, args, handler }) {
     target: 1,
     description,
     name,
-    id: `-${Math.random().toString().split(".")[1].substring(0, 5)}`,
+    id: "CUMCORD_COMMAND",
   };
 
   if (args) {
@@ -104,24 +105,27 @@ function addCommand({ name, description, args, handler }) {
       try {
         const resp = await handler({ args: handledOpts, ...ctx }, (input) => {
           let msg = createBotMessage(ctx.channel.id);
-  
+
           msg.author.username = "Cumcord";
           msg.author.avatar = botIconId;
           msg.author.id = applicationId;
-  
+
           if (typeof input === "string") {
             msg.content = input;
           } else {
             msg = { ...msg, ...input };
           }
-  
+
           receiveMessage(msg.channel_id, msg);
         });
-  
+
         if (resp) {
           switch (typeof resp) {
             case "string":
-              sendMessage(ctx.channel.id, { content: resp, validNonShortcutEmojis: [] /* no idea. */ });
+              sendMessage(ctx.channel.id, {
+                content: resp,
+                validNonShortcutEmojis: [] /* no idea. */,
+              });
               break;
             case "undefined":
               break;
@@ -132,7 +136,7 @@ function addCommand({ name, description, args, handler }) {
       } catch (err) {
         logger.error(err);
       }
-    })()
+    })();
   }),
     commands.push(commandObj);
   // Abstraction ends here!
@@ -142,11 +146,7 @@ function addCommand({ name, description, args, handler }) {
     const index = commands.indexOf(commandObj);
 
     if (index > -1) commands.splice(index, 1);
-
-    if (commands.length === 0) {
-      delete builtIn.BUILT_IN_SECTIONS[applicationId];
-    }
   };
 }
 
-export { addCommand, initializeCommands, uninitializeCommands };
+export { addCommand, initializeCommands };

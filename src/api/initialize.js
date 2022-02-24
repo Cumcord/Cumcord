@@ -22,9 +22,6 @@ function uninject() {
   patcher.unpatchAll();
   toasts.uninitializeToasts();
   patcher.unpatchAllCss();
-  try {
-    commands.uninitializeCommands();
-  } catch {}
   window.cumcord = undefined;
   delete window.cumcord;
   return true;
