@@ -58,6 +58,7 @@ async function initializeAPI() {
       },
       modals: {
         showConfirmationModal: modals.showConfirmationModal,
+        showInputModal: modals.showInputModal
       },
       components: {
         ErrorBoundary: components.ErrorBoundary,
