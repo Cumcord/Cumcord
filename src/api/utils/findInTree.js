@@ -7,7 +7,11 @@ I feel I need to make this very clear: Cumcord's code is original and I'm not cl
 We share, we don't steal.
 */
 
-export default function findInTree(tree, searchFilter, { walkable = null, ignore = [], limit = 100 } = {}) {
+export default function findInTree(
+  tree,
+  searchFilter,
+  { walkable = null, ignore = [], limit = 100 } = {}
+) {
   let iteration = 0;
 
   function doSearch(tree, searchFilter, { walkable = null, ignore = [] } = {}) {
@@ -17,7 +21,7 @@ export default function findInTree(tree, searchFilter, { walkable = null, ignore
     if (typeof searchFilter === "string") {
       if (tree.hasOwnProperty(searchFilter)) return tree[searchFilter];
     } else if (searchFilter(tree)) return tree;
-  
+
     if (tree) {
       if (Array.isArray(tree)) {
         for (const item of tree) {
@@ -29,13 +33,21 @@ export default function findInTree(tree, searchFilter, { walkable = null, ignore
           if (walkable != null) {
             if (!walkable.includes(key)) continue;
           }
-  
+
           if (ignore.includes(key)) continue;
-          const found = doSearch(tree[key], searchFilter, { walkable, ignore });
+          let found;
+          try {
+            found = doSearch(tree[key], searchFilter, {
+              walkable,
+              ignore,
+            });
+          } catch {
+            continue;
+          }
           if (found) return found;
         }
       }
-    };
+    }
   }
 
   return doSearch(tree, searchFilter, { walkable, ignore });

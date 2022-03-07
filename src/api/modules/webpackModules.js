@@ -1,7 +1,7 @@
 // My implmementation is 1:1 compatible with GooseMod's own API, but is implemented differently
 import { findInTree } from "utils";
 import wpRequire from "wpRequire";
-import findAsync from "./findAsync"
+import findAsync from "./findAsync";
 
 function filterModules(moduleList, filter, defaults = false) {
   let modules = [];
@@ -21,7 +21,6 @@ function filterModules(moduleList, filter, defaults = false) {
 
   return modules;
 }
-
 
 const webpackModules = {
   modules: wpRequire.c,
@@ -120,17 +119,19 @@ const webpackModules = {
       } else {
         return findInTree(module, (obj) => {
           if (obj) {
-            for (const item of Object.values(obj)) {
-              if (typeof item === "function") {
-                if (
-                  searchStrings.every((searchString) =>
-                    item.toString().includes(searchString)
-                  )
-                ) {
-                  return true;
+            try {
+              for (const item of Object.values(obj)) {
+                if (typeof item === "function") {
+                  if (
+                    searchStrings.every((searchString) =>
+                      item.toString().includes(searchString)
+                    )
+                  ) {
+                    return true;
+                  }
                 }
               }
-            }
+            } catch {}
           }
         });
       }
