@@ -1,8 +1,7 @@
 import webpackModules from "webpackModules";
 import { after, injectCSS } from "patcher";
-import PluginEmbed from "./components/PluginEmbed";
+import getPluginEmbed from "./components/PluginEmbed";
 
-const defaultParse = webpackModules.findByProps("defaultRules", "astParserFor");
 const regex = /^https:\/\/cumcordplugins\.github\.io\/Condom\/(.+?)\/(.+?)+$/i;
 
 function isModuleUrl(input) {
@@ -10,13 +9,19 @@ function isModuleUrl(input) {
 }
 
 export default {
-  initializePluginEmbeds() {
+  async initializePluginEmbeds() {
+    const PluginEmbed = await getPluginEmbed();
+
     injectCSS(`.cumcord-plugembeds-alerttext{margin:0;}`);
-    after("react", defaultParse.defaultRules.link, (args) => {
-      if (isModuleUrl(args[0].target)) {
-        if (!args[0].target.endsWith("/")) args[0].target += "/";
-        return <PluginEmbed url={args[0].target} />;
-      }
-    });
+    cumcord.patcher.findAndPatch(
+      () => webpackModules.findByProps("defaultRules", "astParserFor"),
+      (mod) =>
+        after("react", mod.defaultRules.link, (args) => {
+          if (isModuleUrl(args[0].target)) {
+            if (!args[0].target.endsWith("/")) args[0].target += "/";
+            return <PluginEmbed url={args[0].target} />;
+          }
+        })
+    );
   },
 };
