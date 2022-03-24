@@ -3,24 +3,29 @@ import { findInTree } from "utils";
 import wpRequire from "wpRequire";
 import findAsync from "./findAsync";
 
-function filterModules(moduleList, filter, defaults = false) {
-  let modules = [];
+const filterModules =
+  (moduleList, single = false) =>
+  (filter) => {
+    let modules = [];
 
-  for (const mod in moduleList) {
-    if (moduleList.hasOwnProperty(mod)) {
-      const module = moduleList[mod].exports;
-      if (module) {
+    for (const mod in moduleList) {
+      if (moduleList.hasOwnProperty(mod)) {
+        const module = moduleList[mod].exports;
+        if (!module) continue;
+
         if (module.default && module.__esModule && filter(module.default)) {
+          if (single) return module.default;
           modules.push(module.default);
         }
 
-        if (filter(module)) modules.push(module);
+        if (filter(module))
+          if (single) return module;
+          else modules.push(module);
       }
     }
-  }
 
-  return modules;
-}
+    return modules;
+  };
 
 const webpackModules = {
   modules: wpRequire.c,
@@ -57,13 +62,9 @@ const webpackModules = {
 
   findAsync,
 
-  find(filter) {
-    return filterModules(webpackModules.modules, filter)[0];
-  },
-
-  findAll(filter) {
-    return filterModules(webpackModules.modules, filter);
-  },
+  // currying go brr
+  find: filterModules(wpRequire.c, true),
+  findAll: filterModules(wpRequire.c),
 
   getModule(module) {
     for (const modId in webpackModules.modules) {
