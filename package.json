@@ -8,10 +8,14 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "esbuild": "^0.12.29",
-    "esbuild-plugin-alias": "^0.1.2"
+    "esbuild-plugin-alias": "^0.1.2",
+    "husky": "^7.0.4",
+    "prettier": "^2.6.1"
   },
   "scripts": {
-    "build": "node build.mjs"
+    "build": "node build.mjs",
+    "format": "prettier --write **/*",
+    "postinstall": "husky install"
   },
   "dependencies": {
     "idb-keyval": "^5.1.5",

@@ -3,8 +3,10 @@ lockfileVersion: 5.3
 specifiers:
   esbuild: ^0.12.29
   esbuild-plugin-alias: ^0.1.2
+  husky: ^7.0.4
   idb-keyval: ^5.1.5
   nests: ^2.3.1
+  prettier: ^2.6.1
 
 dependencies:
   idb-keyval: 5.1.5
@@ -13,6 +15,8 @@ dependencies:
 devDependencies:
   esbuild: 0.12.29
   esbuild-plugin-alias: 0.1.2
+  husky: 7.0.4
+  prettier: 2.6.1
 
 packages:
 
@@ -24,6 +28,12 @@ packages:
     resolution: {integrity: sha512-w/XuoBCSwepyiZtIRsKsetiLDUVGPVw1E/R3VTFSecIy8UR7Cq3SOtwKHJMFoVqqVG36aGkzh4e8BvpO1Fdc7g==}
     hasBin: true
     requiresBuild: true
+    dev: true
+
+  /husky/7.0.4:
+    resolution: {integrity: sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==}
+    engines: {node: '>=12'}
+    hasBin: true
     dev: true
 
   /idb-keyval/5.1.5:
@@ -38,6 +48,12 @@ packages:
       react: '>=16.8'
       solid-js: '>=1.0.0'
     dev: false
+
+  /prettier/2.6.1:
+    resolution: {integrity: sha512-8UVbTBYGwN37Bs9LERmxCPjdvPxlEowx2urIL6urHzdb3SDq4B/Z6xLFCblrSnE4iKWcS6ziJ3aOYrc1kz/E2A==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    dev: true
 
   /safari-14-idb-fix/1.0.6:
     resolution: {integrity: sha512-oTEQOdMwRX+uCtWCKT1nx2gAeSdpr8elg/2gcaKUH00SJU2xWESfkx11nmXwTRHy7xfQoj1o4TTQvdmuBosTnA==}
