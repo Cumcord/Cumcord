@@ -1,20 +1,18 @@
 import { findByProps, findByDisplayName, findByDisplayNameAll } from "webpackModules";
 
 const ModalComponents = findByProps("ModalCloseButton");
-const Header = findByDisplayNameAll('Header')[1];
-const Flex = findByDisplayName('Flex');
+const Header = findByDisplayNameAll("Header")[1];
+const Flex = findByDisplayName("Flex");
 const { openModal } = findByProps("openModal", "openModalLazy");
 import { ErrorBoundary } from "components";
 
 function showPluginSettings(pluginName, settings) {
   openModal((e) => {
     return (
-      
       <ModalComponents.ModalRoot
         transitionState={e.transitionState}
         size="large"
-        className="cumcord-settings-modal"
-      >
+        className="cumcord-settings-modal">
         <ErrorBoundary>
           <ModalComponents.ModalHeader separator={false}>
             <Flex.Child basis="auto" grow={1} shrink={1} wrap={false}>

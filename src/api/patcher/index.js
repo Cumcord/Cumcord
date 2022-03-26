@@ -15,8 +15,7 @@ function injectCSS(css) {
 }
 
 function unpatchAllCss() {
-  for (const style of document.getElementsByClassName("CUMCORD_INJECTED_CSS"))
-    style.remove();
+  for (const style of document.getElementsByClassName("CUMCORD_INJECTED_CSS")) style.remove();
 }
 
 const before = getPatchFunc("before");

@@ -27,19 +27,14 @@ export default {
 
   byProps: (props) => (m) => props.every((p) => m[p] !== undefined),
 
-  byProtos: (protos) => (m) =>
-    m.prototype && protos.every((p) => m.prototype[p] !== undefined),
+  byProtos: (protos) => (m) => m.prototype && protos.every((p) => m.prototype[p] !== undefined),
 
   byDisplayName: (name, defaultExp = true) =>
-    defaultExp
-      ? (m) => m.displayName === name
-      : (m) => m?.default?.displayName === name,
+    defaultExp ? (m) => m.displayName === name : (m) => m?.default?.displayName === name,
 
   byKeyword: (strs) => (m) =>
     strs.every(
-      (s) =>
-        Object.keys(m).some((k) => k.toLowerCase().includes(s.toLowerCase())) ==
-        true // does this test have a purpose? -- sink
+      (s) => Object.keys(m).some((k) => k.toLowerCase().includes(s.toLowerCase())) == true, // does this test have a purpose? -- sink
     ),
 
   // HELL.
@@ -52,11 +47,7 @@ export default {
 
         try {
           for (const v of Object.values(obj))
-            if (
-              typeof v === "function" &&
-              strs.every((s) => v.toString().includes(s))
-            )
-              return true;
+            if (typeof v === "function" && strs.every((s) => v.toString().includes(s))) return true;
         } catch {}
       });
   },

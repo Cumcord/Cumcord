@@ -2,17 +2,20 @@ import { findByProps, findByDisplayName, findByDisplayNameAll } from "webpackMod
 
 const { openModal } = findByProps("openModal", "openModalLazy");
 
-const Colors = findByProps('button', 'colorRed');
+const Colors = findByProps("button", "colorRed");
 const ConfirmModal = findByDisplayName("ConfirmModal");
 const Markdown = findByDisplayNameAll("Markdown")[1];
 
-async function showConfirmationModal({
-  header = "Are you sure?",
-  confirmText = "Confirm",
-  cancelText = "Cancel",
-  content = "Are you sure you want to do that?",
-  type = "neutral",
-} = {}, callback = () => {}) {
+async function showConfirmationModal(
+  {
+    header = "Are you sure?",
+    confirmText = "Confirm",
+    cancelText = "Cancel",
+    content = "Are you sure you want to do that?",
+    type = "neutral",
+  } = {},
+  callback = () => {},
+) {
   return new Promise((resolve) => {
     var buttonColor;
     var confirmed = false;
@@ -49,26 +52,22 @@ async function showConfirmationModal({
           cancelText={cancelText}
           transitionState={props.transitionState}
           confirmButtonColor={buttonColor}
-
-          onClose = {() => {
+          onClose={() => {
             handleConfirm(false);
           }}
-
-          onCancel = {() => {
+          onCancel={() => {
             handleConfirm(false);
             props.onClose();
           }}
-
-          onConfirm = {() => {
+          onConfirm={() => {
             handleConfirm(true);
             props.onClose();
-          }}
-        >
+          }}>
           <Markdown editable={false}>{content}</Markdown>
         </ConfirmModal>
       );
-    })
-  })
+    });
+  });
 }
 
 export { showConfirmationModal };

@@ -37,9 +37,7 @@ function initializeCommands() {
   after("useApplicationCommandsDiscoveryState", commandDiscovery, (_, resp) => {
     if (commands.length > 0) {
       // todo: make the check a function lol
-      if (
-        !resp.discoverySections.find((section) => section.id === applicationId)
-      ) {
+      if (!resp.discoverySections.find((section) => section.id === applicationId)) {
         resp.discoverySections.push({
           data: commands,
           section: cumcordSection,
@@ -51,11 +49,7 @@ function initializeCommands() {
         resp.discoveryCommands = [...resp.discoveryCommands, ...commands];
       }
 
-      if (
-        !resp.applicationCommandSections.find(
-          (section) => section.id === applicationId
-        )
-      ) {
+      if (!resp.applicationCommandSections.find((section) => section.id === applicationId)) {
         resp.applicationCommandSections.push(cumcordSection);
       }
     }

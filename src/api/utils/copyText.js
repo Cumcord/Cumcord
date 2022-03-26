@@ -24,7 +24,7 @@ export default function copyText(text) {
         }
 
         document.body.removeChild(copyArea);
-      }
+      },
     );
   }
 }

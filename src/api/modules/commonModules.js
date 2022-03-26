@@ -8,40 +8,41 @@ const commonModules = {
   FluxDispatcher: webpackModules.findByProps(
     "_currentDispatchActionType",
     "_subscriptions",
-    "_waitQueue"
+    "_waitQueue",
   ),
 
-  i18n: webpackModules.findByPropsAll(
-    'Messages',
-    '_requestedLocale'
-  )[1],
+  i18n: webpackModules.findByPropsAll("Messages", "_requestedLocale")[1],
 
   // Note: I use these because they are the two most React-specific things in React's props
   React: webpackModules.findByProps(
     "__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED",
-    "createElement"
+    "createElement",
   ),
   // Same thing here for ReactDOM
   ReactDOM: webpackModules.findByProps(
     "__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED",
-    "hydrate"
+    "hydrate",
   ),
 
   Redux: webpackModules.findByProps("createStore", "__DO_NOT_USE__ActionTypes"),
 
   zustand: webpackModules.find((module) => {
     if (typeof module == "function") {
-      if (module.toString().includes("[useStore, api] = create() is deprecated and will be removed in v4")) {
+      if (
+        module
+          .toString()
+          .includes("[useStore, api] = create() is deprecated and will be removed in v4")
+      ) {
         return module;
       }
     }
   }),
-  
-  uuid: { 
-    v4: webpackModules.findByProps("v4", "v1")
+
+  uuid: {
+    v4: webpackModules.findByProps("v4", "v1"),
   },
 
-  highlightjs: webpackModules.findByProps("initHighlighting")
+  highlightjs: webpackModules.findByProps("initHighlighting"),
 };
 
 // export all of the "common" modules

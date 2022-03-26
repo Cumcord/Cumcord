@@ -17,7 +17,7 @@ try {
         name: "external-react",
         setup(build) {
           build.onResolve({ filter: /^react$/ }, () => ({
-            path: path.resolve("./shims/alt-react-shim.cjs")
+            path: path.resolve("./shims/alt-react-shim.cjs"),
           }));
         },
       },
@@ -33,9 +33,7 @@ try {
         modals: path.resolve("./src/api/ui/modals/modals.jsx"),
         devmode: path.resolve("./src/api/devmode/devmode.js"),
         utils: path.resolve("./src/api/utils/utils.js"),
-        pluginSettings: path.resolve(
-          "./src/api/ui/settings/pluginSettingsModal.jsx"
-        ),
+        pluginSettings: path.resolve("./src/api/ui/settings/pluginSettingsModal.jsx"),
         pluginStorage: path.resolve("./src/api/plugins/pluginStorage.js"),
         components: path.resolve("./src/api/ui/components/components.js"),
         commands: path.resolve("./src/api/commands/commands.js"),

@@ -2,19 +2,11 @@ import webpackModules from "webpackModules";
 
 export default async function getPluginEmbedIcon() {
   const { svgContentRight, svgContentLines, svgContentLeft, svgDots, svgTag } =
-    await webpackModules.findAsync(() =>
-      webpackModules.findByProps("svgContentRight")
-    );
+    await webpackModules.findAsync(() => webpackModules.findByProps("svgContentRight"));
 
   return function PluginEmbedIcon({ className }) {
     return (
-      <svg
-        width="57"
-        height="40"
-        viewBox="0 0 57 40"
-        fill="none"
-        className={className}
-      >
+      <svg width="57" height="40" viewBox="0 0 57 40" fill="none" className={className}>
         <path
           d="M49.4949 36H3.9596C1.78182 36 0 34.2486 0 32.1081V3.89189C0 1.75135 1.78182 0 3.9596 0H49.4949C51.6727 0 53.4545 1.75135 53.4545 3.89189V32.1081C53.4545 34.2486 51.6727 36 49.4949 36Z"
           className={svgContentRight}

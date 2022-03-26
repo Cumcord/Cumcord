@@ -10,19 +10,19 @@ var storage = nests.make({});
 async function loadPluginDev() {
   if (devModeOn) {
     if (plugin) {
-      logger.log("Unloading previous plugin version...")
+      logger.log("Unloading previous plugin version...");
       try {
         plugin.onUnload();
       } catch (e) {
         logger.error("Failed to unload:", e);
       }
-    };
+    }
 
-    logger.log("Loading new plugin version...")
-    
+    logger.log("Loading new plugin version...");
+
     try {
       const code = await (await fetch("http://127.0.0.1:42069")).text();
-      plugin = evalPlugin(code, {persist: storage, id: "https://FAKE_PLUGIN_ID"});
+      plugin = evalPlugin(code, { persist: storage, id: "https://FAKE_PLUGIN_ID" });
       if (plugin["onLoad"]) {
         plugin.onLoad();
       }

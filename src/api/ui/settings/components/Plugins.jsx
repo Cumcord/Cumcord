@@ -10,12 +10,7 @@ const FormTitle = webpackModules.findByDisplayName("FormTitle");
 const FormSection = webpackModules.findByDisplayName("FormSection");
 const Flex = webpackModules.findByDisplayName("Flex");
 const TextInput = webpackModules.findByDisplayName("TextInput");
-const Button = webpackModules.findByProps(
-  "Sizes",
-  "Colors",
-  "Looks",
-  "DropdownSizes"
-);
+const Button = webpackModules.findByProps("Sizes", "Colors", "Looks", "DropdownSizes");
 const FormDivider = webpackModules.findByDisplayName("FormDivider");
 const SearchBar = webpackModules.findByDisplayName("SearchBar");
 
@@ -36,7 +31,7 @@ export default () => {
           title: "Failed to import plugin",
           content: err.message,
           duration: 3000,
-        })
+        }),
       );
   }
 
@@ -57,13 +52,8 @@ export default () => {
               if (e.key === "Enter") {
                 handleImport();
               }
-            }}
-          ></TextInput>
-          <Button
-            color={Button.Colors.BRAND}
-            size={Button.Sizes.MEDIUM}
-            onClick={handleImport}
-          >
+            }}></TextInput>
+          <Button color={Button.Colors.BRAND} size={Button.Sizes.MEDIUM} onClick={handleImport}>
             Add plugin
           </Button>
         </Flex>
@@ -80,17 +70,10 @@ export default () => {
         {searchFilter
           ? Object.keys(plugins.pluginCache.ghost)
               .sort((a, b) => {
-                const pluginA = Object.values(
-                  plugins.pluginCache.ghost[a].manifest
-                ).join("");
-                const pluginB = Object.values(
-                  plugins.pluginCache.ghost[b].manifest
-                ).join("");
+                const pluginA = Object.values(plugins.pluginCache.ghost[a].manifest).join("");
+                const pluginB = Object.values(plugins.pluginCache.ghost[b].manifest).join("");
 
-                return (
-                  filterCount(pluginB, searchFilter) -
-                  filterCount(pluginA, searchFilter)
-                );
+                return filterCount(pluginB, searchFilter) - filterCount(pluginA, searchFilter);
               })
               .map((plugin) => {
                 return <PluginCard pluginId={plugin} />;

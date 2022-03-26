@@ -24,17 +24,13 @@ const webpackModules = {
     }
   },
 
-  findByProps: (...propNames) =>
-    webpackModules.find(filters.byProps(propNames)),
+  findByProps: (...propNames) => webpackModules.find(filters.byProps(propNames)),
 
-  findByPropsAll: (...propNames) =>
-    webpackModules.findAll(filters.byProps(propNames)),
+  findByPropsAll: (...propNames) => webpackModules.findAll(filters.byProps(propNames)),
 
-  findByPrototypes: (...protoNames) =>
-    webpackModules.find(filters.byProtos(protoNames)),
+  findByPrototypes: (...protoNames) => webpackModules.find(filters.byProtos(protoNames)),
 
-  findByPrototypesAll: (...protoNames) =>
-    webpackModules.findAll(filters.byProtos(protoNames)),
+  findByPrototypesAll: (...protoNames) => webpackModules.findAll(filters.byProtos(protoNames)),
 
   findByDisplayName: (displayName, defaultExport = true) =>
     webpackModules.find(filters.byDisplayName(displayName, defaultExport)),
@@ -42,15 +38,12 @@ const webpackModules = {
   findByDisplayNameAll: (displayName, defaultExport = true) =>
     webpackModules.findAll(filters.byDisplayName(displayName, defaultExport)),
 
-  findByStrings: (...searchStrings) =>
-    webpackModules.find(filters.byStrings(searchStrings)),
+  findByStrings: (...searchStrings) => webpackModules.find(filters.byStrings(searchStrings)),
 
-  findByStringsAll: (...searchStrings) =>
-    webpackModules.findAll(filters.byStrings(searchStrings)),
+  findByStringsAll: (...searchStrings) => webpackModules.findAll(filters.byStrings(searchStrings)),
 
   // THIS IS NOT PERFORMANT. This function is exclusively to be used by those searching for modules to later fetch with other parts of Cumcord's webpackModules API.
-  findByKeywordAll: (...searchStrings) =>
-    webpackModules.findAll(filters.byKeyword(strs)),
+  findByKeywordAll: (...searchStrings) => webpackModules.findAll(filters.byKeyword(strs)),
 };
 
 // export webpackModules;

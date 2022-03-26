@@ -10,9 +10,7 @@ import { unpatch } from "./unpatch";
 export default (patchType) =>
   (funcName, funcParent, callback, oneTimepatch = false) => {
     if (typeof funcParent[funcName] !== "function")
-      throw new Error(
-        `${funcName} is not a function in ${funcParent.constructor.name}`
-      );
+      throw new Error(`${funcName} is not a function in ${funcParent.constructor.name}`);
 
     if (!Object.hasOwnProperty.call(funcParent, INJECTION_KEY))
       funcParent[INJECTION_KEY] = new Map();
@@ -41,8 +39,8 @@ export default (patchType) =>
           after: new Map(),
         },
       });
-      
-      function replaceFunc (...args) {
+
+      function replaceFunc(...args) {
         const retVal = hook(funcName, funcParent, patchId, args, this);
 
         if (oneTimepatch) unpatchThisPatch();
@@ -55,7 +53,7 @@ export default (patchType) =>
           value: replaceFunc,
           configurable: true,
           writable: true,
-        })
+        });
       } catch {
         funcParent[funcName] = replaceFunc;
       }

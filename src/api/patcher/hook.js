@@ -3,13 +3,7 @@
 import { INJECTION_KEY, patches } from "./shared";
 
 // calls all relevant patches
-export default function (
-  functionName,
-  functionParent,
-  patchId,
-  originalArgs,
-  context
-) {
+export default function (functionName, functionParent, patchId, originalArgs, context) {
   let patch = patches.get(patchId);
 
   if (!patch) {
@@ -35,14 +29,12 @@ export default function (
   // Instead patches
   const insteadCallbacks = Array.from(hooks.instead.values());
 
-  let insteadPatchedFunc = (...args) =>
-    patch?.originalFunction.apply(context, args);
+  let insteadPatchedFunc = (...args) => patch?.originalFunction.apply(context, args);
 
   for (const callback of insteadCallbacks) {
     let oldPatchFunc = insteadPatchedFunc;
 
-    insteadPatchedFunc = (...args) =>
-      callback.apply(context, [args, oldPatchFunc]);
+    insteadPatchedFunc = (...args) => callback.apply(context, [args, oldPatchFunc]);
   }
 
   workingRetVal = insteadPatchedFunc(...newArgs);

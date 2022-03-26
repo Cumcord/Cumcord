@@ -4,7 +4,9 @@ const Text = webpackModules.findByDisplayName("Text");
 
 export default (props) => {
   return (
-    <div onClick={props.onClick} className={"cumcord-toast" + (props.className ? ` ${props.className}` : "")}>
+    <div
+      onClick={props.onClick}
+      className={"cumcord-toast" + (props.className ? ` ${props.className}` : "")}>
       {props.title ? <Header className="cumcord-toast-title">{props.title}</Header> : null}
       {props.content ? (
         <div className="cumcord-toast-content">

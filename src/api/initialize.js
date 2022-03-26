@@ -50,7 +50,7 @@ async function initializeAPI() {
       after: patcher.after,
       instead: patcher.instead,
       findAndPatch: patcher.findAndPatch,
-      injectCSS: patcher.injectCSS
+      injectCSS: patcher.injectCSS,
     },
     ui: {
       toasts: {
@@ -72,7 +72,7 @@ async function initializeAPI() {
       sleep: utils.sleep,
       useNest: utils.useNest,
       copyText: utils.copyText,
-      findByDomNode: utils.findByDomNode
+      findByDomNode: utils.findByDomNode,
     },
     commands: {
       addCommand: commands.addCommand,
@@ -110,7 +110,7 @@ async function initializeAPI() {
 
   // Inject error boundary CSS
   patcher.injectCSS(
-    `.cumcord-error-handler{font-family: var(--font-display);color:var(--text-normal);padding:16px}.cumcord-error-handler-title{margin-bottom:7px;font-weight:bold;font-size:24px}.cumcord-error-handler-code{background-color:var(--background-secondary);font-family:var(--font-code);user-select:text}`
+    `.cumcord-error-handler{font-family: var(--font-display);color:var(--text-normal);padding:16px}.cumcord-error-handler-title{margin-bottom:7px;font-weight:bold;font-size:24px}.cumcord-error-handler-code{background-color:var(--background-secondary);font-family:var(--font-code);user-select:text}`,
   );
 
   toasts.initializeToasts();

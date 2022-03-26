@@ -36,11 +36,11 @@ export default function (filter, legacycompat = true) {
                   resolve(foundModule);
                 }
               },
-              true
-            )
+              true,
+            ),
           );
         }
-      })
+      }),
     );
   });
 

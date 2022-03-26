@@ -1,3 +1,3 @@
-import { useNest } from "nests/react"
+import { useNest } from "nests/react";
 
 export default useNest;

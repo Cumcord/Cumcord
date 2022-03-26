@@ -48,8 +48,8 @@ export default async function getPluginEmbed() {
                   title="What is this?"
                   body={
                     <p className="cumcord-plugembeds-alerttext">
-                      This is a Cumcord feature. It allows you to install
-                      plugins straight from chat.
+                      This is a Cumcord feature. It allows you to install plugins straight from
+                      chat.
                       <br />
                       Simply hit the install button on the embed.
                     </p>
@@ -57,8 +57,7 @@ export default async function getPluginEmbed() {
                 />
               ));
             }}
-            target="_blank"
-          >
+            target="_blank">
             <InfoFilled className={infoIcon} />
           </a>
           <CopyLink url={url} />
@@ -83,8 +82,7 @@ export default async function getPluginEmbed() {
                 : Button.Colors.GREEN
             }
             disabled={data.invalid || isInstalled}
-            onClick={() => importPlugin(url)}
-          >
+            onClick={() => importPlugin(url)}>
             {data.invalid ? "Invalid" : isInstalled ? "Installed" : "Install"}
           </Button>
         </div>

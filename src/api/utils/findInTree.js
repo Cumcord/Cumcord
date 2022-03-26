@@ -10,7 +10,7 @@ We share, we don't steal.
 export default function findInTree(
   tree,
   searchFilter,
-  { walkable = null, ignore = [], limit = 100 } = {}
+  { walkable = null, ignore = [], limit = 100 } = {},
 ) {
   let iteration = 0;
 

@@ -27,7 +27,7 @@ function initializeSocket() {
         } else {
           return orig(...args);
         }
-      }
+      },
     );
   }
 }

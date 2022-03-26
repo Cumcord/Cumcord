@@ -93,4 +93,4 @@ typings/
 .dynamodb/
 
 # Cumcord build files
-dist/new-build.js
+dist/*

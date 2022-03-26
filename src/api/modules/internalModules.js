@@ -3,5 +3,5 @@ import { get, set } from "idb-keyval";
 
 export default {
   nests: nests.default,
-  idbKeyval: { get, set }
-}
+  idbKeyval: { get, set },
+};

@@ -130,8 +130,7 @@ async function importPlugin(baseUrl) {
 
     // The server *must* return a success
     if (manifestData.status != 200) {
-      if (!pluginExists)
-        throw new Error("Plugin manifest not returning success");
+      if (!pluginExists) throw new Error("Plugin manifest not returning success");
     }
   } catch {
     // If this errors out then there's a problem with the manifest

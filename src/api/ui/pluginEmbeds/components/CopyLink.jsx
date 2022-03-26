@@ -5,8 +5,9 @@ const Clickable = webpackModules.findByDisplayName("Clickable");
 const Link = webpackModules.findByDisplayName("Link");
 
 export default async function getCopyLink() {
-  const { copyLink, copyLinkIcon, copied } =
-  await webpackModules.findAsync(() => webpackModules.findByProps("titleRegion"));
+  const { copyLink, copyLinkIcon, copied } = await webpackModules.findAsync(() =>
+    webpackModules.findByProps("titleRegion"),
+  );
 
   return function CopyLink({ url }) {
     const [state, setState] = React.useState(false);
@@ -28,10 +29,7 @@ export default async function getCopyLink() {
     }
 
     return (
-      <Clickable
-        className={`${copyLink}${state ? " " + copied : ""}`}
-        onClick={handleClick}
-      >
+      <Clickable className={`${copyLink}${state ? " " + copied : ""}`} onClick={handleClick}>
         <Link className={copyLinkIcon} href={url} target="_blank" />
         {state ? "Copied!" : "Copy Link"}
       </Clickable>

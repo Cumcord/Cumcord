@@ -21,7 +21,7 @@ export default {
             if (!args[0].target.endsWith("/")) args[0].target += "/";
             return <PluginEmbed url={args[0].target} />;
           }
-        })
+        }),
     );
   },
 };
