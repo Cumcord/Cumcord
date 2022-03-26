@@ -24,7 +24,7 @@ try {
       alias({
         wpRequire: path.resolve("./wpRequire.js"),
         commonModules: path.resolve("./src/api/modules/commonModules.js"),
-        webpackModules: path.resolve("./src/api/modules/webpackModules.js"),
+        webpackModules: path.resolve("./src/api/modules/webpack/index.js"),
         internalModules: path.resolve("./src/api/modules/internalModules.js"),
         patcher: path.resolve("./src/api/patcher/index.js"),
         websocket: path.resolve("./src/api/websocket/websocket.js"),

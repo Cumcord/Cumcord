@@ -47,9 +47,6 @@ export default function (filter, legacycompat = true) {
   if (legacycompat) {
     return modulePromise;
   } else {
-    return [
-      modulePromise,
-      unpatchAll
-    ];
+    return [modulePromise, unpatchAll];
   }
 }
