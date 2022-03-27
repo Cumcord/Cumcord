@@ -43,7 +43,7 @@ const webpackModules = {
   findByStringsAll: (...searchStrings) => webpackModules.findAll(filters.byStrings(searchStrings)),
 
   // THIS IS NOT PERFORMANT. This function is exclusively to be used by those searching for modules to later fetch with other parts of Cumcord's webpackModules API.
-  findByKeywordAll: (...searchStrings) => webpackModules.findAll(filters.byKeyword(strs)),
+  findByKeywordAll: (...searchStrings) => webpackModules.findAll(filters.byKeyword(searchStrings)),
 };
 
 // export webpackModules;
