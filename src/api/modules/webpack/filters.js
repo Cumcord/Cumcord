@@ -22,7 +22,8 @@ export default {
         }
       }
 
-      return modules;
+      if (!single)
+        return modules;
     },
 
   byProps: (props) => (m) => props.every((p) => m[p] !== undefined),
