@@ -12,12 +12,14 @@ import * as modals from "modals";
 import * as devmode from "devmode";
 import * as components from "components";
 import * as commands from "commands";
+import * as lamivudine from "./lamivudine";
 
 // Plugin management
 import * as plugins from "plugins";
 
 function uninject() {
   plugins.unloadAllPlugins();
+  lamivudine.initializeLamivudine();
   websocket.uninitializeSocket();
   patcher.unpatchAll();
   toasts.uninitializeToasts();
@@ -123,6 +125,7 @@ async function initializeAPI() {
   } catch {} // intense patching is done here, could explode and break everything
   await plugins.initializePlugins();
   try {
+    lamivudine.initializeLamivudine();
     pluginEmbeds.initializePluginEmbeds();
   } catch {}
   websocket.initializeSocket();
