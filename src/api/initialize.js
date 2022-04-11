@@ -19,7 +19,7 @@ import * as plugins from "plugins";
 
 function uninject() {
   plugins.unloadAllPlugins();
-  lamivudine.initializeLamivudine();
+  lamivudine.uninitializeLamivudine();
   websocket.uninitializeSocket();
   patcher.unpatchAll();
   toasts.uninitializeToasts();
