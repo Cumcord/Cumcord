@@ -36,15 +36,13 @@ export default (patchType) =>
         },
       });
 
-      // this will be assigned at the end of the function
-      // but is up here so that it can be accessed by one-time-patches
-      let unpatchThisPatch;
+      const unpatchThisPatch = () => unpatch(patchId, hookId, patchType);
 
       const replaceProxy = new Proxy(originalFunction, {
         apply(_, thisArg, args) {
           const retVal = hook(funcName, funcParent, patchId, args, thisArg, false);
 
-          if (oneTimepatch) unpatchThisPatch();
+          if (oneTimepatch) unpatchThisPatch?.();
 
           return retVal;
         },
@@ -79,5 +77,5 @@ export default (patchType) =>
     const hookId = Symbol("CUMCORD_HOOK_ID");
     patches.get(patchId)?.hooks[patchType].set(hookId, callback);
 
-    return (unpatchThisPatch = () => unpatch(patchId, hookId, patchType));
+    return unpatchThisPatch;
   };
