@@ -22,10 +22,6 @@ export default (patchType) =>
 
     const patchId = functionInjection.get(funcName);
 
-    // this will be assigned at the end of the function
-    // but is up here so that it can be accessed by one-time-patches
-    let unpatchThisPatch;
-
     if (!patches.has(patchId)) {
       const originalFunction = funcParent[funcName];
 
@@ -40,16 +36,27 @@ export default (patchType) =>
         },
       });
 
-      function replaceFunc(_, thisArg, args) {
-        const retVal = hook(funcName, funcParent, patchId, args, thisArg);
-
-        if (oneTimepatch) unpatchThisPatch();
-
-        return retVal;
-      }
+      // this will be assigned at the end of the function
+      // but is up here so that it can be accessed by one-time-patches
+      let unpatchThisPatch;
 
       const replaceProxy = new Proxy(originalFunction, {
-        apply: replaceFunc,
+        apply(_, thisArg, args) {
+          const retVal = hook(funcName, funcParent, patchId, args, thisArg, false);
+
+          if (oneTimepatch) unpatchThisPatch();
+
+          return retVal;
+        },
+
+        construct(_, args) {
+          const retVal = hook(funcName, funcParent, patchId, args, originalFunction, true);
+
+          if (oneTimepatch) unpatchThisPatch();
+
+          return retVal;
+        },
+
         get(_, prop) {
           // yes it is weird to pass args to toString, but i figure we should accurately polyfill the behavior
           if (prop == "toString") return (...args) => originalFunction.toString(...args);

@@ -3,7 +3,16 @@
 import { INJECTION_KEY, patches } from "./shared";
 
 // calls all relevant patches
-export default function (functionName, functionParent, patchId, originalArgs, context) {
+export default function (
+  functionName,
+  functionParent,
+  patchId,
+  originalArgs,
+  // the value of `this` to apply
+  context,
+  // if true, the function is actually constructor
+  isConstruct,
+) {
   let patch = patches.get(patchId);
 
   if (!patch) {
@@ -13,7 +22,10 @@ export default function (functionName, functionParent, patchId, originalArgs, co
   }
 
   // This is in the event that this function is being called after all patches are removed.
-  if (!patch) return functionParent[functionName].apply(context, originalArgs);
+  if (!patch)
+    return isConstruct
+      ? Reflect.construct(functionParent[functionName], originalArgs, context)
+      : functionParent[functionName].apply(context, originalArgs);
 
   const hooks = patch.hooks;
   let newArgs = originalArgs;
@@ -29,7 +41,10 @@ export default function (functionName, functionParent, patchId, originalArgs, co
   // Instead patches
   const insteadCallbacks = Array.from(hooks.instead.values());
 
-  let insteadPatchedFunc = (...args) => patch?.originalFunction.apply(context, args);
+  let insteadPatchedFunc = (...args) =>
+    isConstruct
+      ? Reflect.construct(patch.originalFunction, args, context)
+      : patch.originalFunction.apply(context, args);
 
   for (const callback of insteadCallbacks) {
     let oldPatchFunc = insteadPatchedFunc;
