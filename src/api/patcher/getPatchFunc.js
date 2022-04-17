@@ -21,6 +21,7 @@ export default (patchType) =>
       functionInjection.set(funcName, Symbol("CUMCORD_PATCH_ID"));
 
     const patchId = functionInjection.get(funcName);
+    const unpatchThisPatch = () => unpatch(patchId, hookId, patchType);
 
     if (!patches.has(patchId)) {
       const originalFunction = funcParent[funcName];
@@ -36,13 +37,11 @@ export default (patchType) =>
         },
       });
 
-      const unpatchThisPatch = () => unpatch(patchId, hookId, patchType);
-
       const replaceProxy = new Proxy(originalFunction, {
         apply(_, thisArg, args) {
           const retVal = hook(funcName, funcParent, patchId, args, thisArg, false);
 
-          if (oneTimepatch) unpatchThisPatch?.();
+          if (oneTimepatch) unpatchThisPatch();
 
           return retVal;
         },
