@@ -40,29 +40,33 @@ export default (patchType) =>
         },
       });
 
-      function replaceFunc(...args) {
-        const retVal = hook(funcName, funcParent, patchId, args, this);
+      function replaceFunc(_, thisArg, args) {
+        const retVal = hook(funcName, funcParent, patchId, args, thisArg);
 
         if (oneTimepatch) unpatchThisPatch();
 
         return retVal;
       }
 
+      const replaceProxy = new Proxy(originalFunction, {
+        apply: replaceFunc,
+        get(_, prop) {
+          // yes it is weird to pass args to toString, but i figure we should accurately polyfill the behavior
+          if (prop == "toString") return (...args) => originalFunction.toString(...args);
+
+          return Reflect.get(...arguments);
+        },
+      });
+
       try {
         Object.defineProperty(funcParent, funcName, {
-          value: replaceFunc,
+          value: replaceProxy,
           configurable: true,
           writable: true,
         });
       } catch {
-        funcParent[funcName] = replaceFunc;
+        funcParent[funcName] = replaceProxy;
       }
-
-      // Add original toString to the function for easier debugging
-      funcParent[funcName].toString = () => originalFunction.toString();
-
-      // Assign original props to the function
-      Object.assign(funcParent[funcName], originalFunction);
     }
 
     const hookId = Symbol("CUMCORD_HOOK_ID");
