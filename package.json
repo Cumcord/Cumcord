@@ -20,6 +20,6 @@
   "dependencies": {
     "idb-keyval": "^5.1.5",
     "nests": "^2.3.1",
-    "spitroast": "^1.1.4"
+    "spitroast": "^1.2.4"
   }
 }
