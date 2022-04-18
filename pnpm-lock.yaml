@@ -7,12 +7,12 @@ specifiers:
   idb-keyval: ^5.1.5
   nests: ^2.3.1
   prettier: ^2.6.1
-  spitroast: ^1.2.4
+  spitroast: ^1.2.5
 
 dependencies:
   idb-keyval: 5.1.5
   nests: 2.3.1
-  spitroast: 1.2.4
+  spitroast: 1.2.5
 
 devDependencies:
   esbuild: 0.12.29
@@ -61,7 +61,7 @@ packages:
     resolution: {integrity: sha512-oTEQOdMwRX+uCtWCKT1nx2gAeSdpr8elg/2gcaKUH00SJU2xWESfkx11nmXwTRHy7xfQoj1o4TTQvdmuBosTnA==}
     dev: false
 
-  /spitroast/1.2.4:
-    resolution: {integrity: sha512-VcKqF7DIxe6u2LctCiNeZ5AE4uGGs1sE9PjRpRe13RnmmcqDEX9yP6VjGaARMjbjLtz11iiRtEIMVCvPXz+UQg==}
+  /spitroast/1.2.5:
+    resolution: {integrity: sha512-cx3a15u9x8AzlMlMFKRFrGUImWkICRgJCWJlnW/MILgcv5uMYNKtVxvPJqTz7a7aBTzROP5/jByFnMW/fCQ+aQ==}
     requiresBuild: true
     dev: false
