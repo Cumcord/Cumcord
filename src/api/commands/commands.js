@@ -1,4 +1,5 @@
 import { findByProps } from "webpackModules";
+import { channels } from "commonModules";
 import { after } from "patcher";
 import { logger } from "utils";
 
@@ -108,7 +109,7 @@ function addCommand({ name, description, args, handler }) {
             msg = { ...msg, ...input };
           }
 
-          receiveMessage(msg.channel_id, msg);
+          receiveMessage(channels.getChannelId(), msg);
         });
 
         if (resp) {
