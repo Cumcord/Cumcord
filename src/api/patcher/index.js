@@ -1,5 +1,3 @@
-import getPatchFunc from "./getPatchFunc";
-import { unpatchAll } from "./unpatch";
 import findAndPatch from "./findAndPatch";
 
 function injectCSS(css) {
@@ -18,8 +16,5 @@ function unpatchAllCss() {
   for (const style of document.getElementsByClassName("CUMCORD_INJECTED_CSS")) style.remove();
 }
 
-const before = getPatchFunc("before");
-const instead = getPatchFunc("instead");
-const after = getPatchFunc("after");
-
-export { instead, before, after, findAndPatch, unpatchAll, unpatchAllCss, injectCSS };
+export { unpatchAllCss, injectCSS, findAndPatch };
+export { instead, before, after, unpatchAll } from "spitroast";
