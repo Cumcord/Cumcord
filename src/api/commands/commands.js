@@ -31,7 +31,10 @@ const typeMap = {
 };
 
 function initializeCommands() {
-  after("queryCommands", commandsModule, ([{ query }], resp) => [...resp, ...commands.filter((command) => command.name.includes(query))]);
+  after("queryCommands", commandsModule, ([{ query }], resp) => [
+    ...resp,
+    ...commands.filter((command) => command.name.includes(query)),
+  ]);
 
   after("useApplicationCommandsDiscoveryState", commandDiscovery, (_, resp) => {
     if (commands.length > 0) {
