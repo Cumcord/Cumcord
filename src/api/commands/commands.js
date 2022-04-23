@@ -64,7 +64,7 @@ function addCommand({ name, description, args, handler }) {
   // Abstraction goes here!
   const commandObj = {
     applicationId,
-    type: 0,
+    type: 3,
     target: 1,
     description,
     name,
