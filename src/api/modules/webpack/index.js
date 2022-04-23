@@ -17,11 +17,10 @@ const webpackModules = {
 
   getModule(module) {
     for (const modId in webpackModules.modules) {
-      const mod = webpackModules.modules[modId]?.exports;
+      const mod = webpackModules.modules[modId];
 
-      if (mod === module || mod?.default === module) {
-        return mod;
-      }
+      if (mod?.exports === module) return mod;
+      if (mod?.exports?.__esModule && mod?.exports?.default === module) return mod?.exports;
     }
   },
 
