@@ -53,6 +53,7 @@ async function startPlugin(pluginId) {
   const evaledPlugin = evalPlugin(plugin.js, {
     persist: await createPersistentNest(pluginId),
     id: pluginId,
+    manifest: plugin.manifest,
   });
 
   try {
