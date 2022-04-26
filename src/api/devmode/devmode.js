@@ -7,6 +7,22 @@ var devModeOn = false;
 var plugin;
 var storage = nests.make({});
 
+function showSettings() {
+  if (devModeOn) {
+    if (plugin) {
+      if (plugin.settings) {
+        showPluginSettings("Fake Dev Plugin", plugin.settings);
+      } else {
+        logger.log("No settings for this plugin.");
+      }
+    } else {
+      logger.error("No plugin loaded!");
+    }
+  } else {
+    logger.error("Dev mode is off!");
+  }
+}
+
 async function loadPluginDev() {
   if (devModeOn) {
     if (plugin) {
@@ -32,6 +48,7 @@ async function loadPluginDev() {
           hash: "FAKE_PLUGIN_HASH",
           license: "Unlicensed",
         },
+        showSettings,
       });
       if (plugin["onLoad"]) {
         plugin.onLoad();
@@ -51,22 +68,6 @@ function toggleDevMode() {
   }
 
   logger.log(`Dev mode is now ${devModeOn ? "on" : "off"}.`);
-}
-
-function showSettings() {
-  if (devModeOn) {
-    if (plugin) {
-      if (plugin.settings) {
-        showPluginSettings("Fake Dev Plugin", plugin.settings);
-      } else {
-        logger.log("No settings for this plugin.");
-      }
-    } else {
-      logger.error("No plugin loaded!");
-    }
-  } else {
-    logger.error("Dev mode is off!");
-  }
 }
 
 const getStorage = () => {

@@ -1,4 +1,5 @@
 import { createPersistentNest } from "pluginStorage";
+import { showPluginSettings } from "pluginSettings";
 import * as nests from "nests";
 
 const noStore = { cache: "no-store" };
@@ -54,6 +55,9 @@ async function startPlugin(pluginId) {
     persist: await createPersistentNest(pluginId),
     id: pluginId,
     manifest: plugin.manifest,
+    showSettings() {
+      showPluginSettings(plugin.manifest.name, loadedPlugins.ghost[pluginId].settings);
+    },
   });
 
   try {
