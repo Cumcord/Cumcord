@@ -34,17 +34,25 @@ const batchFilterModules = (filterList) => {
 const makeFakeWp = (filterList) => ({
   find: (f) => filterList.push([f, false]),
   findAll: (f) => filterList.push([f, true]),
+
   findByProps: (...p) => filterList.push([filters.byProps(p), false]),
   findByPropsAll: (...p) => filterList.push([filters.byProps(p), true]),
+
   findByPrototypes: (...p) => filterList.push([filters.byProtos(p), false]),
   findByPrototypesAll: (...p) => filterList.push([filters.byProtos(p), true]),
+
   findByDisplayName: (name, defaultExp = true) =>
     filterList.push([filters.byDisplayName(name, defaultExp), false]),
   findByDisplayNameAll: (name, defaultExp = true) =>
     filterList.push([filters.byDisplayName(name, defaultExp), true]),
+
   findByStrings: (...s) => filterList.push([filters.byStrings(s), false]),
   findByStringsAll: (...s) => filterList.push([filters.byStrings(s), true]),
+
   findByKeywordAll: (...s) => filterList.push([filters.byKeyword(s), true]),
+
+  findByDispNameDeep: (n, d = true) => filterList.push([filters.byDispNameDeep(n, d), false]),
+  findByDispNameDeepAll: (n, d = true) => filterList.push([filters.byDispNameDeep(n, d), true]),
 });
 
 export default (callback) => {

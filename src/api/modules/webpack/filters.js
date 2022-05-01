@@ -51,4 +51,25 @@ export default {
         } catch {}
       });
   },
+
+  byDispNameDeep: (name) => (m) => {
+    const regex = new RegExp(`(${name}$)|((\\w+\\()+${name}\\))`);
+
+    if (regex.test(m.displayName)) return true;
+
+    // start unwrapping funky react stuff
+    if (typeof m.$$typeof !== "symbol") return;
+
+    // we don't care about react.context
+    if (m.Consumer !== undefined) return;
+
+    // memo -> m.type
+    // forwardref -> m.render
+    if (m.type || m.render) {
+      while (typeof m.type === "object" || typeof m.render === "object") m = m.type ?? m.render;
+
+      if (regex.test(m.type?.displayName)) return true;
+      if (regex.test(m.render?.displayName)) return true;
+    }
+  },
 };
