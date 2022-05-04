@@ -6,14 +6,12 @@ secrets:
 sources:
   - https://git.sr.ht/~creatable/Cumcord
 tasks:
-  - install-pnpm: |
-      sudo npm install -g pnpm
   - switch-to-stable: |
       cd Cumcord
       git switch stable
   - install-dependencies: |
       cd Cumcord
-      npm exec pnpm install
+      npm install
   - build: |
       cd Cumcord
       node build.mjs
