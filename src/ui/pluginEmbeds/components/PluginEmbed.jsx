@@ -5,7 +5,12 @@ import getPluginEmbedIcon from "./PluginEmbedIcon";
 import getCopyLink from "./CopyLink";
 
 // Components
-const Text = webpackModules.findByDisplayName("Text");
+// todo: let discord remove this and then cry about it when it breaks (WONTFIX)
+let LegacyText = webpackModules.findByDisplayName("LegacyText");
+
+// epically violating the STD, mainly because i don't want to hold back updates for something so small. when it gets merged i'll nuke this into oblivion
+if (!LegacyText) LegacyText = webpackModules.findByDisplayName("Text");
+
 const Button = webpackModules.findByProps("BorderColors", "Colors");
 const Alert = webpackModules.findByDisplayName("Alert");
 const ModalApi = webpackModules.findByProps("openModal", "useModalsStore");
@@ -37,7 +42,7 @@ export default async function getPluginEmbed() {
 
     return (
       <div className={wrapper}>
-        <Text size={Text.Sizes.SIZE_12} className={titleRegion}>
+        <LegacyText size={LegacyText.Sizes.SIZE_12} className={titleRegion}>
           <strong className={title}>{data.author}</strong>
           <a
             className={infoLink}
@@ -61,16 +66,16 @@ export default async function getPluginEmbed() {
             <InfoFilled className={infoIcon} />
           </a>
           <CopyLink url={url} />
-        </Text>
+        </LegacyText>
         <div className={content}>
           <PluginEmbedIcon className={icon} />
           <div className={buildInfo}>
-            <Text size={Text.Sizes.SIZE_14} className={subHead}>
+            <LegacyText size={LegacyText.Sizes.SIZE_14} className={subHead}>
               {data.name}
-            </Text>
-            <Text size={Text.Sizes.SIZE_16} className={buildDetails}>
+            </LegacyText>
+            <LegacyText size={LegacyText.Sizes.SIZE_16} className={buildDetails}>
               {data.description}
-            </Text>
+            </LegacyText>
           </div>
           <Button
             size={Button.Sizes.MEDIUM}

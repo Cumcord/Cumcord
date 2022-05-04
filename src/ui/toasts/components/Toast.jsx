@@ -1,6 +1,6 @@
 import webpackModules from "webpackModules";
 const Header = webpackModules.findByDisplayNameAll("Header")[1];
-const Text = webpackModules.findByDisplayName("Text");
+const FormText = webpackModules.findByDisplayName("FormText");
 
 export default (props) => {
   return (
@@ -10,7 +10,7 @@ export default (props) => {
       {props.title ? <Header className="cumcord-toast-title">{props.title}</Header> : null}
       {props.content ? (
         <div className="cumcord-toast-content">
-          <Text size={Text.Sizes.SIZE_16}>{props.content}</Text>
+          <FormText size={FormText.Sizes.SIZE_16}>{props.content}</FormText>
         </div>
       ) : null}
     </div>
