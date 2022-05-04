@@ -7,8 +7,8 @@ import { del } from "idb-keyval";
 import * as plugins from "plugins";
 
 const Card = webpackModules.findByDisplayName("Card");
-const Header = webpackModules.findByDisplayNameAll("Header")[1];
-const Text = webpackModules.findByDisplayName("Text");
+const Header = webpackModules.findByProps("Sizes", "Tags");
+const FormText = webpackModules.findByDisplayName("FormText");
 const Flex = webpackModules.findByDisplayName("Flex");
 const Markdown = webpackModules.findByDisplayNameAll("Markdown")[1];
 const Switch = webpackModules.findByDisplayName("Switch");
@@ -57,10 +57,10 @@ export default (props) => {
       <Flex justify={Flex.Justify.BETWEEN} align={Flex.Align.CENTER}>
         <div className="cumcord-card-header">
           <Header className="cumcord-card-title">{plugin.manifest.name}</Header>
-          <Text className="cumcord-card-author" tag="h5">
+          <FormText className="cumcord-card-author" tag="h5">
             {" "}
             by <strong>{plugin.manifest.author}</strong>
-          </Text>
+          </FormText>
         </div>
         <div className="cumcord-card-right">
           <div className="cumcord-card-buttons">
