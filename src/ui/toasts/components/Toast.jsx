@@ -1,6 +1,6 @@
 import webpackModules from "webpackModules";
-const Header = webpackModules.findByDisplayNameAll("Header")[1];
-const FormText = webpackModules.findByDisplayName("FormText");
+const Header = webpackModules.findByDisplayName("LegacyHeader");
+const FormText = webpackModules.findByDisplayName("LegacyText");
 
 export default (props) => {
   return (
