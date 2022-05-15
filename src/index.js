@@ -79,6 +79,10 @@ async function initializeAPI() {
     commands: {
       addCommand: commands.addCommand,
     },
+    websocket: {
+      addHandler: websocket.addHandler,
+      triggerHandler: websocket.triggerHandler,
+    },
     cum: (cockSize = 2, cumshotStrength = 6) => {
       const cock = `8${"=".repeat(cockSize)}D ${"~".repeat(cumshotStrength)}`;
 
@@ -98,15 +102,14 @@ async function initializeAPI() {
       toggleDevMode: devmode.toggleDevMode,
       showSettings: devmode.showSettings,
     };
-    Object.defineProperty(window.cumcord.dev, "storage", {
-      configurable: true,
-      enumerable: true,
-      get: devmode.getStorage,
-    });
-    Object.defineProperty(window.cumcord.dev, "isEnabled", {
-      configurable: true,
-      enumerable: true,
-      get: () => devmode.devModeOn,
+
+    Object.defineProperties(window.cumcord.dev, {
+      storage: { configurable: true, enumerable: true, get: devmode.getStorage },
+      isEnabled: {
+        configurable: true,
+        enumerable: true,
+        get: () => devmode.devModeOn,
+      },
     });
   }
 

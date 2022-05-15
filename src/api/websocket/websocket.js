@@ -1,43 +1,39 @@
 import { find } from "webpackModules";
-import commandHandler from "./commandHandler";
+import messageHandler, { addHandler, removeAllHandlers } from "./messageHandler";
 import { instead } from "patcher";
+import builtInHandlers from "./builtInHandlers";
 
-let connectedClients = [];
+let connectedSockets = new Set();
 
 function initializeSocket() {
-  if (window["DiscordNative"]) {
-    // Todo: Add proper websocket API
-    instead(
-      "handleConnection",
-      find((mod) => {
-        return mod.Z?.__proto__?.handleConnection;
-      }).Z,
-      (args, orig) => {
-        let ws = args[0];
-        if (ws.upgradeReq().url == "/cumcord") {
-          connectedClients.push(ws);
+  if (!window.DiscordNative) return;
 
-          ws.on("message", (msg) => {
-            return commandHandler(msg, ws);
-          });
+  const wsModule = find((mod) => {
+    return mod.Z?.__proto__?.handleConnection;
+  }).Z;
 
-          ws.on("close", () => {
-            connectedClients.splice(connectedClients.indexOf(ws), 1);
-          });
-        } else {
-          return orig(...args);
-        }
-      },
-    );
-  }
+  instead("handleConnection", wsModule, (args, orig) => {
+    const ws = args[0];
+    if (ws.upgradeReq().url !== "/cumcord") return orig(...args);
+
+    connectedSockets.add(ws);
+
+    ws.on("message", messageHandler(ws));
+
+    ws.on("close", () => connectedSockets.delete(ws));
+  });
+
+  for (const [name, cb] of Object.entries(builtInHandlers)) addHandler(name, cb);
 }
 
 function uninitializeSocket() {
-  if (window["DiscordNative"]) {
-    for (let client of connectedClients) {
-      client.close();
-    }
+  if (window.DiscordNative) {
+    for (const client of connectedSockets) client.close();
+    connectedSockets.clear();
+    removeAllHandlers();
   }
 }
 
-export { initializeSocket, uninitializeSocket };
+export const triggerHandler = (msg, callback) => messageHandler({ send: callback })(msg);
+
+export { initializeSocket, uninitializeSocket, addHandler };
