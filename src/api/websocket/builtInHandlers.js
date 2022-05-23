@@ -36,7 +36,7 @@ export default {
       },
       (res) => {
         if (res) {
-          importPlugin(parsed.url);
+          importPlugin(msg.url);
           ok();
         } else error("Plugin installation cancelled.");
       },
