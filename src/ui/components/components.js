@@ -1,3 +1,1 @@
-import ErrorBoundary from "./ErrorBoundary.jsx";
-
-export { ErrorBoundary };
+export { default as ErrorBoundary } from "./ErrorBoundary.jsx";

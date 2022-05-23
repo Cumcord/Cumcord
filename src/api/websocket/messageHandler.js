@@ -2,33 +2,33 @@ import { uuid } from "commonModules";
 
 let commands = {};
 
-const wsSend = (ws, incoming) => (outgoing) => {
+const wsSend = (wsCb, incoming) => (outgoing) => {
   outgoing.name = "CUMCORD_WEBSOCKET";
   outgoing.uuid = incoming.uuid ?? uuid.v4();
-  ws.send(JSON.stringify(outgoing));
+  wsCb(JSON.stringify(outgoing));
 };
 
-const wsStatus = (ws, incoming, status) => (message) =>
+const wsStatus = (wsCb, incoming, status) => (message) =>
   wsSend(
-    ws,
+    wsCb,
     incoming,
   )({
     status,
     message,
   });
 
-export default (ws) => (msg) => {
+export default (wsCb) => (msg) => {
   let parsed;
   try {
     parsed = JSON.parse(msg);
   } catch {
-    return wsStatus(ws, {}, "ERROR")("Did not receive valid JSON");
+    return wsStatus(wsCb, {}, "ERROR")("Did not receive valid JSON");
   }
 
   const wsModules = {
-    raw: wsSend(ws, parsed),
-    ok: wsStatus(ws, parsed, "OK"),
-    error: wsStatus(ws, parsed, "ERROR"),
+    raw: wsSend(wsCb, parsed),
+    ok: wsStatus(wsCb, parsed, "OK"),
+    error: wsStatus(wsCb, parsed, "ERROR"),
   };
 
   if (typeof parsed.action !== "string") return wsModules.error("No action provided.");

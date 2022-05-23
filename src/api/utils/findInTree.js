@@ -16,36 +16,29 @@ export default function findInTree(
 
   function doSearch(tree, searchFilter, { walkable = null, ignore = [] } = {}) {
     iteration += 1;
-    if (iteration > limit) return null;
+    if (iteration > limit) return;
 
     if (typeof searchFilter === "string") {
       if (tree.hasOwnProperty(searchFilter)) return tree[searchFilter];
     } else if (searchFilter(tree)) return tree;
 
-    if (tree) {
-      if (Array.isArray(tree)) {
-        for (const item of tree) {
-          const found = doSearch(item, searchFilter, { walkable, ignore });
-          if (found) return found;
-        }
-      } else if (typeof tree === "object") {
-        for (const key of Object.keys(tree)) {
-          if (walkable != null) {
-            if (!walkable.includes(key)) continue;
-          }
+    if (!tree) return;
 
-          if (ignore.includes(key)) continue;
-          let found;
-          try {
-            found = doSearch(tree[key], searchFilter, {
-              walkable,
-              ignore,
-            });
-          } catch {
-            continue;
-          }
+    if (Array.isArray(tree)) {
+      for (const item of tree) {
+        const found = doSearch(item, searchFilter, { walkable, ignore });
+        if (found) return found;
+      }
+    } else if (typeof tree === "object") {
+      for (const key of Object.keys(tree)) {
+        if (walkable != null && !walkable.includes(key)) continue;
+
+        if (ignore.includes(key)) continue;
+
+        try {
+          const found = doSearch(tree[key], searchFilter, { walkable, ignore });
           if (found) return found;
-        }
+        } catch {}
       }
     }
   }

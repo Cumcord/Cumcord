@@ -1,12 +1,15 @@
-import { findByProps, findByDisplayName, findByDisplayNameAll } from "webpackModules";
+import { batchFind } from "webpackModules";
 
-const { openModal } = findByProps("openModal", "openModalLazy");
+const [{ openModal }, Colors, ConfirmModal, [, Markdown]] = batchFind(
+  ({ findByProps, findByDisplayName, findByDisplayNameAll }) => {
+    findByProps("openModalLazy");
+    findByProps("button", "colorRed");
+    findByDisplayName("ConfirmModal");
+    findByDisplayNameAll("Markdown");
+  },
+);
 
-const Colors = findByProps("button", "colorRed");
-const ConfirmModal = findByDisplayName("ConfirmModal");
-const Markdown = findByDisplayNameAll("Markdown")[1];
-
-async function showConfirmationModal(
+export const showConfirmationModal = async (
   {
     header = "Are you sure?",
     confirmText = "Confirm",
@@ -15,59 +18,47 @@ async function showConfirmationModal(
     type = "neutral",
   } = {},
   callback = () => {},
-) {
-  return new Promise((resolve) => {
-    var buttonColor;
-    var confirmed = false;
+) =>
+  new Promise((resolve) => {
+    let confirmed = false;
 
-    switch (type.toLowerCase()) {
-      case "danger":
-        buttonColor = Colors.colorRed;
-        break;
-      case "confirm":
-        buttonColor = Colors.colorGreen;
-        break;
-      default:
-        buttonColor = Colors.colorBrandNew;
-        break;
-    }
+    // js sorely missing an expression switch moment
+    const buttonColor =
+      {
+        danger: Colors.colorRed,
+        confirm: Colors.colorGreen,
+      }[type.toLowerCase()] ?? Colors.colorBrandNew;
 
     function handleConfirm(value) {
-      if (!confirmed) {
-        confirmed = true;
-        callback(value);
-        resolve(value);
-      }
+      if (confirmed) return;
+      confirmed = true;
+      callback(value);
+      resolve(value);
     }
 
-    openModal((props) => {
-      if (props.transitionState === 3) {
-        handleConfirm(false);
-      }
+    openModal((e) => {
+      if (e.transitionState === 3) handleConfirm(false);
 
       return (
         <ConfirmModal
-          header={header}
-          confirmText={confirmText}
-          cancelText={cancelText}
-          transitionState={props.transitionState}
-          confirmButtonColor={buttonColor}
-          onClose={() => {
-            handleConfirm(false);
+          {...{
+            header,
+            confirmText,
+            cancelText,
           }}
+          transitionState={e.transitionState}
+          confirmButtonColor={buttonColor}
+          onClose={() => handleConfirm(false)}
           onCancel={() => {
             handleConfirm(false);
-            props.onClose();
+            e.onClose();
           }}
           onConfirm={() => {
             handleConfirm(true);
-            props.onClose();
+            e.onClose();
           }}>
           <Markdown editable={false}>{content}</Markdown>
         </ConfirmModal>
       );
     });
   });
-}
-
-export { showConfirmationModal };

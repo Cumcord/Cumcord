@@ -1,41 +1,46 @@
 import PluginCard from "./PluginCard.jsx";
-import webpackModules from "webpackModules";
-import * as plugins from "plugins";
+import { findByDisplayName, findByProps } from "webpackModules";
+import { importPlugin, pluginCache } from "plugins";
 import { showToast } from "toasts";
 import { useNest } from "utils";
 import { ErrorBoundary } from "components";
 
-const useState = React.useState;
-const FormTitle = webpackModules.findByDisplayName("FormTitle");
-const FormSection = webpackModules.findByDisplayName("FormSection");
-const Flex = webpackModules.findByDisplayName("Flex");
-const TextInput = webpackModules.findByDisplayName("TextInput");
-const Button = webpackModules.findByProps("Sizes", "Colors", "Looks", "DropdownSizes");
-const FormDivider = webpackModules.findByDisplayName("FormDivider");
-const SearchBar = webpackModules.findByDisplayName("SearchBar");
+const FormTitle = findByDisplayName("FormTitle");
+const FormSection = findByDisplayName("FormSection");
+const Flex = findByDisplayName("Flex");
+const TextInput = findByDisplayName("TextInput");
+const Button = findByProps("Sizes", "Colors", "Looks", "DropdownSizes");
+const FormDivider = findByDisplayName("FormDivider");
+const SearchBar = findByDisplayName("SearchBar");
 
-function filterCount(str, filter) {
-  return str.toLowerCase().split(filter.toLowerCase()).length - 1;
-}
+const filterCount = (str, filter) => str.toLowerCase().split(filter.toLowerCase()).length - 1;
 
 export default () => {
-  const [searchFilter, setFilter] = useState("");
-  const [input, setInput] = useState("");
+  const [searchFilter, setFilter] = React.useState("");
+  const [input, setInput] = React.useState("");
 
-  function handleImport() {
-    plugins
-      .importPlugin(input)
-      .then(() => setInput(""))
-      .catch((err) =>
+  useNest(pluginCache);
+
+  const handleImport = () =>
+    importPlugin(input).then(
+      () => setInput(""),
+      (err) =>
         showToast({
           title: "Failed to import plugin",
           content: err.message,
           duration: 3000,
         }),
-      );
-  }
+    );
 
-  useNest(plugins.pluginCache);
+  const pluginIds = Object.keys(pluginCache.ghost);
+  const filteredPlugins = !searchFilter
+    ? pluginIds
+    : pluginIds.sort((a, b) => {
+        const pluginA = Object.values(pluginCache.ghost[a].manifest).join("");
+        const pluginB = Object.values(pluginCache.ghost[b].manifest).join("");
+
+        return filterCount(pluginB, searchFilter) - filterCount(pluginA, searchFilter);
+      });
 
   return (
     <ErrorBoundary>
@@ -47,12 +52,11 @@ export default () => {
             placeholder="https://example.com/plugin"
             type="text"
             value={input}
-            onChange={(e) => setInput(e)}
+            onChange={setInput}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleImport();
-              }
-            }}></TextInput>
+              if (e.key === "Enter") handleImport();
+            }}
+          />
           <Button color={Button.Colors.BRAND} size={Button.Sizes.MEDIUM} onClick={handleImport}>
             Add plugin
           </Button>
@@ -60,27 +64,14 @@ export default () => {
         <SearchBar
           className="cumcord-plugin-search"
           query={searchFilter}
-          onQueryChange={(e) => {
-            setFilter(e);
-          }}
+          onQueryChange={setFilter}
           placeholder="Search..."
           size={SearchBar.Sizes.MEDIUM}
         />
         <FormDivider className="cumcord-plugin-divider" />
-        {searchFilter
-          ? Object.keys(plugins.pluginCache.ghost)
-              .sort((a, b) => {
-                const pluginA = Object.values(plugins.pluginCache.ghost[a].manifest).join("");
-                const pluginB = Object.values(plugins.pluginCache.ghost[b].manifest).join("");
-
-                return filterCount(pluginB, searchFilter) - filterCount(pluginA, searchFilter);
-              })
-              .map((plugin) => {
-                return <PluginCard pluginId={plugin} />;
-              })
-          : Object.keys(plugins.pluginCache.ghost).map((plugin) => {
-              return <PluginCard pluginId={plugin} />;
-            })}
+        {filteredPlugins.map((p) => (
+          <PluginCard pluginId={p} />
+        ))}
       </FormSection>
     </ErrorBoundary>
   );

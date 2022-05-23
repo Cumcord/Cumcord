@@ -7,8 +7,7 @@ export default function (moduleFinder, patchCallback) {
   const [modPromise, webpackUnpatch] = findAsync(moduleFinder, false);
 
   modPromise.then((mod) => {
-    if (cancelled) return;
-    unpatch = patchCallback(mod);
+    if (!cancelled) unpatch = patchCallback(mod);
   });
 
   return () => {

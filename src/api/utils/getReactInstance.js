@@ -1,3 +1,1 @@
-export default function getReactInstance(node) {
-  return node.__reactFiber$;
-}
+export default (node) => node.__reactFiber$;

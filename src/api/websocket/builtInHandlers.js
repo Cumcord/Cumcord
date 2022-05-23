@@ -12,15 +12,9 @@ export default {
   },
 
   install_plugin: (msg, { ok, error }) => {
-    if (!msg.url) {
-      error("No URL provided.");
-      return;
-    }
+    if (!msg.url) return error("No URL provided.");
 
-    if (!msg.url.match(/^(http|https):\/\/[^ "]+$/)) {
-      error("Invalid URL.");
-      return;
-    }
+    if (!msg.url.match(/^(http|https):\/\/[^ "]+$/)) return error("Invalid URL.");
 
     // window.DiscordNative === undefined, DiscordNative = throw!
     // hence for optional chain must specify window.
@@ -35,10 +29,9 @@ export default {
         type: "danger",
       },
       (res) => {
-        if (res) {
-          importPlugin(msg.url);
-          ok();
-        } else error("Plugin installation cancelled.");
+        if (!res) return error("Plugin installation cancelled.");
+        importPlugin(msg.url);
+        ok();
       },
     );
   },

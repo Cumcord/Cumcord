@@ -1,23 +1,23 @@
-// API Utils
+// modules
 import webpackModules from "webpackModules";
-import commonModules from "commonModules";
-import internalModules from "internalModules";
-import settings from "./ui/settings/settings";
-import pluginEmbeds from "./ui/pluginEmbeds/pluginEmbeds";
-import * as utils from "utils";
+import * as commonModules from "commonModules";
+import * as internalModules from "internalModules";
+// core apis
 import * as patcher from "patcher";
+import * as plugins from "plugins";
+import * as utils from "utils";
+import * as devmode from "devmode";
+import * as commands from "commands";
 import * as websocket from "websocket";
+// UI apis
 import * as toasts from "toasts";
 import * as modals from "modals";
-import * as devmode from "devmode";
 import * as components from "components";
-import * as commands from "commands";
-import * as lamivudine from "./ui/lamivudine.js";
-
-// Plugin management
-import * as plugins from "plugins";
-
 import * as DNGetters from "./ui/dngetter";
+// UI
+import * as settings from "./ui/settings/settings";
+import pluginEmbeds from "./ui/pluginEmbeds/pluginEmbeds";
+import * as lamivudine from "./ui/lamivudine.js";
 
 function uninject() {
   plugins.unloadAllPlugins();
@@ -39,7 +39,7 @@ async function initializeAPI() {
   window.cumcord = {
     uninject,
     modules: {
-      webpackModules,
+      webpackModules, // backwards compat
       webpack: webpackModules,
       common: commonModules,
       internal: internalModules,
@@ -68,17 +68,7 @@ async function initializeAPI() {
       },
       ...DNGetters,
     },
-    utils: {
-      logger: utils.logger,
-      findInTree: utils.findInTree,
-      findInReactTree: utils.findInReactTree,
-      getReactInstance: utils.getReactInstance,
-      getOwnerInstance: utils.getOwnerInstance,
-      sleep: utils.sleep,
-      useNest: utils.useNest,
-      copyText: utils.copyText,
-      findByDomNode: utils.findByDomNode,
-    },
+    utils,
     commands: {
       addCommand: commands.addCommand,
     },
@@ -89,18 +79,14 @@ async function initializeAPI() {
     cum: (cockSize = 2, cumshotStrength = 6) => {
       const cock = `8${"=".repeat(cockSize)}D ${"~".repeat(cumshotStrength)}`;
 
-      if (Array.isArray(resolveQueue)) {
-        return new Promise((resolve) => {
-          resolveQueue.push(() => resolve(cock));
-        });
-      } else {
-        return cock;
-      }
+      return Array.isArray(resolveQueue)
+        ? new Promise((resolve) => resolveQueue.push(() => resolve(cock)))
+        : cock;
     },
   };
 
   // Native-only APIs
-  if (window["DiscordNative"]) {
+  if (window.DiscordNative) {
     window.cumcord.dev = {
       toggleDevMode: devmode.toggleDevMode,
       showSettings: devmode.showSettings,
@@ -108,11 +94,7 @@ async function initializeAPI() {
 
     Object.defineProperties(window.cumcord.dev, {
       storage: { configurable: true, enumerable: true, get: devmode.getStorage },
-      isEnabled: {
-        configurable: true,
-        enumerable: true,
-        get: () => devmode.devModeOn,
-      },
+      isEnabled: { configurable: true, enumerable: true, get: devmode.isDevModeOn },
     });
   }
 
@@ -137,11 +119,8 @@ async function initializeAPI() {
   websocket.initializeSocket();
   utils.logger.log("Cumcord is injected!");
 
-  for (let resolve of resolveQueue) {
-    resolve();
-  }
+  resolveQueue.forEach((r) => r());
 
-  // Clean up queue
   resolveQueue = undefined;
 }
 

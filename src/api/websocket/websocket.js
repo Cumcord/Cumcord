@@ -5,13 +5,12 @@ import builtInHandlers from "./builtInHandlers";
 
 let connectedSockets = new Set();
 
-function initializeSocket() {
+export function initializeSocket() {
   for (const [name, cb] of Object.entries(builtInHandlers)) addHandler(name, cb);
+
   if (!window.DiscordNative) return;
 
-  const wsModule = find((mod) => {
-    return mod.Z?.__proto__?.handleConnection;
-  }).Z;
+  const wsModule = find((m) => m.Z?.__proto__?.handleConnection).Z;
 
   instead("handleConnection", wsModule, (args, orig) => {
     const ws = args[0];
@@ -19,13 +18,13 @@ function initializeSocket() {
 
     connectedSockets.add(ws);
 
-    ws.on("message", messageHandler(ws));
+    ws.on("message", messageHandler(ws.send));
 
     ws.on("close", () => connectedSockets.delete(ws));
   });
 }
 
-function uninitializeSocket() {
+export function uninitializeSocket() {
   if (window.DiscordNative) {
     for (const client of connectedSockets) client.close();
     connectedSockets.clear();
@@ -33,6 +32,6 @@ function uninitializeSocket() {
   }
 }
 
-export const triggerHandler = (msg, callback) => messageHandler({ send: callback })(msg);
+export const triggerHandler = (msg, callback) => messageHandler(callback)(msg);
 
-export { initializeSocket, uninitializeSocket, addHandler };
+export { addHandler };

@@ -1,4 +1,4 @@
-import webpackModules from "webpackModules";
+import { findByDisplayName, findByProps, findByDisplayNameAll } from "webpackModules";
 import { showPluginSettings } from "pluginSettings";
 import { useNest, copyText } from "utils";
 import { showConfirmationModal } from "modals";
@@ -6,12 +6,12 @@ import { showToast } from "toasts";
 import { del } from "idb-keyval";
 import * as plugins from "plugins";
 
-const Card = webpackModules.findByDisplayName("Card");
-const Header = webpackModules.findByProps("Sizes", "Tags");
-const FormText = webpackModules.findByDisplayName("FormText");
-const Flex = webpackModules.findByDisplayName("Flex");
-const Markdown = webpackModules.findByDisplayNameAll("Markdown")[1];
-const Switch = webpackModules.findByDisplayName("Switch");
+const Card = findByDisplayName("Card");
+const Header = findByProps("Sizes", "Tags");
+const FormText = findByDisplayName("FormText");
+const Flex = findByDisplayName("Flex");
+const Markdown = findByDisplayNameAll("Markdown")[1];
+const Switch = findByDisplayName("Switch");
 
 export default (props) => {
   const plugin = plugins.pluginCache.ghost[props.pluginId];
@@ -20,37 +20,30 @@ export default (props) => {
   // Nests can be confusing. The plugin just might not exist yet so we return null until the component rerenders.
   if (!plugin.manifest) return null;
 
-  useNest(plugins.loadedPlugins, false, (type, data) => {
-    if (data.path[0] == props.pluginId) {
-      return true;
-    }
-  });
+  useNest(plugins.loadedPlugins, false, (type, data) => data.path[0] === props.pluginId);
 
   // Have to check if the plugin is actually loaded before showing the settings button
-  let settings = null;
-  if (plugins.loadedPlugins.ghost[props.pluginId]) {
-    if (plugins.loadedPlugins.ghost[props.pluginId].settings) {
-      settings = (
-        <svg
-          onClick={() => {
-            showPluginSettings(
-              plugin.manifest.name,
-              plugins.loadedPlugins.ghost[props.pluginId].settings,
-            );
-          }}
-          className="cumcord-card-settings"
-          xmlns="http://www.w3.org/2000/svg"
-          height="24px"
-          viewBox="0 0 24 24"
-          width="24px">
-          <g>
-            <path d="M0,0h24v24H0V0z" fill="none" />
-            <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" />
-          </g>
-        </svg>
-      );
-    }
-  }
+  const settings =
+    plugins.loadedPlugins.ghost[props.pluginId] &&
+    plugins.loadedPlugins.ghost[props.pluginId].settings ? (
+      <svg
+        onClick={() =>
+          showPluginSettings(
+            plugin.manifest.name,
+            plugins.loadedPlugins.ghost[props.pluginId].settings,
+          )
+        }
+        className="cumcord-card-settings"
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 0 24 24"
+        width="24px">
+        <g>
+          <path d="M0,0h24v24H0V0z" fill="none" />
+          <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" />
+        </g>
+      </svg>
+    ) : null;
 
   return (
     <Card className="cumcord-plugin-card" type="cardPrimary" outline={false} editable={false}>
@@ -128,7 +121,7 @@ export default (props) => {
             }
             {/* Delete button */}
             <svg
-              onClick={() => {
+              onClick={() =>
                 showConfirmationModal(
                   {
                     header: "Do you want to remove this plugin?",
@@ -137,13 +130,12 @@ export default (props) => {
                     confirmText: "Delete",
                   },
                   (conf) => {
-                    if (conf) {
-                      plugins.removePlugin(props.pluginId);
-                      del(`${props.pluginId}_CUMCORD_STORE`);
-                    }
+                    if (!conf) return;
+                    plugins.removePlugin(props.pluginId);
+                    del(`${props.pluginId}_CUMCORD_STORE`);
                   },
-                );
-              }}
+                )
+              }
               className="cumcord-card-delete"
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
