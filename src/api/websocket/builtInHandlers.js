@@ -5,6 +5,12 @@ import { showConfirmationModal } from "modals";
 export default {
   get_info: (_msg, { ok }) => ok(),
 
+  update_plugin_dev: (_msg, { ok, error }) => {
+    if (!devModeOn) return error("Dev mode is not enabled.");
+    loadPluginDev();
+    ok();
+  },
+
   install_plugin: (msg, { ok, error }) => {
     if (!msg.url) {
       error("No URL provided.");
@@ -16,7 +22,9 @@ export default {
       return;
     }
 
-    DiscordNative.window.focus();
+    // window.DiscordNative === undefined, DiscordNative = throw!
+    // hence for optional chain must specify window.
+    window.DiscordNative?.window.focus();
 
     showConfirmationModal(
       {
@@ -33,12 +41,5 @@ export default {
         } else error("Plugin installation cancelled.");
       },
     );
-  },
-
-  update_plugin_dev: (_msg, { ok, error }) => {
-    if (devModeOn) {
-      loadPluginDev();
-      ok();
-    } else error("Dev mode is not enabled.");
   },
 };

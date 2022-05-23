@@ -18,11 +18,11 @@ const wsStatus = (ws, incoming, status) => (message) =>
   });
 
 export default (ws) => (msg) => {
-  var parsed;
+  let parsed;
   try {
     parsed = JSON.parse(msg);
   } catch {
-    return;
+    return wsStatus(ws, {}, "ERROR")("Did not receive valid JSON");
   }
 
   const wsModules = {
@@ -31,10 +31,10 @@ export default (ws) => (msg) => {
     error: wsStatus(ws, parsed, "ERROR"),
   };
 
-  if (typeof parsed.action !== "string") wsModules.error("No action provided.");
+  if (typeof parsed.action !== "string") return wsModules.error("No action provided.");
 
   const command = commands[parsed.action.toLowerCase()];
-  if (!command) wsModules.error(`Unknown action: ${parsed.action}`);
+  if (!command) return wsModules.error(`Unknown action: ${parsed.action}`);
 
   command(parsed, wsModules);
 };

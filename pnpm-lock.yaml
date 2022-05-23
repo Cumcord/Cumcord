@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
   esbuild: ^0.12.29
@@ -21,70 +21,47 @@ devDependencies:
   prettier: 2.6.2
 
 packages:
+
   /esbuild-plugin-alias/0.1.2:
-    resolution:
-      {
-        integrity: sha512-WsX0OJy8IGOsGZV+4oHEU5B6XQUpxOsZN1iSoYf9COTDbY7WXcOwd1oCLYNWUIWCExyGXSghIGq2k7sXBldxwQ==,
-      }
+    resolution: {integrity: sha512-WsX0OJy8IGOsGZV+4oHEU5B6XQUpxOsZN1iSoYf9COTDbY7WXcOwd1oCLYNWUIWCExyGXSghIGq2k7sXBldxwQ==}
     dev: true
 
   /esbuild/0.12.29:
-    resolution:
-      {
-        integrity: sha512-w/XuoBCSwepyiZtIRsKsetiLDUVGPVw1E/R3VTFSecIy8UR7Cq3SOtwKHJMFoVqqVG36aGkzh4e8BvpO1Fdc7g==,
-      }
+    resolution: {integrity: sha512-w/XuoBCSwepyiZtIRsKsetiLDUVGPVw1E/R3VTFSecIy8UR7Cq3SOtwKHJMFoVqqVG36aGkzh4e8BvpO1Fdc7g==}
     hasBin: true
     requiresBuild: true
     dev: true
 
   /husky/7.0.4:
-    resolution:
-      {
-        integrity: sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==,
-      }
-    engines: { node: ">=12" }
+    resolution: {integrity: sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==}
+    engines: {node: '>=12'}
     hasBin: true
     dev: true
 
   /idb-keyval/5.1.5:
-    resolution:
-      {
-        integrity: sha512-J1utxYWQokYjy01LvDQ7WmiAtZCGUSkVi9EIBfUSyLOr/BesnMIxNGASTh9A1LzeISSjSqEPsfFdTss7EE7ofQ==,
-      }
+    resolution: {integrity: sha512-J1utxYWQokYjy01LvDQ7WmiAtZCGUSkVi9EIBfUSyLOr/BesnMIxNGASTh9A1LzeISSjSqEPsfFdTss7EE7ofQ==}
     dependencies:
       safari-14-idb-fix: 1.0.6
     dev: false
 
   /nests/2.3.1:
-    resolution:
-      {
-        integrity: sha512-mq9g10tzsaGbS/c5RUJVwiJVqo89JA/KIYPpBDQlKnyviJ7EDUaboIWsuWx0Abe49nys8MjnB6vK53KF1m6MUQ==,
-      }
+    resolution: {integrity: sha512-mq9g10tzsaGbS/c5RUJVwiJVqo89JA/KIYPpBDQlKnyviJ7EDUaboIWsuWx0Abe49nys8MjnB6vK53KF1m6MUQ==}
     peerDependencies:
-      react: ">=16.8"
-      solid-js: ">=1.0.0"
+      react: '>=16.8'
+      solid-js: '>=1.0.0'
     dev: false
 
   /prettier/2.6.2:
-    resolution:
-      {
-        integrity: sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew==,
-      }
-    engines: { node: ">=10.13.0" }
+    resolution: {integrity: sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew==}
+    engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
 
   /safari-14-idb-fix/1.0.6:
-    resolution:
-      {
-        integrity: sha512-oTEQOdMwRX+uCtWCKT1nx2gAeSdpr8elg/2gcaKUH00SJU2xWESfkx11nmXwTRHy7xfQoj1o4TTQvdmuBosTnA==,
-      }
+    resolution: {integrity: sha512-oTEQOdMwRX+uCtWCKT1nx2gAeSdpr8elg/2gcaKUH00SJU2xWESfkx11nmXwTRHy7xfQoj1o4TTQvdmuBosTnA==}
     dev: false
 
   /spitroast/1.3.7:
-    resolution:
-      {
-        integrity: sha512-6Hns9bGj4jmBC67tFLiGmOOajGiiXHdAZAjWChnEX+TARzhOyF1HHWXOg1ki1Sf0Y65HqXyK6VGwc13zvflcvQ==,
-      }
+    resolution: {integrity: sha512-6Hns9bGj4jmBC67tFLiGmOOajGiiXHdAZAjWChnEX+TARzhOyF1HHWXOg1ki1Sf0Y65HqXyK6VGwc13zvflcvQ==}
     requiresBuild: true
     dev: false

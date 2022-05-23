@@ -3,9 +3,9 @@ import { showPluginSettings } from "pluginSettings";
 import { evalPlugin } from "../plugins/plugins";
 import * as nests from "nests";
 
-var devModeOn = false;
-var plugin;
-var storage = nests.make({});
+let devModeOn = false;
+let plugin;
+let storage = nests.make({});
 
 function showSettings() {
   if (devModeOn) {
@@ -23,7 +23,14 @@ function showSettings() {
   }
 }
 
+// if loadPluginDev is run before it finishes loading the previous,
+// it can result in more than one copy of FAKE_DEV_PLUGIN running,
+// which this mutex avoids -- sink
+let loadPluginMutex = false;
+
 async function loadPluginDev() {
+  if (loadPluginMutex) return; // RIP any calls while this on LMAO
+
   if (devModeOn) {
     if (plugin) {
       logger.log("Unloading previous plugin version...");
@@ -35,6 +42,7 @@ async function loadPluginDev() {
     }
 
     logger.log("Loading new plugin version...");
+    loadPluginMutex = true;
 
     try {
       const code = await (await fetch("http://127.0.0.1:42069")).text();
@@ -55,6 +63,8 @@ async function loadPluginDev() {
       }
     } catch (e) {
       logger.error("Failed to load:", e);
+    } finally {
+      loadPluginMutex = false;
     }
   }
 }
