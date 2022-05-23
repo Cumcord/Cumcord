@@ -40,6 +40,7 @@ export default (ws) => (msg) => {
 };
 
 export function addHandler(name, callback) {
+  name = name.toLowerCase();
   if (commands[name]) throw new Error(`Command ${name} already registered.`);
 
   commands[name] = callback;
