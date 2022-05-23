@@ -6,6 +6,7 @@ import builtInHandlers from "./builtInHandlers";
 let connectedSockets = new Set();
 
 function initializeSocket() {
+  for (const [name, cb] of Object.entries(builtInHandlers)) addHandler(name, cb);
   if (!window.DiscordNative) return;
 
   const wsModule = find((mod) => {
@@ -22,8 +23,6 @@ function initializeSocket() {
 
     ws.on("close", () => connectedSockets.delete(ws));
   });
-
-  for (const [name, cb] of Object.entries(builtInHandlers)) addHandler(name, cb);
 }
 
 function uninitializeSocket() {
