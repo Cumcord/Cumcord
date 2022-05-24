@@ -152,14 +152,14 @@ async function importPlugin(baseUrl) {
         }
 
         if (enabled) {
-          startPlugin(baseUrlTrailing);
+          await startPlugin(baseUrlTrailing);
         }
 
         return;
       } // The plugin will load if the server is unreachable
     } else {
       if (enabled) {
-        startPlugin(baseUrlTrailing);
+        await startPlugin(baseUrlTrailing);
       }
 
       return;
@@ -167,7 +167,7 @@ async function importPlugin(baseUrl) {
   }
 
   // Initialize plugin request variable
-  let pluginReq = await await fetch(pluginUrl, noStore);
+  let pluginReq = await fetch(pluginUrl, noStore);
 
   // Validate that the server returned a success
   if (pluginReq.status != 200) {
