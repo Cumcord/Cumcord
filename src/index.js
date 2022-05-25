@@ -17,6 +17,8 @@ import * as lamivudine from "./ui/lamivudine.js";
 // Plugin management
 import * as plugins from "plugins";
 
+import * as DNGetters from "./ui/dngetter";
+
 function uninject() {
   plugins.unloadAllPlugins();
   lamivudine.uninitializeLamivudine();
@@ -64,6 +66,7 @@ async function initializeAPI() {
       components: {
         ErrorBoundary: components.ErrorBoundary,
       },
+      ...DNGetters,
     },
     utils: {
       logger: utils.logger,
