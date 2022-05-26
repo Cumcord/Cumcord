@@ -1,4 +1,4 @@
-import { nests, idbKeyval } from "internalModules";
+import { nests, idbKeyval } from "../modules/internalModules";
 
 // This function returns an object that will automatically be saved to indexeddb on modification
 export async function createPersistentNest(prefix) {

@@ -1,12 +1,12 @@
-import { loadPluginDev, devModeOn } from "devmode";
-import { importPlugin } from "plugins";
-import { showConfirmationModal } from "modals";
+import { loadPluginDev, isDevModeOn } from "../devmode";
+import { importPlugin } from "../plugins";
+import showConfirmationModal from "../ui/showConfirmationModal";
 
 export default {
   get_info: (_msg, { ok }) => ok(),
 
   update_plugin_dev: (_msg, { ok, error }) => {
-    if (!devModeOn) return error("Dev mode is not enabled.");
+    if (!isDevModeOn()) return error("Dev mode is not enabled.");
     loadPluginDev();
     ok();
   },

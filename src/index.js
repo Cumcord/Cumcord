@@ -1,6 +1,9 @@
-import initPluginEmbeds from "./ui/pluginEmbeds";
-import { initializeLamivudine, uninitializeLamivudine } from "./ui/lamivudine.js";
 import init from "./api/init";
+import { log } from "./api/utils/logger";
+// to init
+import initPluginEmbeds from "./ui/pluginEmbeds";
+import initUserSettings from "./ui/userSettings";
+import { initializeLamivudine, uninitializeLamivudine } from "./ui/lamivudine.js";
 
 if (window.cumcord) throw new Error("Cumcord is already injected");
 
@@ -9,7 +12,9 @@ init(
     try {
       initializeLamivudine();
       initPluginEmbeds();
+      initUserSettings();
     } catch {}
+    log("Cumcord is injected!");
   },
   () => {
     uninitializeLamivudine();

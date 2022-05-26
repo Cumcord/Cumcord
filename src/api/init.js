@@ -1,5 +1,4 @@
 import getApi from "./api";
-import { log } from "./utils/logger";
 // things to init
 import { injectCSS } from "./patcher";
 import { initializeToasts } from "./ui/toasts";
@@ -55,9 +54,7 @@ export default async (extraInit, extraUninit) => {
   } catch {}
 
   // UI stuff if necessary
-  await extraInit?.();
-
-  log("Cumcord is injected!");
+  extraInit?.();
 
   resolveQueue.forEach((r) => r());
   resolveQueue = undefined;

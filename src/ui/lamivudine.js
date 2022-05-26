@@ -12,10 +12,9 @@ function lamivudineHandler(ev) {
   uninitializeLamivudine();
 }
 
-export function initializeLamivudine() {
-  document.addEventListener("keydown", lamivudineHandler);
-}
+export const initializeLamivudine = () => document.addEventListener("keydown", lamivudineHandler);
 
+// this can't be an arrow function because it is hoisted to be usable in the handler
 export function uninitializeLamivudine() {
   document.removeEventListener("keydown", lamivudineHandler);
 }

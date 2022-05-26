@@ -1,22 +1,22 @@
-import { importPlugin, pluginCache } from "plugins";
-import { useNest, useFetchPlugin } from "utils";
-import webpackModules from "webpackModules";
+import { importPlugin, pluginCache } from "../../../api/plugins";
+import { useNest, useFetchPlugin } from "../../../api/utils";
+import { findByDisplayName, findByProps, findAsync } from "../../../api/modules/webpack";
 import getPluginEmbedIcon from "./PluginEmbedIcon";
 import getCopyLink from "./CopyLink";
 
 // Components
 // todo: let discord remove this and then cry about it when it breaks (WONTFIX)
-let LegacyText = webpackModules.findByDisplayName("LegacyText");
+let LegacyText = findByDisplayName("LegacyText");
 
 // epically violating the STD, mainly because i don't want to hold back updates for something so small. when it gets merged i'll nuke this into oblivion
-if (!LegacyText) LegacyText = webpackModules.findByDisplayName("Text");
+if (!LegacyText) LegacyText = findByDisplayName("Text");
 
-const Button = webpackModules.findByProps("BorderColors", "Colors");
-const Alert = webpackModules.findByDisplayName("Alert");
-const ModalApi = webpackModules.findByProps("openModal", "useModalsStore");
+const Button = findByProps("BorderColors", "Colors");
+const Alert = findByDisplayName("Alert");
+const ModalApi = findByProps("openModal", "useModalsStore");
 
 // SVGs
-const InfoFilled = webpackModules.findByDisplayName("InfoFilled");
+const InfoFilled = findByDisplayName("InfoFilled");
 
 export default async function getPluginEmbed() {
   // Classes
@@ -31,7 +31,7 @@ export default async function getPluginEmbed() {
     buildInfo,
     buildDetails,
     subHead,
-  } = await webpackModules.findAsync(() => webpackModules.findByProps("titleRegion"));
+  } = await findAsync(() => findByProps("titleRegion"));
   const CopyLink = await getCopyLink();
   const PluginEmbedIcon = await getPluginEmbedIcon();
 

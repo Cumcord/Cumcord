@@ -1,4 +1,4 @@
-import { batchFind } from "webpackModules";
+import { batchFind } from "../modules/webpack";
 
 const [{ openModal }, Colors, ConfirmModal, [, Markdown]] = batchFind(
   ({ findByProps, findByDisplayName, findByDisplayNameAll }) => {

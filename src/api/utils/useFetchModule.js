@@ -1,4 +1,4 @@
-import { React } from "commonModules";
+import { React } from "../modules/commonModules";
 
 export const cache = {};
 

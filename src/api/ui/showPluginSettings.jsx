@@ -1,5 +1,5 @@
-import { findByProps, findByDisplayName } from "webpackModules";
-import { ErrorBoundary } from "components";
+import { findByProps, findByDisplayName } from "../modules/webpack";
+import { ErrorBoundary } from "./components";
 
 const ModalComponents = findByProps("ModalCloseButton");
 const Header = findByProps("Sizes", "Tags");

@@ -1,10 +1,10 @@
-import { findByDisplayName, findByProps, findByDisplayNameAll } from "webpackModules";
-import { showPluginSettings } from "pluginSettings";
-import { useNest, copyText } from "utils";
-import { showConfirmationModal } from "modals";
-import { showToast } from "toasts";
-import { del } from "idb-keyval";
-import * as plugins from "plugins";
+import { findByDisplayName, findByProps, findByDisplayNameAll } from "../../../api/modules/webpack";
+import showPluginSettings from "../../../api/ui/showPluginSettings";
+import { useNest, copyText } from "../../../api/utils";
+import showConfirmationModal from "../../../api/ui/showConfirmationModal";
+import { showToast } from "../../../api/ui/toasts";
+import { idbKeyval } from "../../../api/modules/internalModules";
+import * as plugins from "../../../api/plugins";
 
 const Card = findByDisplayName("Card");
 const Header = findByProps("Sizes", "Tags");
@@ -83,7 +83,7 @@ export default (props) => {
               plugin.update ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  enable-background="new 0 0 24 24"
+                  enableBackground="new 0 0 24 24"
                   height="24px"
                   viewBox="0 0 24 24"
                   width="24px"
@@ -105,7 +105,7 @@ export default (props) => {
                 // Updates disabled button
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  enable-background="new 0 0 24 24"
+                  enableBackground="new 0 0 24 24"
                   height="24px"
                   viewBox="0 0 24 24"
                   width="24px"
@@ -132,7 +132,7 @@ export default (props) => {
                   (conf) => {
                     if (!conf) return;
                     plugins.removePlugin(props.pluginId);
-                    del(`${props.pluginId}_CUMCORD_STORE`);
+                    idbKeyval.del(`${props.pluginId}_CUMCORD_STORE`);
                   },
                 )
               }
