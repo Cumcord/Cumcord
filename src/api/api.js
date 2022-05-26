@@ -1,10 +1,10 @@
 // core APIs
 import * as modules from "./modules";
 import * as patcher from "./patcher";
-import { importPlugin, removePlugin, togglePlugin } from "./plugins";
+import { importPlugin, removePlugin, togglePlugin } from "@plugins";
 import * as utils from "./utils";
 import * as devmode from "./devmode";
-import { addCommand } from "./commands";
+import { addCommand } from "@commands";
 import * as websocket from "./websocket";
 // UI APIs
 import { showToast } from "./ui/toasts";

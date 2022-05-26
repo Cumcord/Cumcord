@@ -1,4 +1,4 @@
-import { React } from "../../modules/commonModules";
+import { React } from "@commonModules";
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {

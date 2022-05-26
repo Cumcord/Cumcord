@@ -1,6 +1,6 @@
 import { createPersistentNest } from "./pluginStorage";
 import showPluginSettings from "../ui/showPluginSettings";
-import { nests } from "../modules/internalModules";
+import { nests } from "../modules/internal";
 
 const noStore = { cache: "no-store" };
 

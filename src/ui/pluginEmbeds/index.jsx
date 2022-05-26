@@ -1,4 +1,4 @@
-import { findByProps } from "../../api/modules/webpack";
+import { findByProps } from "@webpackModules";
 import { after, findAndPatch, injectCSS } from "../../api/patcher";
 import getPluginEmbed from "./components/PluginEmbed";
 import { ErrorBoundary } from "../../api/ui/components";

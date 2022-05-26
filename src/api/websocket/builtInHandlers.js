@@ -1,5 +1,5 @@
-import { loadPluginDev, isDevModeOn } from "../devmode";
-import { importPlugin } from "../plugins";
+import { loadPluginDev, isDevModeOn } from "@devmode";
+import { importPlugin } from "@plugins";
 import showConfirmationModal from "../ui/showConfirmationModal";
 
 export default {

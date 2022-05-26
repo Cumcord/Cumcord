@@ -1,4 +1,4 @@
-import { findByProps, findByDisplayName } from "../modules/webpack";
+import { findByProps, findByDisplayName } from "@webpackModules";
 import { ErrorBoundary } from "./components";
 
 const ModalComponents = findByProps("ModalCloseButton");

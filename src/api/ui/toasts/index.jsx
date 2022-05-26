@@ -1,5 +1,5 @@
-import { ReactDOM } from "../../modules/commonModules";
-import { injectCSS } from "../../patcher";
+import { ReactDOM } from "@commonModules";
+import { injectCSS } from "@patcher";
 import Toast from "./components/Toast.jsx";
 import ToastContainer from "./components/ToastContainer.jsx";
 import toastStore from "./store.js";

@@ -1,4 +1,4 @@
-import { find } from "../modules/webpack";
+import { find } from "@webpackModules";
 import messageHandler, { addHandler, removeAllHandlers } from "./messageHandler";
 // noinspection ES6PreferShortImport
 import { instead } from "../patcher";

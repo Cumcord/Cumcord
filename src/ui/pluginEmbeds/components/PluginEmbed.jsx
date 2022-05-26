@@ -1,4 +1,4 @@
-import { importPlugin, pluginCache } from "../../../api/plugins";
+import { importPlugin, pluginCache } from "@plugins";
 import { useNest, useFetchModule } from "../../../api/utils";
 import { findByDisplayName, findByProps, findAsync } from "../../../api/modules/webpack";
 import getPluginEmbedIcon from "./PluginEmbedIcon";

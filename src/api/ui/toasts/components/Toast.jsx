@@ -1,4 +1,4 @@
-import { findByDisplayName } from "../../../modules/webpack";
+import { findByDisplayName } from "@webpackModules";
 
 const Header = findByDisplayName("LegacyHeader");
 const FormText = findByDisplayName("LegacyText");

@@ -1,7 +1,7 @@
 import { logger } from "./utils";
 import showPluginSettings from "./ui/showPluginSettings";
-import { evalPlugin } from "./plugins";
-import { nests } from "./modules/internalModules";
+import { evalPlugin } from "@plugins";
+import { nests } from "./modules/internal";
 
 let isEnabled = false;
 let plugin;

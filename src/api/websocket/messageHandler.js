@@ -1,4 +1,4 @@
-import { uuid } from "../modules/commonModules";
+import { uuid } from "@commonModules";
 
 let commands = {};
 

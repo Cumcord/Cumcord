@@ -1,4 +1,4 @@
-import { findByDisplayName } from "../../api/modules/webpack";
+import { findByDisplayName } from "@webpackModules";
 import { after, findAndPatch, injectCSS } from "../../api/patcher";
 import Plugins from "./components/Plugins.jsx";
 

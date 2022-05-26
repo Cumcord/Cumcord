@@ -1,9 +1,9 @@
-import { findByDisplayName, findByProps, findByDisplayNameAll } from "../../../api/modules/webpack";
+import { findByDisplayName, findByProps, findByDisplayNameAll } from "@webpackModules";
 import showPluginSettings from "../../../api/ui/showPluginSettings";
 import { useNest, copyText } from "../../../api/utils";
 import showConfirmationModal from "../../../api/ui/showConfirmationModal";
 import { showToast } from "../../../api/ui/toasts";
-import { idbKeyval } from "../../../api/modules/internalModules";
+import { idbKeyval } from "../../../api/modules/internal";
 import * as plugins from "../../../api/plugins";
 
 const Card = findByDisplayName("Card");

@@ -1,5 +1,5 @@
-import { findByProps } from "./modules/webpack";
-import { channels } from "./modules/commonModules";
+import { findByProps } from "@webpackModules";
+import { channels } from "@commonModules";
 import { after } from "./patcher";
 import { logger } from "./utils";
 
