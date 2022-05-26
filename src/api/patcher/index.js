@@ -1,4 +1,5 @@
-export findAndPatch from "./findAndPatch";
+export { default as findAndPatch } from "./findAndPatch";
+export { instead, before, after, unpatchAll } from "spitroast";
 
 export function injectCSS(css) {
   const style = document.createElement("style");
@@ -15,5 +16,3 @@ export function injectCSS(css) {
 export function unpatchAllCss() {
   for (const style of document.getElementsByClassName("CUMCORD_INJECTED_CSS")) style.remove();
 }
-
-export { instead, before, after, unpatchAll } from "spitroast";

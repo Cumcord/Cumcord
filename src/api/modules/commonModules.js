@@ -1,4 +1,4 @@
-import { findByProps, batchFind } from "webpackModules";
+import { findByProps, batchFind } from "./webpack";
 
 export const [
   constants,

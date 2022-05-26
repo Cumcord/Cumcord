@@ -1,9 +1,9 @@
-// My implmementation is 1:1 compatible with GooseMod's own API, but is implemented differently
+// My implmementation is compatible with GooseMod's API, but implemented differently
 import wpRequire from "wpRequire";
 import findAsync from "./findAsync";
 import filters from "./filters";
 import batchFind from "./batchFind";
-import { logger } from "utils";
+import { warn } from "../../utils/logger";
 
 const webpackModules = {
   modules: wpRequire.c,
@@ -39,7 +39,7 @@ const webpackModules = {
     webpackModules.findAll(filters.byDisplayName(displayName, defaultExport)),
 
   findByStrings: (...searchStrings) => {
-    logger.warn(
+    warn(
       "findByStrings is not performant and should NOT be used in production code. The reason it is still in Cumcord is for development uses. Manually making a .toString searcher using webpack.find is far more performant.",
     );
     return webpackModules.find(filters.byStrings(searchStrings));

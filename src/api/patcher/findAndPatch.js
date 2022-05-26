@@ -1,6 +1,6 @@
-import { findAsync } from "webpackModules";
+import { findAsync } from "../modules/webpack";
 
-export default function (moduleFinder, patchCallback) {
+export default (moduleFinder, patchCallback) => {
   let cancelled = false;
   let unpatch;
 
@@ -15,4 +15,4 @@ export default function (moduleFinder, patchCallback) {
     webpackUnpatch?.();
     unpatch?.();
   };
-}
+};

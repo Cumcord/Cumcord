@@ -6,7 +6,7 @@ const Header = findByProps("Sizes", "Tags");
 const Flex = findByDisplayName("Flex");
 const { openModal } = findByProps("openModal", "openModalLazy");
 
-export const showPluginSettings = (pluginName, settings) =>
+export default (pluginName, settings) =>
   openModal((e) => (
     <ModalComponents.ModalRoot
       transitionState={e.transitionState}

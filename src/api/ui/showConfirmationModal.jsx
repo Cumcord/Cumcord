@@ -9,7 +9,7 @@ const [{ openModal }, Colors, ConfirmModal, [, Markdown]] = batchFind(
   },
 );
 
-export const showConfirmationModal = async (
+export default async (
   {
     header = "Are you sure?",
     confirmText = "Confirm",

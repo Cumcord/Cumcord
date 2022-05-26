@@ -1,4 +1,4 @@
-import { before, after } from "patcher";
+import { before, after } from "../../patcher";
 
 export default function (filter, legacycompat = true) {
   let foundModule = filter();

@@ -1,4 +1,4 @@
-import { findInTree } from "utils";
+import { findInTree } from "../../utils";
 
 export default {
   filterModules:
