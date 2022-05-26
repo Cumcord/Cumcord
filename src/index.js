@@ -1,5 +1,5 @@
 import init from "./api/init";
-import { log } from "./api/utils/logger";
+import { logger } from "@utils";
 // to init
 import initPluginEmbeds from "./ui/pluginEmbeds";
 import initUserSettings from "./ui/userSettings";
@@ -14,7 +14,7 @@ init(
       initPluginEmbeds();
       initUserSettings();
     } catch {}
-    log("Cumcord is injected!");
+    logger.log("Cumcord is injected!");
   },
   () => {
     uninitializeLamivudine();

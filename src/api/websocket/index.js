@@ -1,7 +1,6 @@
 import { find } from "@webpackModules";
 import messageHandler, { addHandler, removeAllHandlers } from "./messageHandler";
-// noinspection ES6PreferShortImport
-import { instead } from "../patcher";
+import { instead } from "@patcher";
 import builtInHandlers from "./builtInHandlers";
 
 let connectedSockets = new Set();

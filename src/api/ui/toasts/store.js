@@ -1,3 +1,3 @@
-import { nests } from "../../modules/internal";
+import { nests } from "@internalModules";
 
 export default nests.make({ toasts: [] });

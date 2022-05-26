@@ -1,7 +1,7 @@
 import { findByProps } from "@webpackModules";
 import { channels } from "@commonModules";
-import { after } from "./patcher";
-import { logger } from "./utils";
+import { after } from "@patcher";
+import { logger } from "@utils";
 
 const commandsModule = findByProps("queryCommands");
 const commandDiscovery = findByProps("useApplicationCommandsDiscoveryState");

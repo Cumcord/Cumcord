@@ -1,5 +1,5 @@
 import filters from "./filters";
-import wpRequire from "wpRequire";
+import wpRequire from "@wpRequire";
 
 const batchFilterModules = (filterList) => {
   const results = [];

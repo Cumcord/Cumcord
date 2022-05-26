@@ -1,4 +1,4 @@
-import { findAsync } from "../modules/webpack";
+import { findAsync } from "@webpackModules";
 
 export default (moduleFinder, patchCallback) => {
   let cancelled = false;
