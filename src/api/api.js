@@ -1,5 +1,7 @@
 // core APIs
-import * as modules from "./modules";
+import * as webpack from "@webpackModules";
+import * as common from "@commonModules";
+import * as internal from "@internalModules";
 import * as patcher from "@patcher";
 import { importPlugin, removePlugin, togglePlugin } from "@plugins";
 import * as utils from "@utils";
@@ -16,7 +18,13 @@ export default (uninject, cum) => {
   const api = {
     uninject,
     cum,
-    modules,
+    modules: {
+      // due to esbuild weirdness, spreads are required to export actual objects instead of ones using defineProperty
+      // this is only an issue because its really annoying in devtools. It's functionally fine without.
+      webpack: { ...webpack },
+      common: { ...common },
+      internal: { ...internal },
+    },
     plugins: {
       importPlugin,
       removePlugin,
@@ -32,10 +40,12 @@ export default (uninject, cum) => {
     ui: {
       toasts: { showToast },
       modals: { showConfirmationModal },
-      components,
+      // see above comment
+      components: { ...components },
       ...DNGetters,
     },
-    utils,
+    // see above comment
+    utils: { ...utils },
     commands: { addCommand },
     websocket: {
       addHandler: websocket.addHandler,
