@@ -1,5 +1,5 @@
 import { importPlugin, pluginCache } from "../../../api/plugins";
-import { useNest, useFetchPlugin } from "../../../api/utils";
+import { useNest, useFetchModule } from "../../../api/utils";
 import { findByDisplayName, findByProps, findAsync } from "../../../api/modules/webpack";
 import getPluginEmbedIcon from "./PluginEmbedIcon";
 import getCopyLink from "./CopyLink";
@@ -37,7 +37,7 @@ export default async function getPluginEmbed() {
 
   return function PluginEmbed({ url }) {
     useNest(pluginCache);
-    const data = useFetchPlugin(url + "/plugin.json");
+    const data = useFetchModule(url + "/plugin.json");
     const isInstalled = pluginCache.ghost[url];
 
     return (

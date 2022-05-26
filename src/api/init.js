@@ -2,7 +2,7 @@ import getApi from "./api";
 // things to init
 import { injectCSS } from "./patcher";
 import { initializeToasts } from "./ui/toasts";
-import { initializePlugins, initializePluginStore, installed, loaded } from "./plugins";
+import { initializePlugins, initializePluginStore, pluginCache, loadedPlugins } from "./plugins";
 import { initializeSocket } from "./websocket";
 import { initializeCommands } from "./commands";
 // things to uninit
@@ -35,7 +35,6 @@ export default async (extraInit, extraUninit) => {
         ? new Promise((resolve) => resolveQueue.push(() => resolve(cock)))
         : cock;
     },
-    window.DiscordNative,
   );
 
   injectCSS(
@@ -44,8 +43,9 @@ export default async (extraInit, extraUninit) => {
 
   initializeToasts();
   await initializePluginStore();
-  Object.assign(api.plugins, { installed, loaded });
-  await initializePlugins();
+  api.plugins.installed = pluginCache;
+  api.plugins.loaded = loadedPlugins;
+  await initializePlugins(api);
   initializeSocket();
 
   // intense patching, so catch errors

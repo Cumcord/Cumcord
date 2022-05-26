@@ -1,4 +1,4 @@
-import { findByDisplayName, findByDisplayNameAll } from "webpackModules";
+import { findByDisplayName, findByDisplayNameAll } from "../modules/webpack";
 
 const proxy = (func) => new Proxy({}, { get: (_, prop) => func(prop) });
 

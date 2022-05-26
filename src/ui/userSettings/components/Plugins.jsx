@@ -1,9 +1,9 @@
 import PluginCard from "./PluginCard.jsx";
-import { findByDisplayName, findByProps } from "webpackModules";
-import { importPlugin, pluginCache } from "plugins";
-import { showToast } from "toasts";
-import { useNest } from "utils";
-import { ErrorBoundary } from "components";
+import { findByDisplayName, findByProps } from "../../../api/modules/webpack";
+import { importPlugin, pluginCache } from "../../../api/plugins";
+import { showToast } from "../../../api/ui/toasts";
+import { useNest } from "../../../api/utils";
+import { ErrorBoundary } from "../../../api/ui/components";
 
 const FormTitle = findByDisplayName("FormTitle");
 const FormSection = findByDisplayName("FormSection");

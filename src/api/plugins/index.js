@@ -8,11 +8,14 @@ export const loadedPlugins = nests.make({});
 // Placeholder before initialization
 export let pluginCache = {};
 
+// The API to build the cc plugin edition from, set in initializePlugins
+let ccApiTemplate;
+
 const evalPartTwoTheEvalening = window.eval;
 
 // This can be used to make other implementations of plugin loading (e.g dev mode)
 export function evalPlugin(pluginCode, data) {
-  const ccPluginEdition = Object.assign({ pluginData: data }, cumcord);
+  const ccPluginEdition = Object.assign({ pluginData: data }, ccApiTemplate);
 
   // Add plugin URL to eval to make it easier to debug
   const pluginURL = new URL(data.id);
@@ -168,7 +171,8 @@ export async function initializePluginStore() {
   pluginCache = await createPersistentNest("PLUGIN_CACHE");
 }
 
-export async function initializePlugins() {
+export async function initializePlugins(api) {
+  ccApiTemplate = api;
   await Promise.allSettled(Object.keys(pluginCache.ghost).map(importPlugin));
 }
 
