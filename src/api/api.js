@@ -9,9 +9,9 @@ import * as devmode from "@devmode";
 import { addCommand } from "@commands";
 import * as websocket from "@websocket";
 // UI APIs
-import { showToast } from "./ui/toasts";
-import showConfirmationModal from "./ui/showConfirmationModal";
-import * as components from "./ui/components";
+import { showToast } from "@toasts";
+import showConfirmationModal from "@modals";
+import * as components from "@components";
 import * as DNGetters from "./ui/dngetter";
 
 export default (uninject, cum) => {

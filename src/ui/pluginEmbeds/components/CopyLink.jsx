@@ -1,5 +1,5 @@
-import { findByDisplayName, findAsync, findByProps } from "../../../api/modules/webpack";
-import { copyText } from "../../../api/utils";
+import { findByDisplayName, findAsync, findByProps } from "@webpackModules";
+import { copyText } from "@utils";
 
 const Clickable = findByDisplayName("Clickable");
 const Link = findByDisplayName("Link");

@@ -1,5 +1,5 @@
 import { findByDisplayName } from "@webpackModules";
-import { after, findAndPatch, injectCSS } from "../../api/patcher";
+import { after, findAndPatch, injectCSS } from "@patcher";
 import Plugins from "./components/Plugins.jsx";
 
 export default async () => {

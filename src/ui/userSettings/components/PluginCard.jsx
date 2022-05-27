@@ -1,10 +1,10 @@
 import { findByDisplayName, findByProps, findByDisplayNameAll } from "@webpackModules";
-import showPluginSettings from "../../../api/ui/showPluginSettings";
-import { useNest, copyText } from "../../../api/utils";
-import showConfirmationModal from "../../../api/ui/showConfirmationModal";
-import { showToast } from "../../../api/ui/toasts";
-import { idbKeyval } from "../../../api/modules/internal";
-import * as plugins from "../../../api/plugins";
+import showPluginSettings from "@pluginSettings";
+import { useNest, copyText } from "@utils";
+import showConfirmationModal from "@modals";
+import { showToast } from "@toasts";
+import { idbKeyval } from "@internalModules";
+import { pluginCache, loadedPlugins } from "@plugins";
 
 const Card = findByDisplayName("Card");
 const Header = findByProps("Sizes", "Tags");
@@ -14,18 +14,16 @@ const Markdown = findByDisplayNameAll("Markdown")[1];
 const Switch = findByDisplayName("Switch");
 
 export default (props) => {
-  const plugin = plugins.pluginCache.ghost[props.pluginId];
-  const pluginCache = plugins.pluginCache;
+  const plugin = pluginCache.ghost[props.pluginId];
 
   // Nests can be confusing. The plugin just might not exist yet so we return null until the component rerenders.
   if (!plugin.manifest) return null;
 
-  useNest(plugins.loadedPlugins, false, (type, data) => data.path[0] === props.pluginId);
+  useNest(loadedPlugins, false, (_type, data) => data.path[0] === props.pluginId);
 
   // Have to check if the plugin is actually loaded before showing the settings button
   const settings =
-    plugins.loadedPlugins.ghost[props.pluginId] &&
-    plugins.loadedPlugins.ghost[props.pluginId].settings ? (
+    loadedPlugins.ghost[props.pluginId] && loadedPlugins.ghost[props.pluginId].settings ? (
       <svg
         onClick={() =>
           showPluginSettings(

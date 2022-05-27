@@ -1,4 +1,4 @@
-import { findAsync, findByProps } from "../../../api/modules/webpack";
+import { findAsync, findByProps } from "@webpackModules";
 
 export default async function getPluginEmbedIcon() {
   const { svgContentRight, svgContentLines, svgContentLeft, svgDots, svgTag } = await findAsync(

@@ -1,7 +1,7 @@
 import getApi from "./api";
 // things to init
 import { injectCSS } from "@patcher";
-import { initializeToasts } from "./ui/toasts";
+import { initializeToasts } from "@toasts";
 import { initializePlugins, initializePluginStore, pluginCache, loadedPlugins } from "@plugins";
 import { initializeSocket } from "@websocket";
 import { initializeCommands } from "@commands";
@@ -9,7 +9,7 @@ import { initializeCommands } from "@commands";
 import { unpatchAll, unpatchAllCss } from "@patcher";
 import { unloadAllPlugins } from "@plugins";
 import { uninitializeSocket } from "@websocket";
-import { uninitializeToasts } from "./ui/toasts";
+import { uninitializeToasts } from "@toasts";
 
 let resolveQueue = [];
 

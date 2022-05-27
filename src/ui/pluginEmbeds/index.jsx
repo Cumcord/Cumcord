@@ -1,7 +1,7 @@
 import { findByProps } from "@webpackModules";
-import { after, findAndPatch, injectCSS } from "../../api/patcher";
+import { after, findAndPatch, injectCSS } from "@patcher";
 import getPluginEmbed from "./components/PluginEmbed";
-import { ErrorBoundary } from "../../api/ui/components";
+import { ErrorBoundary } from "@components";
 
 const regex = /^https:\/\/cumcordplugins\.github\.io\/Condom\/(.+?)\/(.+?)+$/i;
 

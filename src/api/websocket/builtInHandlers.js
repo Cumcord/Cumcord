@@ -1,6 +1,6 @@
 import { loadPluginDev, isDevModeOn } from "@devmode";
 import { importPlugin } from "@plugins";
-import showConfirmationModal from "../ui/showConfirmationModal";
+import showConfirmationModal from "@modals";
 
 export default {
   get_info: (_msg, { ok }) => ok(),
