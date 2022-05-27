@@ -2,6 +2,7 @@
 .prettierignore
 .husky/
 LICENSE
+pnpm-lock.yaml
 
 # Logs
 logs
@@ -94,4 +95,3 @@ typings/
 
 # Cumcord build files
 dist/*
-.hgtags

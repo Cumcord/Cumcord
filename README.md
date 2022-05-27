@@ -9,12 +9,11 @@ easier.
 
 - Cumcord can run as a plugin for other mods (BetterDiscord, Powercord, GooseMod, etc), so you only
   have to write plugins once - [write once, run anywhere](https://en.wikipedia.org/wiki/WORE)!
-- Sperm can create "helper" plugins for other mods that make the experience of
-  installing a Cumcord plugin the same as installing one for the end-user's host mod
+- Sperm can create "helper" plugins for other mods that make the experience of installing a Cumcord
+  plugin the same as installing one for the end-user's host mod
 - Cumcord plugins have no access to NodeJS for better security and web support (!!!)
-- Cumcord plugins are bundled with Rollup and are capable of using
-  `.jsx`, `.ts`, `.tsx`, `.css`, `.scss`, `.sass` files and
-  BROWSER SUPPORTING npm packages with no developer config
+- Cumcord plugins are bundled with Rollup and are capable of using `.jsx`, `.ts`, `.tsx`, `.css`,
+  `.scss`, `.sass` files and BROWSER SUPPORTING npm packages with no developer config
 - Cumcord includes utils for Discord tasks that don't exist in Discord's own modules
 <!-- - Cumcord includes event handlers that will assist you in proxying multiple things (message
   creations, message deletions, message edits, profile updates, etc) -->

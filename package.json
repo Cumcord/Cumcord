@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "node build.mjs",
-    "format": "prettier --write **/*",
+    "format": "prettier -wc .",
     "postinstall": "husky install"
   },
   "dependencies": {
