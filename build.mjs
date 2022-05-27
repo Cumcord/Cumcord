@@ -19,16 +19,17 @@ try {
 		minify: true,
 		bundle: true,
 		format: "iife",
-		inject: ["./shims/react-shim.js"],
+    // injects the `React` global into our bundle (for JSX)
+		inject: ["./shims/global-react.js"],
 		external: ["react"],
 		plugins: [
 			{
+        // injects our React whenever "react" is imported
 				name: "external-react",
-				setup(build) {
+				setup: (build) => 
 					build.onResolve({filter: /^react$/}, () => ({
-						path: path.resolve("./shims/alt-react-shim.cjs"),
-					}));
-				},
+						path: path.resolve("./shims/import-react.cjs"),
+					})),
 			},
 			alias(aliases),
 		],
