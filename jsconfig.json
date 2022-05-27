@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@wpRequire": ["./wpRequire.js"],
+      "@wpRequire": ["./src/wpRequire.js"],
       "@commonModules": ["./src/api/modules/common.js"],
       "@webpackModules": ["./src/api/modules/webpack/index.js"],
       "@internalModules": ["./src/api/modules/internal.js"],

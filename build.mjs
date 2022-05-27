@@ -3,7 +3,8 @@ import alias from "esbuild-plugin-alias";
 import path from "path";
 import fs from "fs/promises";
 
-import jsconfig from "./jsconfig.json" assert {type: "json"};
+// import jsconfig from "./jsconfig.json" assert {type: "json"};
+const jsconfig = JSON.parse(await fs.readFile("./jsconfig.json"));
 
 // converts jsconfig paths to esbuild aliases
 const aliases = Object.fromEntries(
