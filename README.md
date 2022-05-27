@@ -7,21 +7,23 @@ easier.
 
 # Features
 
-- Cumcord runs as a plugin for other mods (BetterDiscord, Powercord, GooseMod, Vizality) so you only
-  have to write code once
-- Cumcord creates "installation helper" plugins for other mods that make the experience of
+- Cumcord can run as a plugin for other mods (BetterDiscord, Powercord, GooseMod, etc), so you only
+  have to write plugins once - [write once, run anywhere](https://en.wikipedia.org/wiki/WORE)!
+- Sperm can create "helper" plugins for other mods that make the experience of
   installing a Cumcord plugin the same as installing one for the end-user's host mod
-- Cumcord plugins have no access to NodeJS for better security
-- Cumcord plugins are built into a bundle with Rollup and as such are capable of using .jsx and .ts
-  files as well as npm packages (ONES THAT WORK IN BROWSER ONLY) without any configuration from the
-  developer
-- Cumcord includes helper functions for Discord tasks that don't already exist in Discord's own
-  webpack modules
-- Cumcord includes event handlers that will assist you in proxying multiple things (message
-  creations, message deletions, message edits, profile updates, etc)
-- All Cumcord plugins are loaded via HTTP and have no reliance on Git, unlike GooseMod
+- Cumcord plugins have no access to NodeJS for better security and web support (!!!)
+- Cumcord plugins are bundled with Rollup and are capable of using
+  `.jsx`, `.ts`, `.tsx`, `.css`, `.scss`, `.sass` files and
+  BROWSER SUPPORTING npm packages with no developer config
+- Cumcord includes utils for Discord tasks that don't exist in Discord's own modules
+<!-- - Cumcord includes event handlers that will assist you in proxying multiple things (message
+  creations, message deletions, message edits, profile updates, etc) -->
+- All Cumcord plugins are loaded via HTTP(S) and have no reliance on Git.
 
 # Contributing
+
+If you are viewing from GitHub, note that the actual repo lives on
+[SourceHut](https://git.sr.ht/~creatable/Cumcord)
 
 You can submit patches and development ideas on our
 [development mailing list](https://lists.sr.ht/~creatable/cumcord-devel).  
