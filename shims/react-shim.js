@@ -1,3 +1,1 @@
-import { React } from "commonModules";
-
-export { React };
+export { React } from "@commonModules";

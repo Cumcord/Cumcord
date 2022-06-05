@@ -1,5 +1,4 @@
 import findInTree from "./findInTree.js";
 
-export default function findInReactTree(tree, filter) {
-  return findInTree(tree, filter, { walkable: ["props", "children", "child", "sibling"] });
-}
+export default (tree, filter) =>
+  findInTree(tree, filter, { walkable: ["props", "children", "child", "sibling"] });

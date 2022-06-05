@@ -1,5 +1,7 @@
-import { React } from "commonModules";
+import { React } from "@commonModules";
+
 export const cache = {};
+
 const invalid = {
   name: "Invalid module.",
   description: "This module does not exist.",
@@ -7,24 +9,24 @@ const invalid = {
   invalid: true,
 };
 
-export default function useFetchModule(link) {
+export default (link) => {
   const [module, setModule] = React.useState(cache[link]);
+
   React.useEffect(() => {
-    if (cache[link]) {
-      return;
-    }
+    if (cache[link]) return;
+
     fetch(link)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        cache[link] = data;
-        setModule(data);
-      })
-      .catch(() => {
-        cache[link] = invalid;
-        setModule(invalid);
-      });
+      .then((r) => r.json())
+      .then(
+        (data) => {
+          cache[link] = data;
+          setModule(data);
+        },
+        () => {
+          cache[link] = invalid;
+          setModule(invalid);
+        },
+      );
   }, [link]);
 
   return (
@@ -34,4 +36,4 @@ export default function useFetchModule(link) {
       author: "Loading...",
     }
   );
-}
+};

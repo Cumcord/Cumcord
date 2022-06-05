@@ -1,31 +1,23 @@
-import webpackModules from "webpackModules";
-import { copyText } from "utils";
+import { findByDisplayName, findAsync, findByProps } from "@webpackModules";
+import { copyText } from "@utils";
 
-const Clickable = webpackModules.findByDisplayName("Clickable");
-const Link = webpackModules.findByDisplayName("Link");
+const Clickable = findByDisplayName("Clickable");
+const Link = findByDisplayName("Link");
 
 export default async function getCopyLink() {
-  const { copyLink, copyLinkIcon, copied } = await webpackModules.findAsync(() =>
-    webpackModules.findByProps("titleRegion"),
-  );
+  const { copyLink, copyLinkIcon, copied } = await findAsync(() => findByProps("titleRegion"));
 
-  return function CopyLink({ url }) {
+  return ({ url }) => {
     const [state, setState] = React.useState(false);
-    const timeoutRef = React.useRef(null);
-    React.useEffect(() => {
-      return function () {
-        return clearTimeout(timeoutRef);
-      };
-    });
+    const timeoutRef = React.useRef();
+    React.useEffect(() => () => clearTimeout(timeoutRef));
 
     function handleClick() {
-      if (!state) {
-        copyText(url);
-        setState(true);
-        timeoutRef.current = setTimeout(() => {
-          return setState(false);
-        }, 2000);
-      }
+      if (state) return;
+
+      copyText(url);
+      setState(true);
+      timeoutRef.current = setTimeout(() => setState(false), 2000);
     }
 
     return (

@@ -1,14 +1,13 @@
-import { findAsync } from "webpackModules";
+import { findAsync } from "@webpackModules";
 
-export default function (moduleFinder, patchCallback) {
+export default (moduleFinder, patchCallback) => {
   let cancelled = false;
   let unpatch;
 
   const [modPromise, webpackUnpatch] = findAsync(moduleFinder, false);
 
   modPromise.then((mod) => {
-    if (cancelled) return;
-    unpatch = patchCallback(mod);
+    if (!cancelled) unpatch = patchCallback(mod);
   });
 
   return () => {
@@ -16,4 +15,4 @@ export default function (moduleFinder, patchCallback) {
     webpackUnpatch?.();
     unpatch?.();
   };
-}
+};

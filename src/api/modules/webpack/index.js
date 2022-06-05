@@ -1,9 +1,9 @@
-// My implmementation is 1:1 compatible with GooseMod's own API, but is implemented differently
-import wpRequire from "wpRequire";
+// My implmementation is compatible with GooseMod's API, but implemented differently
+import wpRequire from "@wpRequire";
 import findAsync from "./findAsync";
 import filters from "./filters";
 import batchFind from "./batchFind";
-import { logger } from "utils";
+import { logger } from "@utils";
 
 const webpackModules = {
   modules: wpRequire.c,

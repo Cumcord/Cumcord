@@ -1,8 +1,9 @@
-import webpackModules from "webpackModules";
+import { findAsync, findByProps } from "@webpackModules";
 
 export default async function getPluginEmbedIcon() {
-  const { svgContentRight, svgContentLines, svgContentLeft, svgDots, svgTag } =
-    await webpackModules.findAsync(() => webpackModules.findByProps("svgContentRight"));
+  const { svgContentRight, svgContentLines, svgContentLeft, svgDots, svgTag } = await findAsync(
+    () => findByProps("svgContentRight"),
+  );
 
   return function PluginEmbedIcon({ className }) {
     return (
@@ -24,14 +25,14 @@ export default async function getPluginEmbedIcon() {
           className={svgDots}
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M41.4328 33L46 37.7129L43.7836 40L37 32.9999L39.2164 30.7128L39.2165 30.7129L43.7836 26L46 28.2871L41.4328 33Z"
           className={svgTag}
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M54.7821 35.2871L54.7841 35.2892L57 33.0021L50.2159 26L48 28.2871L52.5662 33L48 37.7129L50.2159 40L54.7821 35.2871Z"
           className={svgTag}
         />

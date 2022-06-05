@@ -3,48 +3,40 @@ import alias from "esbuild-plugin-alias";
 import path from "path";
 import fs from "fs/promises";
 
-try {
-  await esbuild.build({
-    entryPoints: ["./src/index.js"],
-    outfile: "./dist/new-build.js",
-    minify: true,
-    bundle: true,
-    format: "iife",
-    inject: ["./shims/react-shim.js"],
-    external: ["react"],
-    plugins: [
-      {
-        name: "external-react",
-        setup(build) {
-          build.onResolve({ filter: /^react$/ }, () => ({
-            path: path.resolve("./shims/alt-react-shim.cjs"),
-          }));
-        },
-      },
-      alias({
-        wpRequire: path.resolve("./wpRequire.js"),
-        commonModules: path.resolve("./src/api/modules/commonModules.js"),
-        webpackModules: path.resolve("./src/api/modules/webpack/index.js"),
-        internalModules: path.resolve("./src/api/modules/internalModules.js"),
-        patcher: path.resolve("./src/api/patcher/index.js"),
-        websocket: path.resolve("./src/api/websocket/websocket.js"),
-        plugins: path.resolve("./src/api/plugins/plugins.js"),
-        toasts: path.resolve("./src/ui/toasts/toasts.jsx"),
-        modals: path.resolve("./src/ui/modals/modals.jsx"),
-        devmode: path.resolve("./src/api/devmode/devmode.js"),
-        utils: path.resolve("./src/api/utils/utils.js"),
-        pluginSettings: path.resolve("./src/ui/settings/pluginSettingsModal.jsx"),
-        pluginStorage: path.resolve("./src/api/plugins/pluginStorage.js"),
-        components: path.resolve("./src/ui/components/components.js"),
-        commands: path.resolve("./src/api/commands/commands.js"),
-      }),
-    ],
-    target: ["esnext"],
-  });
+import jsconfig from "./jsconfig.json" assert {type: "json"};
 
-  await fs.appendFile("./dist/new-build.js", `//# sourceURL=Cumcord`);
-  console.log("Build successful!");
+// converts jsconfig paths to esbuild aliases
+const aliases = Object.fromEntries(
+	Object.entries(jsconfig.compilerOptions.paths)
+		.map(([alias, [target]]) => [alias, path.resolve(target)])
+);
+
+try {
+	await esbuild.build({
+		entryPoints: ["./src/index.js"],
+		outfile: "./dist/new-build.js",
+		minify: true,
+		bundle: true,
+		format: "iife",
+		inject: ["./shims/react-shim.js"],
+		external: ["react"],
+		plugins: [
+			{
+				name: "external-react",
+				setup(build) {
+					build.onResolve({filter: /^react$/}, () => ({
+						path: path.resolve("./shims/alt-react-shim.cjs"),
+					}));
+				},
+			},
+			alias(aliases),
+		],
+		target: ["esnext"],
+	});
+
+	await fs.appendFile("./dist/new-build.js", `//# sourceURL=Cumcord`);
+	console.log("Build successful!");
 } catch (err) {
-  console.error(err);
-  process.exit(1);
+	console.error(err);
+	process.exit(1);
 }

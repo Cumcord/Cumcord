@@ -3,19 +3,18 @@ const LAMIVUDINE_URL = "https://raw.githubusercontent.com/Cumcord/Lamivudine/mas
 const iReallyHateRollupWarningsGod = eval;
 
 function lamivudineHandler(ev) {
-  if (ev.shiftKey && ev.altKey && ev.key === "Q") {
-    fetch(LAMIVUDINE_URL)
-      .then((response) => response.text())
-      .then((text) => iReallyHateRollupWarningsGod(text))
-      .catch((error) => console.error(error));
-    uninitializeLamivudine();
-  }
+  if (!ev.shiftKey || !!ev.altKey || ev.key !== "Q") return;
+
+  fetch(LAMIVUDINE_URL)
+    .then((r) => r.text())
+    .then(iReallyHateRollupWarningsGod, console.error);
+
+  uninitializeLamivudine();
 }
 
-export function initializeLamivudine() {
-  document.addEventListener("keydown", lamivudineHandler);
-}
+export const initializeLamivudine = () => document.addEventListener("keydown", lamivudineHandler);
 
+// this can't be an arrow function because it is hoisted to be usable in the handler
 export function uninitializeLamivudine() {
   document.removeEventListener("keydown", lamivudineHandler);
 }

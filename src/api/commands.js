@@ -1,7 +1,7 @@
-import { findByProps } from "webpackModules";
-import { channels } from "commonModules";
-import { after } from "patcher";
-import { logger } from "utils";
+import { findByProps } from "@webpackModules";
+import { channels } from "@commonModules";
+import { after } from "@patcher";
+import { logger } from "@utils";
 
 const commandsModule = findByProps("queryCommands");
 const commandDiscovery = findByProps("useApplicationCommandsDiscoveryState");
@@ -85,7 +85,7 @@ function addCommand({ name, description, args, handler }) {
     });
   }
 
-  (commandObj.execute = (opts, ctx) => {
+  commandObj.execute = (opts, ctx) => {
     if (!handler) return;
 
     const handledOpts = {};
@@ -133,8 +133,8 @@ function addCommand({ name, description, args, handler }) {
         logger.error(err);
       }
     })();
-  }),
-    commands.push(commandObj);
+  };
+  commands.push(commandObj);
   // Abstraction ends here!
 
   // Function that removes the command
