@@ -3,7 +3,7 @@ const LAMIVUDINE_URL = "https://raw.githubusercontent.com/Cumcord/Lamivudine/mas
 const iReallyHateRollupWarningsGod = eval;
 
 function lamivudineHandler(ev) {
-  if (!ev.shiftKey || !!ev.altKey || ev.key !== "Q") return;
+  if (!ev.shiftKey || !ev.altKey || ev.key !== "Q") return;
 
   fetch(LAMIVUDINE_URL)
     .then((r) => r.text())

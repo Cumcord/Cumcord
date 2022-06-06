@@ -42,11 +42,10 @@ export default async (extraInit, extraUninit) => {
   );
 
   initializeToasts();
+  initializeSocket();
   await initializePluginStore();
   api.plugins.installed = pluginCache;
   api.plugins.loaded = loadedPlugins;
-  await initializePlugins(api);
-  initializeSocket();
 
   // intense patching, so catch errors
   try {
@@ -54,7 +53,11 @@ export default async (extraInit, extraUninit) => {
   } catch {}
 
   // UI stuff if necessary
-  extraInit?.();
+  await extraInit?.();
+
+  // plugins are meant to be loaded last.
+  // which seems obvious in hindsight but apparently not for my monke brain
+  await initializePlugins(api);
 
   resolveQueue.forEach((r) => r());
   resolveQueue = undefined;
