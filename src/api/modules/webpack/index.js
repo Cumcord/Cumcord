@@ -1,72 +1,50 @@
-// My implmementation is compatible with GooseMod's API, but implemented differently
 import wpRequire from "@wpRequire";
-import findAsync from "./findAsync";
 import filters from "./filters";
-import batchFind from "./batchFind";
 import { logger } from "@utils";
 
-const webpackModules = {
-  modules: wpRequire.c,
+export { default as findAsync } from "./findAsync";
+export { default as batchFind } from "./batchFind";
 
-  findAsync,
-  batchFind,
+export const modules = wpRequire.c;
 
-  // currying go brr
-  find: filters.filterModules(wpRequire.c, true),
-  findAll: filters.filterModules(wpRequire.c),
+export const getModule = (module) => {
+  for (const modId in modules) {
+    const mod = modules[modId];
 
-  getModule(module) {
-    for (const modId in webpackModules.modules) {
-      const mod = webpackModules.modules[modId];
-
-      if (mod?.exports === module) return mod;
-      if (mod?.exports?.__esModule && mod?.exports?.default === module) return mod?.exports;
-    }
-  },
-
-  findByProps: (...propNames) => webpackModules.find(filters.byProps(propNames)),
-
-  findByPropsAll: (...propNames) => webpackModules.findAll(filters.byProps(propNames)),
-
-  findByPrototypes: (...protoNames) => webpackModules.find(filters.byProtos(protoNames)),
-
-  findByPrototypesAll: (...protoNames) => webpackModules.findAll(filters.byProtos(protoNames)),
-
-  findByDisplayName: (displayName, defaultExport = true) =>
-    webpackModules.find(filters.byDisplayName(displayName, defaultExport)),
-
-  findByDisplayNameAll: (displayName, defaultExport = true) =>
-    webpackModules.findAll(filters.byDisplayName(displayName, defaultExport)),
-
-  findByStrings: (...searchStrings) => {
-    logger.warn(
-      "findByStrings is not performant and should NOT be used in production code. The reason it is still in Cumcord is for development uses. Manually making a .toString searcher using webpack.find is far more performant.",
-    );
-    return webpackModules.find(filters.byStrings(searchStrings));
-  },
-
-  findByStringsAll: (...searchStrings) => webpackModules.findAll(filters.byStrings(searchStrings)),
-
-  // THIS IS NOT PERFORMANT. This function is exclusively to be used by those searching for modules to later fetch with other parts of Cumcord's webpackModules API.
-  findByKeywordAll: (...searchStrings) => webpackModules.findAll(filters.byKeyword(searchStrings)),
-
-  findByDispNameDeep: (n, d = true) => webpackModules.find(filters.byDispNameDeep(n, d)),
-  findByDispNameDeepAll: (n, d = true) => webpackModules.findAll(filters.byDispNameDeep(n, d)),
+    if (mod?.exports === module) return mod;
+    if (mod?.exports?.__esModule && mod?.exports?.default === module) return mod?.exports;
+  }
 };
 
-export const modules = webpackModules.modules;
-export const find = webpackModules.find;
-export const findAll = webpackModules.findAll;
-export const getModule = webpackModules.getModule;
-export const findByProps = webpackModules.findByProps;
-export const findByPropsAll = webpackModules.findByPropsAll;
-export const findByPrototypes = webpackModules.findByPrototypes;
-export const findByPrototypesAll = webpackModules.findByPrototypesAll;
-export const findByDisplayName = webpackModules.findByDisplayName;
-export const findByDisplayNameAll = webpackModules.findByDisplayNameAll;
-export const findByStrings = webpackModules.findByStrings;
-export const findByStringsALl = webpackModules.findByStringsAll;
-export const findByKeywordAll = webpackModules.findByKeywordAll;
-export const findByDispNameDeep = webpackModules.findByDispNameDeep;
-export const findByDispNameDeepAll = webpackModules.findByDispNameDeepAll;
-export { findAsync, batchFind };
+export const find = filters.filterModules(modules, true);
+export const findAll = filters.filterModules(modules);
+
+export const findByProps = (...propNames) => find(filters.byProps(propNames));
+export const findByPropsAll = (...propNames) => findAll(filters.byProps(propNames));
+export const findByPrototypes = (...protoNames) => find(filters.byProtos(protoNames));
+export const findByPrototypesAll = (...protoNames) => findAll(filters.byProtos(protoNames));
+
+export const findByDisplayName = (displayName, defaultExport = true) =>
+  find(filters.byDisplayName(displayName, defaultExport));
+
+export const findByDisplayNameAll = (displayName, defaultExport = true) =>
+  findAll(filters.byDisplayName(displayName, defaultExport));
+
+export const findByStrings = (...searchStrings) => {
+  logger.warn(
+    "findByStrings is not performant and should NOT be used in production code. The reason it is still in Cumcord is for development uses. Manually making a .toString searcher using webpack.find is far more performant.",
+  );
+  return find(filters.byStrings(searchStrings));
+};
+
+export const findByStringsAll = (...searchStrings) => {
+  logger.warn(
+    "findByStrings is not performant and should NOT be used in production code. The reason it is still in Cumcord is for development uses. Manually making a .toString searcher using webpack.find is far more performant.",
+  );
+  return findAll(filters.byStrings(searchStrings));
+};
+
+// THIS IS NOT PERFORMANT. This function is exclusively to be used by those searching for modules to later fetch with other parts of Cumcord's webpackModules API.
+export const findByKeywordAll = (...searchStrings) => findAll(filters.byKeyword(searchStrings));
+export const findByDispNameDeep = (n, d = true) => find(filters.byDispNameDeep(n, d));
+export const findByDispNameDeepAll = (n, d = true) => findAll(filters.byDispNameDeep(n, d));
