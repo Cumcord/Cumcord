@@ -55,6 +55,7 @@ const webpackModules = {
 };
 
 // export webpackModules;
+export const modules = webpackModules.modules;
 export const find = webpackModules.find;
 export const findAll = webpackModules.findAll;
 export const getModule = webpackModules.getModule;
