@@ -27,10 +27,7 @@ export default (props) => {
     loadedPlugins.ghost[props.pluginId] && loadedPlugins.ghost[props.pluginId].settings ? (
       <svg
         onClick={() =>
-          showPluginSettings(
-            plugin.manifest.name,
-            plugins.loadedPlugins.ghost[props.pluginId].settings,
-          )
+          showPluginSettings(plugin.manifest.name, loadedPlugins.ghost[props.pluginId].settings)
         }
         className="cumcord-card-settings"
         xmlns="http://www.w3.org/2000/svg"
