@@ -1,4 +1,5 @@
 import { React } from "@commonModules";
+import i18n from "@i18n";
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ export default class ErrorBoundary extends React.Component {
 
     return (
       <div className="cumcord-error-handler">
-        <h1 className="cumcord-error-handler-title">Oops, we had a fucky wucky. (Cumcord)</h1>
+        <h1 className="cumcord-error-handler-title">{i18n.ERR_HEADER}</h1>
         <code className="cumcord-error-handler-code">{`${this.state.error}` /* wtf lol */}</code>
       </div>
     );

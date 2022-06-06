@@ -1,5 +1,6 @@
 import { findByDisplayName, findAsync, findByProps } from "@webpackModules";
 import { copyText } from "@utils";
+import i18n from "@i18n";
 
 const Clickable = findByDisplayName("Clickable");
 const Link = findByDisplayName("Link");
@@ -23,7 +24,7 @@ export default async function getCopyLink() {
     return (
       <Clickable className={`${copyLink}${state ? " " + copied : ""}`} onClick={handleClick}>
         <Link className={copyLinkIcon} href={url} target="_blank" />
-        {state ? "Copied!" : "Copy Link"}
+        {state ? i18n.COPY : i18n.COPIED_URL}
       </Clickable>
     );
   };

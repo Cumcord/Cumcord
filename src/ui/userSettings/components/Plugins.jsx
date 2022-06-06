@@ -4,6 +4,7 @@ import { importPlugin, pluginCache } from "@plugins";
 import { showToast } from "@toasts";
 import { useNest } from "@utils";
 import { ErrorBoundary } from "@components";
+import i18n from "@i18n";
 
 const FormTitle = findByDisplayName("FormTitle");
 const FormSection = findByDisplayName("FormSection");
@@ -26,7 +27,7 @@ export default () => {
       () => setInput(""),
       (err) =>
         showToast({
-          title: "Failed to import plugin",
+          title: i18n.FAILED_PLUGIN_IMPORT,
           content: err.message,
           duration: 3000,
         }),
@@ -49,7 +50,7 @@ export default () => {
         <Flex basis="auto" grow={1} shrink={1}>
           <TextInput
             className="cumcord-plugin-import"
-            placeholder="https://example.com/plugin"
+            placeholder={i18n.PLUGIN_URL_PLACEHOLDER}
             type="text"
             value={input}
             onChange={setInput}
@@ -58,14 +59,14 @@ export default () => {
             }}
           />
           <Button color={Button.Colors.BRAND} size={Button.Sizes.MEDIUM} onClick={handleImport}>
-            Add plugin
+            {i18n.ADD_PLUGIN}
           </Button>
         </Flex>
         <SearchBar
           className="cumcord-plugin-search"
           query={searchFilter}
           onQueryChange={setFilter}
-          placeholder="Search..."
+          placeholder={i18n.SEARCH}
           size={SearchBar.Sizes.MEDIUM}
         />
         <FormDivider className="cumcord-plugin-divider" />

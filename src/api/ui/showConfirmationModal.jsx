@@ -1,4 +1,5 @@
 import { batchFind } from "@webpackModules";
+import i18n from "@i18n";
 
 const [{ openModal }, Colors, ConfirmModal, [, Markdown]] = batchFind(
   ({ findByProps, findByDisplayName, findByDisplayNameAll }) => {
@@ -11,10 +12,10 @@ const [{ openModal }, Colors, ConfirmModal, [, Markdown]] = batchFind(
 
 export default async (
   {
-    header = "Are you sure?",
-    confirmText = "Confirm",
-    cancelText = "Cancel",
-    content = "Are you sure you want to do that?",
+    header = i18n.ARE_YOU_SURE,
+    confirmText = i18n.CONFIRM,
+    cancelText = i18n.CANCEL,
+    content = i18n.MODAL_DEFAULT,
     type = "neutral",
   } = {},
   callback = () => {},

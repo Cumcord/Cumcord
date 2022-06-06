@@ -1,6 +1,9 @@
 import { loadPluginDev, isDevModeOn } from "@devmode";
 import { importPlugin } from "@plugins";
 import showConfirmationModal from "@modals";
+import i18n, { i18nfmt } from "@i18n";
+
+// responses from the WS are purposefully not subject to i18n to avoid breaking anyone's logic.
 
 export default {
   get_info: (_msg, { ok }) => ok(),
@@ -22,16 +25,14 @@ export default {
 
     showConfirmationModal(
       {
-        header: "Do you want to install this plugin?",
-        content: `Cumcord plugins can run code on your computer and can be potentially dangerous. Only click confirm if you trust the plugin from \`${msg.url}\`.`,
-        confirmText: "Install",
-        cancelText: "Cancel",
+        header: i18n.INSTALL_PROMPT,
+        content: i18nfmt("CAN_BE_DANGEROUS", msg.url),
+        confirmText: i18n.INSTALL,
         type: "danger",
       },
       (res) => {
         if (!res) return error("Plugin installation cancelled.");
-        importPlugin(msg.url);
-        ok();
+        importPlugin(msg.url).then(ok, error);
       },
     );
   },

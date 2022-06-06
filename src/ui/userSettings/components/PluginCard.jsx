@@ -4,7 +4,8 @@ import { useNest, copyText } from "@utils";
 import showConfirmationModal from "@modals";
 import { showToast } from "@toasts";
 import { idbKeyval } from "@internalModules";
-import { pluginCache, loadedPlugins } from "@plugins";
+import { pluginCache, loadedPlugins, removePlugin, togglePlugin } from "@plugins";
+import i18n, { i18nfmt } from "@i18n";
 
 const Card = findByDisplayName("Card");
 const Header = findByProps("Sizes", "Tags");
@@ -49,8 +50,8 @@ export default (props) => {
         <div className="cumcord-card-header">
           <Header className="cumcord-card-title">{plugin.manifest.name}</Header>
           <FormText className="cumcord-card-author" tag="h5">
-            {" "}
-            by <strong>{plugin.manifest.author}</strong>
+            {i18n.BY}
+            <strong>{plugin.manifest.author}</strong>
           </FormText>
         </div>
         <div className="cumcord-card-right">
@@ -61,7 +62,7 @@ export default (props) => {
             <svg
               onClick={() => {
                 showToast({
-                  content: "Copied plugin URL to clipboard.",
+                  content: i18n.COPIED_URL,
                   duration: 1300,
                 });
                 copyText(props.pluginId);
@@ -122,14 +123,14 @@ export default (props) => {
               onClick={() =>
                 showConfirmationModal(
                   {
-                    header: "Do you want to remove this plugin?",
-                    content: `All of ${plugin.manifest.name}'s data will be deleted and cannot be recovered.`,
+                    header: i18n.REMOVE_PROMPT,
+                    content: i18nfmt("DELETE_DISCLAIMER", plugin.manifest.name),
                     type: "danger",
-                    confirmText: "Delete",
+                    confirmText: i18n.DELETE,
                   },
                   (conf) => {
                     if (!conf) return;
-                    plugins.removePlugin(props.pluginId);
+                    removePlugin(props.pluginId);
                     idbKeyval.del(`${props.pluginId}_CUMCORD_STORE`);
                   },
                 )
@@ -148,7 +149,7 @@ export default (props) => {
             checked={plugin.enabled}
             onChange={() => {
               try {
-                plugins.togglePlugin(props.pluginId);
+                togglePlugin(props.pluginId);
               } catch {}
             }}
           />

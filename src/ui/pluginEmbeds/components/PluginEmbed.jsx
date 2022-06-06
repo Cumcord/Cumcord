@@ -3,6 +3,7 @@ import { useNest, useFetchModule } from "@utils";
 import { findByDisplayName, findByProps, findAsync } from "@webpackModules";
 import getPluginEmbedIcon from "./PluginEmbedIcon";
 import getCopyLink from "./CopyLink";
+import i18n from "@i18n";
 
 // Components
 // todo: let discord remove this and then cry about it when it breaks (WONTFIX)
@@ -50,15 +51,8 @@ export default async function getPluginEmbed() {
               ModalApi.openModal((props) => (
                 <Alert
                   {...props}
-                  title="What is this?"
-                  body={
-                    <p className="cumcord-plugembeds-alerttext">
-                      This is a Cumcord feature. It allows you to install plugins straight from
-                      chat.
-                      <br />
-                      Simply hit the install button on the embed.
-                    </p>
-                  }
+                  title={i18n.WHAT_IS_THIS}
+                  body={<p className="cumcord-plugembeds-alerttext">{i18n.EMBEDS_WHATIS}</p>}
                 />
               ));
             }}
@@ -88,7 +82,7 @@ export default async function getPluginEmbed() {
             }
             disabled={data.invalid || isInstalled}
             onClick={() => importPlugin(url)}>
-            {data.invalid ? "Invalid" : isInstalled ? "Installed" : "Install"}
+            {data.invalid ? i18n.INVALID : isInstalled ? i18n.INSTALLED : i18n.INSTALL}
           </Button>
         </div>
       </div>

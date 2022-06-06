@@ -1,6 +1,7 @@
 import { createPersistentNest } from "./pluginStorage";
 import showPluginSettings from "../ui/showPluginSettings";
 import { nests } from "@internalModules";
+import i18n, { i18nfmt } from "@i18n";
 
 const noStore = { cache: "no-store" };
 
@@ -40,9 +41,9 @@ export function evalPlugin(pluginCode, data) {
 export async function startPlugin(pluginId) {
   const plugin = pluginCache.ghost[pluginId];
 
-  if (!plugin) throw new Error(`Plugin ${pluginId} not found`);
+  if (!plugin) throw new Error(i18nfmt("PLUGIN_NOT_FOUND", pluginId));
 
-  if (loadedPlugins.ghost[pluginId]) throw new Error(`Plugin ${pluginId} already loaded`);
+  if (loadedPlugins.ghost[pluginId]) throw new Error(i18nfmt("PLUGIN_LOADED", pluginId));
 
   const evaledPlugin = evalPlugin(plugin.js, {
     persist: await createPersistentNest(pluginId),
@@ -63,9 +64,9 @@ export async function startPlugin(pluginId) {
 export function stopPlugin(pluginId) {
   const plugin = loadedPlugins.ghost[pluginId];
 
-  if (!plugin) throw new Error(`Plugin ${pluginId} not found`);
+  if (!plugin) throw new Error(i18nfmt("PLUGIN_NOT_FOUND", pluginId));
 
-  if (!loadedPlugins.ghost[pluginId]) throw new Error(`Plugin ${pluginId} isn't loaded`);
+  if (!loadedPlugins.ghost[pluginId]) throw new Error(i18nfmt("PLUGIN_NOT_LOADED", pluginId));
 
   try {
     plugin.onUnload();
@@ -77,7 +78,7 @@ export function stopPlugin(pluginId) {
 export function togglePlugin(pluginId) {
   const plugin = pluginCache.store[pluginId];
 
-  if (!pluginCache.ghost[pluginId]) throw new Error(`Plugin ${pluginId} not found`);
+  if (!pluginCache.ghost[pluginId]) throw new Error(i18nfmt("PLUGIN_NOT_FOUND", pluginId));
 
   if (plugin.enabled) {
     stopPlugin(pluginId);
@@ -118,9 +119,9 @@ export async function importPlugin(baseUrl) {
     // The server *must* return 200
     if (manifestData.status !== 200 && !pluginExists)
       // noinspection ExceptionCaughtLocallyJS
-      throw new Error("Plugin manifest not returning 200");
+      throw i18n.NO_MAN_200;
   } catch (e) {
-    if (!pluginExists) throw new Error(`Plugin manifest cannot be parsed: ${e}`);
+    if (!pluginExists) throw new Error(i18nfmt("NO_PARSE", e));
   }
 
   // If the plugin is already downloaded, we check if it is cached, and if it is, we start it if it's enabled
@@ -141,7 +142,7 @@ export async function importPlugin(baseUrl) {
   let pluginReq = await fetch(pluginUrl, noStore);
 
   // Validate that the server returned a success
-  if (pluginReq.status !== 200) throw new Error("Plugin not returning 200");
+  if (pluginReq.status !== 200) throw new Error(i18n.NO_MAN_200);
 
   // Get the plugin's JS code
   const js = await pluginReq.text();

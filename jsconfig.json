@@ -9,13 +9,14 @@
       "@patcher": ["./src/api/patcher/index.js"],
       "@websocket": ["./src/api/websocket/index.js"],
       "@plugins": ["./src/api/plugins/index.js"],
-      "@toasts": ["./src/api/ui/toasts/toasts.jsx"],
+      "@toasts": ["./src/api/ui/toasts/index.jsx"],
       "@modals": ["./src/api/ui/showConfirmationModal.jsx"],
       "@devmode": ["./src/api/devmode.js"],
       "@utils": ["./src/api/utils/index.js"],
       "@pluginSettings": ["./src/api/ui/showPluginSettings.jsx"],
       "@components": ["./src/api/ui/components/index.js"],
-      "@commands": ["./src/api/commands.js"]
+      "@commands": ["./src/api/commands.js"],
+      "@i18n": ["./src/i18n/index.js"]
     }
   },
   "exclude": ["dist", "node_modules"]

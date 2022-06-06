@@ -1,6 +1,7 @@
 import { findByDisplayName } from "@webpackModules";
 import { after, findAndPatch, injectCSS } from "@patcher";
 import Plugins from "./components/Plugins.jsx";
+import i18n from "@i18n";
 
 export default async () => {
   injectCSS(
@@ -21,7 +22,7 @@ export default async () => {
           0,
           { section: "DIVIDER" },
           { section: "HEADER", label: "Cumcord" },
-          { section: "CUMCORD_PLUGINS", label: "Plugins", element: Plugins },
+          { section: "CUMCORD_PLUGINS", label: i18n.PLUGINS, element: Plugins },
         );
 
         return items;
