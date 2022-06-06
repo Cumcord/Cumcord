@@ -5,7 +5,7 @@ export const [
   channels,
   Flux,
   FluxDispatcher,
-  [i18n],
+  [, i18n],
   React,
   ReactDOM,
   Redux,

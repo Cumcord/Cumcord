@@ -54,7 +54,6 @@ const webpackModules = {
   findByDispNameDeepAll: (n, d = true) => webpackModules.findAll(filters.byDispNameDeep(n, d)),
 };
 
-// export webpackModules;
 export const modules = webpackModules.modules;
 export const find = webpackModules.find;
 export const findAll = webpackModules.findAll;
@@ -71,5 +70,3 @@ export const findByKeywordAll = webpackModules.findByKeywordAll;
 export const findByDispNameDeep = webpackModules.findByDispNameDeep;
 export const findByDispNameDeepAll = webpackModules.findByDispNameDeepAll;
 export { findAsync, batchFind };
-
-export default webpackModules;
