@@ -29,4 +29,8 @@ You can submit patches and development ideas on our
 You can talk about Cumcord on our
 [discussion mailing list](https://lists.sr.ht/~creatable/cumcord-discuss).  
 Announcements can be found on our
-[announcements mailing list](https://lists.sr.ht/~creatable/cumcord-announce).
+[announcements mailing list](https://lists.sr.ht/~creatable/cumcord-announce).  
+We use [Weblate](https://weblate.org) for translations! Contribute here:
+<a href="https://hosted.weblate.org/engage/cumcord/">
+<img src="https://hosted.weblate.org/widgets/cumcord/-/cumcord/287x66-black.png" alt="Translation status" />
+</a>
