@@ -95,3 +95,6 @@ typings/
 
 # Cumcord build files
 dist/*
+
+# i swear to god do not break weblate i beg of you
+src/i18n/*.json
