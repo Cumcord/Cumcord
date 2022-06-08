@@ -130,7 +130,7 @@ export async function importPlugin(baseUrl) {
       if (existingPlugin.manifest.hash === manifestJson.hash) {
         // Update manifest if it's changed
         if (existingPlugin.manifest !== manifestJson) existingPlugin.manifest = manifestJson;
-      } else return;
+      }
     }
 
     if (enabled) await startPlugin(baseUrlTrailing);
