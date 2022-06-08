@@ -1,7 +1,6 @@
 {
   "PLUGINS": "Plugins",
   "SEARCH": "Search...",
-  "BY": " by ",
   "DELETE": "Delete",
   "COPIED": "Copied!",
   "INVALID": "Invalid",
@@ -10,6 +9,7 @@
   "CANCEL": "Cancel",
   "CONFIRM": "Confirm",
 
+  "BY": "{0} by {1}",
   "COPY_LINK": "Copy Link",
   "WHAT_IS_THIS": "What is this?",
   "ARE_YOU_SURE": "Are you sure?",

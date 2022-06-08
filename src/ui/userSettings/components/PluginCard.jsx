@@ -5,7 +5,7 @@ import showConfirmationModal from "@modals";
 import { showToast } from "@toasts";
 import { idbKeyval } from "@internalModules";
 import { pluginCache, loadedPlugins, removePlugin, togglePlugin } from "@plugins";
-import i18n, { i18nfmt } from "@i18n";
+import i18n, { i18nfmt, i18nfmtsplit } from "@i18n";
 
 const Card = findByDisplayName("Card");
 const Header = findByProps("Sizes", "Tags");
@@ -45,10 +45,16 @@ export default (props) => {
     <Card className="cumcord-plugin-card" type="cardPrimary" outline={false} editable={false}>
       <Flex justify={Flex.Justify.BETWEEN} align={Flex.Align.CENTER}>
         <div className="cumcord-card-header">
-          <Header className="cumcord-card-title">{plugin.manifest.name}</Header>
           <FormText className="cumcord-card-author" tag="h5">
-            {i18n.BY}
-            <strong>{plugin.manifest.author}</strong>
+            {i18nfmtsplit("BY", plugin.manifest.name, plugin.manifest.author).map(([i, txt]) =>
+              i === -1 ? (
+                txt
+              ) : i === 0 ? (
+                <Header className="cumcord-card-title">{txt}</Header>
+              ) : (
+                <strong>{txt}</strong>
+              ),
+            )}
           </FormText>
         </div>
         <div className="cumcord-card-right">
