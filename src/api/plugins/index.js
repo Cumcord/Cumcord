@@ -142,7 +142,7 @@ export async function importPlugin(baseUrl) {
   let pluginReq = await fetch(pluginUrl, noStore);
 
   // Validate that the server returned a success
-  if (pluginReq.status !== 200) throw new Error(i18n.NO_MAN_200);
+  if (pluginReq.status !== 200) throw new Error(i18n.NO_200);
 
   // Get the plugin's JS code
   const js = await pluginReq.text();
