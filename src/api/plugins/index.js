@@ -127,10 +127,14 @@ export async function importPlugin(baseUrl) {
   // If the plugin is already downloaded, we check if it is cached, and if it is, we start it if it's enabled
   if (pluginExists) {
     if (manifestJson && update) {
-      if (existingPlugin.manifest.hash === manifestJson.hash) {
-        // Update manifest if it's changed
-        if (existingPlugin.manifest !== manifestJson) existingPlugin.manifest = manifestJson;
+      if (existingPlugin.manifest.hash !== manifestJson.hash) {
+        let pluginCodeReq = await fetch(pluginUrl, noStore);
+        if (pluginCodeReq.status !== 200) throw new Error(i18n.NO_200);
+
+        existingPlugin.js = await pluginCodeReq.text();
       }
+
+      if (existingPlugin.manifest !== manifestJson) existingPlugin.manifest = manifestJson;
     }
 
     if (enabled) await startPlugin(baseUrlTrailing);
