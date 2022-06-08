@@ -22,7 +22,7 @@
     "ERR_HEADER": "Ôi không, quay tay nhiều quá lan hết ra nhà rồi. (Cumcord)",
     "MODAL_DEFAULT": "Bạn có chắc rằng bạn muốn làm điều đó không?",
     "REMOVE_PROMPT": "Bạn có muốn xoá plugin này không?",
-    "NO_MAN_200": "Lỗi Plugin manifest not returning 200",
+    "NO_MAN_200": "Lỗi manifest Plugin not returning 200",
     "NO_200": "Lỗi Plugin not returning 200",
     "NO_PARSE": "Lỗi manifest Plugin không thể phân tích được: {}",
     "INVALID": "Không hợp lệ",
