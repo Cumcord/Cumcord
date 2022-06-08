@@ -43,7 +43,7 @@ export const i18nfmt = (fmt, ...vals) => {
   });
 };
 
-export const i18nfmtsplit = (fmt, ...vals) => {
+export const i18nfmtSplit = (fmt, ...vals) => {
   const parts = [];
   let working = "";
   let matchedI = 0;
@@ -58,7 +58,7 @@ export const i18nfmtsplit = (fmt, ...vals) => {
       working = "";
     }
   }
-  parts.push(working);
+  parts.push([-1, working]);
 
   return parts;
 };
