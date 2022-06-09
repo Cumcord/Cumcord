@@ -1,10 +1,11 @@
 import { findByProps } from "@webpackModules";
-import { channels } from "@commonModules";
-import { after } from "@patcher";
+import { channels, constants, FluxDispatcher } from "@commonModules";
+import { after, instead } from "@patcher";
 import { logger } from "@utils";
 
-const commandsModule = findByProps("queryCommands");
-const commandDiscovery = findByProps("useApplicationCommandsDiscoveryState");
+const searchManagerModule = findByProps("useSearchManager");
+/*const commandsModule = findByProps("getQueryCommands");
+const commandDiscovery = findByProps("useApplicationCommandsDiscoveryState");*/
 const { sendMessage } = findByProps("sendMessage");
 const { createBotMessage } = findByProps("createBotMessage");
 const { receiveMessage } = findByProps("receiveMessage");
@@ -18,6 +19,11 @@ const cumcordSection = {
   icon: appIconId,
   name: "Cumcord",
   type: 1,
+  bot: {
+    id: applicationId,
+    username: "Cumcord",
+    avatar: botIconId,
+  },
 };
 
 const commands = [];
@@ -30,35 +36,55 @@ const typeMap = {
   role: 8,
 };
 
-function initializeCommands() {
-  after("queryCommands", commandsModule, ([{ query }], resp) => [
-    ...resp,
-    ...commands.filter((command) => command.name.includes(query)),
-  ]);
+const filterSectionPatch =
+  (channelId) =>
+  ([sid], orig) => {
+    if (sid !== cumcordSection.id) return orig(sid);
 
-  after("useApplicationCommandsDiscoveryState", commandDiscovery, (_, resp) => {
-    if (commands.length > 0) {
-      // todo: make the check a function lol
-      if (!resp.discoverySections.find((section) => section.id === applicationId)) {
-        resp.discoverySections.push({
-          data: commands,
-          section: cumcordSection,
-          key: applicationId,
-        });
+    FluxDispatcher.dirtyDispatch({
+      type: constants.ActionTypes.APPLICATION_COMMAND_SEARCH_MANAGER_UPDATE,
+      channelId: channelId,
+      commandType: 1,
+      state: { filteredSectionId: cumcordSection.id },
+    });
+    FluxDispatcher.dirtyDispatch({
+      type: constants.ActionTypes.APPLICATION_COMMAND_SEARCH_MANAGER_UPDATE,
+      channelId: channelId,
+      commandType: 1,
+      state: { applicationCommands: commands },
+    });
+  };
 
-        resp.sectionsOffset.push(commands.length);
+export function initializeCommands() {
+  // TODO: fix querying in servers with lots of commmands not showing cc commands!
 
-        resp.discoveryCommands = [...resp.discoveryCommands, ...commands];
-      }
+  let unpatchFilterSection;
+  after("useSearchManager", searchManagerModule, ([channel], ret) => {
+    unpatchFilterSection?.();
+    unpatchFilterSection = instead("filterSection", ret, filterSectionPatch(channel.id));
 
-      if (!resp.applicationCommandSections.find((section) => section.id === applicationId)) {
-        resp.applicationCommandSections.push(cumcordSection);
-      }
-    }
+    // dont make duplicates, only show if commands exist
+    if (ret.sectionDescriptors.some((s) => s.id === cumcordSection.id) || commands.length === 0)
+      return;
+
+    ret.sectionDescriptors.splice(ret.sectionDescriptors.length - 1, 0, cumcordSection);
+
+    // stop if something else is focused
+    if (ret.filteredSectionId && ret.filteredSectionId !== cumcordSection.id) return;
+
+    const asBuiltinId = ret.activeSections.findIndex((n) => n.id === "-1");
+    const asIndex = asBuiltinId !== -1 ? asBuiltinId : ret.activeSections.length;
+    ret.activeSections.splice(asIndex, 0, cumcordSection);
+
+    const cbBuiltinId = ret.commandsByActiveSection.findIndex((n) => n.section.id === "-1");
+    const cbIndex = cbBuiltinId !== -1 ? cbBuiltinId : ret.commandsByActiveSection.length;
+    ret.commandsByActiveSection.splice(cbIndex, 0, { section: cumcordSection, data: commands });
+
+    ret.commands.push(...commands);
   });
 }
 
-function addCommand({ name, description, args, handler }) {
+export function addCommand({ name, description, args, handler }) {
   // Add Cumcord section to command list
 
   // Abstraction goes here!
@@ -144,5 +170,3 @@ function addCommand({ name, description, args, handler }) {
     if (index > -1) commands.splice(index, 1);
   };
 }
-
-export { addCommand, initializeCommands };

@@ -18,7 +18,7 @@ try {
   await esbuild.build({
     entryPoints: ["./src/index.js"],
     outfile: "./dist/new-build.js",
-    minify: true,
+    minify: false,
     bundle: true,
     format: "iife",
     // injects the `React` global into our bundle (for JSX)
