@@ -15,6 +15,9 @@
   "ARE_YOU_SURE": "Are you sure?",
   "ADD_PLUGIN": "Add Plugin",
 
+  "OPEN_SETTINGS": "Open settings",
+  "TOGGLE_UPDATES": "Toggle updates",
+
   "FAILED_PLUGIN_IMPORT": "Failed to import plugin",
   "PLUGIN_URL_PLACEHOLDER": "https://example.com/plugin",
   "COPIED_URL": "Copied plugin URL to clipboard.",
