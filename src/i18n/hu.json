@@ -28,5 +28,5 @@
     "NO_PARSE": "Plugin manifeszt nem olvasható: {}",
     "INSTALL_PROMPT": "Le akarod tölteni ezt a plugint?",
     "CAN_BE_DANGEROUS": "Cumcord pluginok kódot futtathatnak a gépedek, és lehet hogy veszélyesek. Csak akkor erősítse meg ha bízik `{}` pluginjaiban.",
-    "BY": "{0} {1} által"
+    "BY": "{0}, {1} által"
 }
