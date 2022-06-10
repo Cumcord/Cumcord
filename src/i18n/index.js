@@ -1,37 +1,29 @@
 import { i18n } from "@commonModules";
+import defaultStrings from "./default.json";
 
-import fallback from "./default.json";
+const BASE_URL = "https://raw.githubusercontent.com/Cumcord/builds/main/i18n/";
 
-import de from "./de.json";
-import el from "./el.json";
-import gb from "./en-GB.json";
-import fr from "./fr.json";
-import hi from "./hi.json";
-import hu from "./hu.json";
-import it from "./it.json";
-import nl from "./nl.json";
-import pl from "./pl.json";
-import ru from "./ru.json";
-import tr from "./tr.json";
-import vi from "./vi.json";
+const languageList = ["de", "el", "en-GB", "fr", "hl", "hu", "it", "nl", "pl", "ru", "tr", "vi"];
 
-const langs = {
-  de,
-  el,
-  "en-GB": gb,
-  fr,
-  hi,
-  hu,
-  it,
-  nl,
-  pl,
-  ru,
-  tr,
-  vi,
+const langStrings = {};
+
+const updateLangs = () => {
+  const currentLocale = i18n._requestedLocale;
+  if (langStrings[currentLocale] || !languageList.includes(currentLocale)) return;
+
+  fetch(`${BASE_URL}${currentLocale}.json`).then(
+    async (r) => (langStrings[currentLocale] = await r.json()),
+  );
 };
 
-const consts = new Proxy(fallback, {
-  get: (_, prop) => langs[i18n._requestedLocale]?.[prop] ?? fallback[prop],
+// initial run
+updateLangs();
+
+const consts = new Proxy(defaultStrings, {
+  get: (_, prop) => {
+    updateLangs();
+    return langStrings[i18n._requestedLocale]?.[prop] ?? defaultStrings[prop];
+  },
 });
 export default consts;
 

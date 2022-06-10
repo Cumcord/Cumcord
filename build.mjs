@@ -18,7 +18,7 @@ try {
   await esbuild.build({
     entryPoints: ["./src/index.js"],
     outfile: "./dist/new-build.js",
-    minify: false,
+    minify: true,
     bundle: true,
     format: "iife",
     // injects the `React` global into our bundle (for JSX)
@@ -44,3 +44,11 @@ try {
   console.error(err);
   process.exit(1);
 }
+
+// copy i18n files
+try {
+  await fs.mkdir("./dist/i18n");
+} catch {}
+for (const file of await fs.readdir("./src/i18n"))
+  if (/^(.{2}-)?.{2}\.json/.test(file))
+    await fs.copyFile(path.resolve("./src/i18n", file), path.join("./dist/i18n", file));
