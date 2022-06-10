@@ -3,9 +3,7 @@ import { channels, constants, FluxDispatcher } from "@commonModules";
 import { after, instead } from "@patcher";
 import { logger } from "@utils";
 
-const searchManagerModule = findByProps("useSearchManager");
-/*const commandsModule = findByProps("getQueryCommands");
-const commandDiscovery = findByProps("useApplicationCommandsDiscoveryState");*/
+const searchStoreMod = findByProps("useSearchManager");
 const { sendMessage } = findByProps("sendMessage");
 const { createBotMessage } = findByProps("createBotMessage");
 const { receiveMessage } = findByProps("receiveMessage");
@@ -59,7 +57,7 @@ export function initializeCommands() {
   // TODO: fix querying in servers with lots of commmands not showing cc commands!
 
   let unpatchFilterSection;
-  after("useSearchManager", searchManagerModule, ([channel], ret) => {
+  after("useSearchManager", searchStoreMod, ([channel], ret) => {
     unpatchFilterSection?.();
     unpatchFilterSection = instead("filterSection", ret, filterSectionPatch(channel.id));
 
@@ -81,6 +79,12 @@ export function initializeCommands() {
     ret.commandsByActiveSection.splice(cbIndex, 0, { section: cumcordSection, data: commands });
 
     ret.commands.push(...commands);
+  });
+
+  after("getQueryCommands", searchStoreMod.default, ([, , query], ret) => {
+    if (!query || query.startsWith("/")) return;
+
+    return [...(ret ?? []), ...commands.filter((c) => c.name.startsWith(query))];
   });
 }
 
