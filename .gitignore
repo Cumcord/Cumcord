@@ -89,6 +89,7 @@ typings/
 
 # Cumcord build files
 dist/new-build.js
+dist/i18n
 
 # WebStorm adds these files, and they *should* be checked into VCS, but we don't really need the clutter
 .idea
