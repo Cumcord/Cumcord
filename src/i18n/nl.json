@@ -28,5 +28,7 @@
     "INSTALL_PROMPT": "Wil je deze plugin installeren?",
     "CAN_BE_DANGEROUS": "Cumcord plugins kunnen code uitvoeren op je computer en kunnen dus gevaarlijk zijn. Alleen op \"Bevestig\" klikken als je de plugin van `{}` vertrouwd.",
     "EMBEDS_WHATIS": "Dit is een Cumcord functie. Het laat je plugins direct vanuit chat installeren.\nHet is simpel: klik gewoon op de \"Installeren\" knop in de embed.",
-    "DELETE_DISCLAIMER": "Alle data van {} zal worden verwijderd en kan niet meer worden hersteld."
+    "DELETE_DISCLAIMER": "Alle data van {} zal worden verwijderd en kan niet meer worden hersteld.",
+    "OPEN_SETTINGS": "Open instellingen",
+    "TOGGLE_UPDATES": "Zet updates aan/uit"
 }
