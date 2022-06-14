@@ -50,5 +50,5 @@ try {
   await fs.mkdir("./dist/i18n");
 } catch {}
 for (const file of await fs.readdir("./src/i18n"))
-  if (/^(.{2}-)?.{2}\.json/.test(file))
+  if (/^(.{2}-_)?.{2}\.json/.test(file))
     await fs.copyFile(path.resolve("./src/i18n", file), path.join("./dist/i18n", file));
