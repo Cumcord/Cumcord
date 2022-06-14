@@ -28,5 +28,7 @@
     "DELETE_DISCLAIMER": "Wszystkie dane {} zostaną usunięte i nie będzie możliwości ich przywrócenia.",
     "INSTALL_PROMPT": "Czy chcesz zainstalować tą wtyczkę?",
     "NO_200": "Wtyczka nie zwraca 200",
-    "NO_PARSE": "Plik informacyjny wtyczki nie mógł być przetworzony: {}"
+    "NO_PARSE": "Plik informacyjny wtyczki nie mógł być przetworzony: {}",
+    "OPEN_SETTINGS": "Otwórz ustawienia",
+    "TOGGLE_UPDATES": "Przełącz aktualizacje"
 }
