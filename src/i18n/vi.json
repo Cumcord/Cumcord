@@ -14,12 +14,12 @@
     "PLUGINS": "Plugin",
     "FAILED_PLUGIN_IMPORT": "Không thể thêm được plugin",
     "ARE_YOU_SURE": "Bạn chắc không?",
-    "COPIED_URL": "Đã sao chép địa chỉ URL của plugin.",
+    "COPIED_URL": "Đã sao chép URL của plugin.",
     "PLUGIN_NOT_FOUND": "Plugin {} không thể tìm thấy",
     "PLUGIN_LOADED": "Plugin {} đã được chạy",
     "CONFIRM": "Xác minh",
     "WHAT_IS_THIS": "Đây là gì vậy?",
-    "ERR_HEADER": "Ôi không, em hàng xóm kế bên đã phát hiện \"tệp học tập\" của bạn. (Cumcord)",
+    "ERR_HEADER": "Cái này tự hiểu. T mệt dịch lắm r. :))) (Cumcord)",
     "MODAL_DEFAULT": "Bạn có chắc rằng bạn muốn làm điều đó không?",
     "REMOVE_PROMPT": "Bạn có muốn xoá plugin này không?",
     "NO_MAN_200": "Lỗi manifest Plugin not returning 200",
@@ -27,6 +27,6 @@
     "NO_PARSE": "Lỗi manifest Plugin không thể phân tích được: {}",
     "INVALID": "Không hợp lệ",
     "CAN_BE_DANGEROUS": "Những plugin của Cumcord có thể chạy những dòng lệnh không được xác minh trên máy tính của bạn và đem lại rủi ro lớn. Hãy chọn xác minh nếu bạn hoàn toàn tin tưởng vào `{}`.",
-    "EMBEDS_WHATIS": "Đây là một tính năng hay ho của Cumcord. Nó có thể giúp bạn tải những plugin trực tiếp từ  chat.\nĐơn giản chỉ cần ấn nút vào \"Cài Đặt\" trên nhúng.",
+    "EMBEDS_WHATIS": "Đây là một tính năng đặc biệt của Cumcord. Nó có thể giúp bạn tải những plugin trực tiếp từ  chat.\nĐể cài đặt, đơn giản chỉ cần chọn nút \"Cài Đặt\" trên nhúng.",
     "PLUGIN_NOT_LOADED": "Plugin {} chưa được chạy"
 }
