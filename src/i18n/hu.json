@@ -20,7 +20,7 @@
     "MODAL_DEFAULT": "Biztos hogy ezt akarod? Élni fogsz a következményekkel.",
     "REMOVE_PROMPT": "El akarod távolítani ezt a plugint?",
     "DELETE_DISCLAIMER": "{} minden adatja el lesz törölve, és azt vissza nem lehet hozni.",
-    "PLUGIN_NOT_FOUND": "{} nem talált",
+    "PLUGIN_NOT_FOUND": "{} nem található",
     "PLUGIN_LOADED": "{} már be van töltve",
     "PLUGIN_NOT_LOADED": "{} nincs betöltve",
     "NO_200": "Plugin nem küld 200-at",
