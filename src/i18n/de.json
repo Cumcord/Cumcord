@@ -28,5 +28,7 @@
     "NO_PARSE": "Manifest konnte nicht gelesen werden: {}",
     "INSTALL_PROMPT": "Möchtest du dieses Plugin installieren?",
     "CAN_BE_DANGEROUS": "Cumcord Plugins können auf deinem Computer möglicherweise schädlichen Code ausführen. Fahre nur fort, wenn du `{}` vertraust.",
-    "EMBEDS_WHATIS": "Diese Cumcord Funktion ermöglicht es dir Plugins direkt aus dem Chat zu installieren.\nDrücke einfach auf \"Installieren\"."
+    "EMBEDS_WHATIS": "Diese Cumcord Funktion ermöglicht es dir Plugins direkt aus dem Chat zu installieren.\nDrücke einfach auf \"Installieren\".",
+    "OPEN_SETTINGS": "Einstellungen öffnen",
+    "TOGGLE_UPDATES": "Updates an-/ausschalten"
 }
