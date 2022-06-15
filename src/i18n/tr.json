@@ -28,5 +28,7 @@
     "NO_PARSE": "Eklenti manifestosu çözümlenemiyor: {}",
     "INSTALL_PROMPT": "Bu eklentiyi kurmak istiyor musunuz?",
     "CAN_BE_DANGEROUS": "Cumcord eklentileri bilgisayarınızda kod çalıştırabilir ve potansiyel olarak tehlikeli olabilir. Yalnızca \"{}\" eklentisine güveniyorsanız onayla'yı tıklayın.",
-    "BY": "{0}, {1} tarafından"
+    "BY": "{0}, {1} tarafından",
+    "OPEN_SETTINGS": "Ayarları aç",
+    "TOGGLE_UPDATES": "Güncellemeleri aç/kapat"
 }
