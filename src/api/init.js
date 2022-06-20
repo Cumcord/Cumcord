@@ -5,6 +5,7 @@ import { initializeToasts } from "@toasts";
 import { initializePlugins, initializePluginStore, pluginCache, loadedPlugins } from "@plugins";
 import { initializeSocket } from "@websocket";
 import { initializeCommands } from "@commands";
+import { initUserSettings } from "@userSettings";
 // things to uninit
 import { unpatchAll, unpatchAllCss } from "@patcher";
 import { unloadAllPlugins } from "@plugins";
@@ -43,6 +44,7 @@ export default async (extraInit, extraUninit) => {
 
   initializeToasts();
   initializeSocket();
+  initUserSettings();
   await initializePluginStore();
   api.plugins.installed = pluginCache;
   api.plugins.loaded = loadedPlugins;

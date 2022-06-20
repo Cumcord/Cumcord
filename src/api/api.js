@@ -13,6 +13,7 @@ import { showToast } from "@toasts";
 import showConfirmationModal from "@modals";
 import * as components from "@components";
 import * as DNGetters from "./ui/dngetter";
+import { registerSection } from "@userSettings";
 
 export default (uninject, cum) => {
   const api = {
@@ -43,6 +44,7 @@ export default (uninject, cum) => {
       // see above comment
       components: { ...components },
       ...DNGetters,
+      userSettings: { registerSection },
     },
     // see above comment
     utils: { ...utils },

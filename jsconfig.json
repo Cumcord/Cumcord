@@ -11,6 +11,7 @@
       "@plugins": ["./src/api/plugins/index.js"],
       "@toasts": ["./src/api/ui/toasts/index.jsx"],
       "@modals": ["./src/api/ui/showConfirmationModal.jsx"],
+      "@userSettings": ["./src/api/ui/userSettings.js"],
       "@devmode": ["./src/api/devmode.js"],
       "@utils": ["./src/api/utils/index.js"],
       "@pluginSettings": ["./src/api/ui/showPluginSettings.jsx"],
