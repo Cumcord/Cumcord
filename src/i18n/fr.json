@@ -28,5 +28,7 @@
     "PLUGIN_LOADED": "Plugin {} déjà chargé",
     "PLUGIN_NOT_LOADED": "Plugin {} non chargé",
     "NO_MAN_200": "Le manifeste du plugin n'a pas retourné le code 200",
-    "NO_200": "Le plugin n'a pas retourné le code 200"
+    "NO_200": "Le plugin n'a pas retourné le code 200",
+    "OPEN_SETTINGS": "Ouvrir les paramètres",
+    "TOGGLE_UPDATES": "Activer les mises à jour"
 }
