@@ -28,5 +28,7 @@
     "NO_PARSE": "O manifesto do plugin não pode ser processado: {}",
     "INSTALL_PROMPT": "Deseja instalar esse plugin?",
     "CAN_BE_DANGEROUS": "Plugins do Cumcord podem executar código em seu computador e podem ser potencialmente perigosos. Apenas clique confirmar se você confia no plugin de `{}`.",
-    "EMBEDS_WHATIS": "Isso é um recurso do Cumcord. Ele permite instalar plugins direto do chat.\nApenas clique no botão Instalar na mensagem."
+    "EMBEDS_WHATIS": "Isso é um recurso do Cumcord. Ele permite instalar plugins direto do chat.\nApenas clique no botão Instalar na mensagem.",
+    "OPEN_SETTINGS": "Abrir configurações",
+    "TOGGLE_UPDATES": "Ativar atualizações"
 }
