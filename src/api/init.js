@@ -14,7 +14,7 @@ import { uninitializeToasts } from "@toasts";
 
 let resolveQueue = [];
 
-export default async (extraInit, extraUninit) => {
+export default async (extraInit, extraUninit, apiSyncEscape) => {
   const api = getApi(
     // uninject
     () => {
@@ -37,6 +37,10 @@ export default async (extraInit, extraUninit) => {
         : cock;
     },
   );
+
+  // synchronously gets the api out ASAP
+  // assuming the object reference remains intact once escaped plugin stuff will assign onto it just fine
+  apiSyncEscape?.(api);
 
   injectCSS(
     `.cumcord-error-handler{font-family: var(--font-display);color:var(--text-normal);padding:16px}.cumcord-error-handler-title{margin-bottom:7px;font-weight:bold;font-size:24px}.cumcord-error-handler-code{background-color:var(--background-secondary);font-family:var(--font-code);user-select:text}`,

@@ -20,4 +20,5 @@ init(
     uninitializeLamivudine();
     delete window.cumcord;
   },
-).then((api) => (window.cumcord = api));
+  (api) => (window.cumcord = api),
+);
