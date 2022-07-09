@@ -75,16 +75,16 @@ export function stopPlugin(pluginId) {
   delete loadedPlugins.store[pluginId];
 }
 
-export function togglePlugin(pluginId) {
+export async function togglePlugin(pluginId) {
   const plugin = pluginCache.store[pluginId];
 
   if (!pluginCache.ghost[pluginId]) throw new Error(i18nfmt("PLUGIN_NOT_FOUND", pluginId));
 
   if (plugin.enabled) {
-    stopPlugin(pluginId);
+    await stopPlugin(pluginId);
     plugin.enabled = false;
   } else {
-    startPlugin(pluginId);
+    await startPlugin(pluginId);
     plugin.enabled = true;
   }
 }
