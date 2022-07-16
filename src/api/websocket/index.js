@@ -1,6 +1,6 @@
 import { find } from "@webpackModules";
 import messageHandler, { addHandler, removeAllHandlers } from "./messageHandler";
-import { instead } from "@patcher";
+import { findAndPatch, instead } from "@patcher";
 import builtInHandlers from "./builtInHandlers";
 
 let connectedSockets = new Set();
@@ -10,18 +10,20 @@ export function initializeSocket() {
 
   if (!window.DiscordNative) return;
 
-  const wsModule = find((m) => m.Z?.__proto__?.handleConnection).Z;
+  findAndPatch(
+    () => find((m) => m.Z?.__proto__?.handleConnection),
+    ({ Z: wsModule }) =>
+      instead("handleConnection", wsModule, (args, orig) => {
+        const ws = args[0];
+        if (ws.upgradeReq().url !== "/cumcord") return orig(...args);
 
-  instead("handleConnection", wsModule, (args, orig) => {
-    const ws = args[0];
-    if (ws.upgradeReq().url !== "/cumcord") return orig(...args);
+        connectedSockets.add(ws);
 
-    connectedSockets.add(ws);
+        ws.on("message", messageHandler(ws.send));
 
-    ws.on("message", messageHandler(ws.send));
-
-    ws.on("close", () => connectedSockets.delete(ws));
-  });
+        ws.on("close", () => connectedSockets.delete(ws));
+      }),
+  );
 }
 
 export function uninitializeSocket() {
