@@ -19,7 +19,7 @@ export default (props) => {
   const plugin = pluginCache.ghost[props.pluginId];
 
   // Nests can be confusing. The plugin just might not exist yet so we return null until the component rerenders.
-  if (!plugin.manifest) return null;
+  if (!plugin?.manifest) return null;
 
   useNest(loadedPlugins, false, (_type, data) => data.path[0] === props.pluginId);
 
