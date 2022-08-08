@@ -1,2 +1,2 @@
-export default webpackChunkdiscord_app.push([[Symbol()], {}, (e) => e]);
-webpackChunkdiscord_app.pop();
+import { webpackChunk } from "@cumjar/websmack";
+export default webpackChunk("webpackChunkdiscord_app")[1];

@@ -6,7 +6,9 @@ Cumcord is a Discord client mod that focuses on making the Discord plugin develo
 easier.
 
 # Installation
-Cumcord provides a simple installation helper at https://cumcord.com/#install that allows you to install Cumcord on top of BetterDiscord, GooseMod, Discord for Web, and more.
+
+Cumcord provides a simple installation helper at https://cumcord.com/#install that allows you to
+install Cumcord on top of BetterDiscord, GooseMod, Discord for Web, and more.
 
 # Features
 
