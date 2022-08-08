@@ -34,5 +34,9 @@
   "NO_200": "Plugin not returning 200",
   "NO_PARSE": "Plugin manifest cannot be parsed: {}",
   "INSTALL_PROMPT": "Do you want to install this plugin?",
-  "CAN_BE_DANGEROUS": "Cumcord plugins can run code on your computer and can be potentially dangerous. Only click confirm if you trust the plugin from `{}`."
+  "CAN_BE_DANGEROUS": "Cumcord plugins can run code on your computer and can be potentially dangerous. Only click confirm if you trust the plugin from `{}`.",
+
+  "PLUGIN_EVAL_ERR": "Plugin `{0}` will be disabled because it errored on eval: {1}",
+  "PLUGIN_LOAD_ERR": "Plugin `{0}` errored on load: {1}",
+  "PLUGIN_UNLOAD_ERR": "Plugin `{0}` errored on unload: {1}"
 }

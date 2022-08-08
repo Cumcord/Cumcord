@@ -2,6 +2,7 @@ import { createPersistentNest } from "./pluginStorage";
 import showPluginSettings from "../ui/showPluginSettings";
 import { nests } from "@internalModules";
 import i18n, { i18nfmt } from "@i18n";
+import { logger } from "@utils";
 
 const noStore = { cache: "no-store" };
 
@@ -45,20 +46,40 @@ export async function startPlugin(pluginId) {
 
   if (loadedPlugins.ghost[pluginId]) throw new Error(i18nfmt("PLUGIN_LOADED", pluginId));
 
-  const evaledPlugin = evalPlugin(plugin.js, {
-    persist: await createPersistentNest(pluginId),
-    id: pluginId,
-    manifest: plugin.manifest,
-    showSettings() {
-      showPluginSettings(plugin.manifest.name, loadedPlugins.ghost[pluginId].settings);
-    },
-  });
+  let evaledPlugin;
+  let removeInstantly = false;
+  try {
+    evaledPlugin = evalPlugin(plugin.js, {
+      persist: await createPersistentNest(pluginId),
+      id: pluginId,
+      manifest: plugin.manifest,
+      showSettings: () =>
+        showPluginSettings(plugin.manifest.name, loadedPlugins.ghost[pluginId].settings),
+    });
+  } catch (e) {
+    logger.error(i18nfmt("PLUGIN_EVAL_ERR", plugin.manifest.name, e));
+    removeInstantly = true;
+  }
 
   try {
     evaledPlugin.onLoad?.();
-  } catch {}
+  } catch (e) {
+    logger.error(i18nfmt("PLUGIN_LOAD_ERR", plugin.manifest.name, e));
+  }
 
   loadedPlugins.store[pluginId] = evaledPlugin;
+
+  // setTimeout to allow the plugin to do whatever load weirdness it needs to before unloading it
+  // ive encountered plugins that dont like being disabled on the same tick as being enabled -- sink
+  if (removeInstantly)
+    setTimeout(() => {
+      try {
+        plugin.onUnload();
+      } catch (e) {
+        logger.error(i18nfmt("PLUGIN_UNLOAD_ERR", plugin.manifest.name, e));
+      }
+      plugin.enabled = false;
+    });
 }
 
 export function stopPlugin(pluginId) {
@@ -70,7 +91,9 @@ export function stopPlugin(pluginId) {
 
   try {
     plugin.onUnload();
-  } catch {}
+  } catch (e) {
+    logger.error(`plugin ${plugin.manifest.name} errored on unload:`, e);
+  }
 
   delete loadedPlugins.store[pluginId];
 }
