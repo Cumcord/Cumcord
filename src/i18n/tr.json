@@ -30,5 +30,8 @@
     "CAN_BE_DANGEROUS": "Cumcord eklentileri bilgisayarınızda kod çalıştırabilir ve potansiyel olarak tehlikeli olabilir. Yalnızca \"{}\" eklentisine güveniyorsanız onayla'yı tıklayın.",
     "BY": "{0}, {1} tarafından",
     "OPEN_SETTINGS": "Ayarları aç",
-    "TOGGLE_UPDATES": "Güncellemeleri aç/kapat"
+    "TOGGLE_UPDATES": "Güncellemeleri aç/kapat",
+    "PLUGIN_EVAL_ERR": "`{0}` eklentisi, işleme sırasında hata verdiği için devre dışı bırakılacak: {1}",
+    "PLUGIN_LOAD_ERR": "`{0}` eklentisi yüklenirken hata verdi: {1}",
+    "PLUGIN_UNLOAD_ERR": "`{0}` eklentisi unload sırasında hata verdi: {1}"
 }
