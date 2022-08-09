@@ -1,5 +1,25 @@
 {
-  "CONFIRM": "Fuck yes mate",
-  "PLUGIN_URL_PLACEHOLDER": "https://cumcord.gov.uk/plugin",
-  "ERR_HEADER": "Blimey, we fucked it. (Cumcord)"
+    "CONFIRM": "Fuck yes mate",
+    "PLUGIN_URL_PLACEHOLDER": "https://cumcord.gov.uk/plugin",
+    "ERR_HEADER": "Blimey, we fucked it. (Cumcord)",
+    "PLUGINS": "Plugins",
+    "SEARCH": "Findey Findey...",
+    "DELETE": "Expunge",
+    "COPIED": "Copied!",
+    "INVALID": "Irrational",
+    "INSTALLED": "Installed",
+    "INSTALL": "Install",
+    "CANCEL": "Aww fuck nah mate",
+    "BY": "[0] by [1]",
+    "COPY_LINK": "Copy Reference",
+    "WHAT_IS_THIS": "What in the Queen's name is this?",
+    "ARE_YOU_SURE": "Are ye sure?",
+    "ADD_PLUGIN": "Add Plugin",
+    "FAILED_PLUGIN_IMPORT": "Failed to steal plugin",
+    "COPIED_URL": "Copied plugin reference to clippy.",
+    "MODAL_DEFAULT": "Are ye focking sure ye really want to do that?",
+    "REMOVE_PROMPT": "Do ye want to yeet this plugin?",
+    "EMBEDS_WHATIS": "This is a Cumcord feature. It lets ye install plugins from talkey walkey\nSimply smash that install button on the embed.",
+    "OPEN_SETTINGS": "Open configurations",
+    "TOGGLE_UPDATES": "Tiggle updates"
 }
