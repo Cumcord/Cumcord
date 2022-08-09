@@ -30,5 +30,8 @@
     "CAN_BE_DANGEROUS": "Cumcord Plugins können auf deinem Computer möglicherweise schädlichen Code ausführen. Fahre nur fort, wenn du `{}` vertraust.",
     "EMBEDS_WHATIS": "Diese Cumcord Funktion ermöglicht es dir Plugins direkt aus dem Chat zu installieren.\nDrücke einfach auf \"Installieren\".",
     "OPEN_SETTINGS": "Einstellungen öffnen",
-    "TOGGLE_UPDATES": "Updates an-/ausschalten"
+    "TOGGLE_UPDATES": "Updates an-/ausschalten",
+    "PLUGIN_EVAL_ERR": "Plugin `{0}` wird deaktiviert weil es beim Ausführen ein Fehler gab: `{1}`",
+    "PLUGIN_UNLOAD_ERR": "Plugin `{0}` hatte ein Fehler beim Entladen: {1}",
+    "PLUGIN_LOAD_ERR": "Plugin `{0}` hatte ein Fehler beim Laden: {1}"
 }
