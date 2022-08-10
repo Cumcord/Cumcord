@@ -1,5 +1,5 @@
 import wpRequire from "@wpRequire";
-import { createApi, batchFind as createBFind } from "@cumjar/websmack";
+import { createApi } from "@cumjar/websmack";
 
 export { default as findAsync } from "./findAsync";
 
@@ -32,6 +32,7 @@ export const {
   findByNestedPropsAll,
   findByProps,
   findByPropsAll,
+  findByPrototypes,
+  findByPrototypesAll,
+  batchFind,
 } = createApi([undefined, wpRequire.c, wpRequire]);
-
-export const batchFind = createBFind([undefined, wpRequire.c]);
