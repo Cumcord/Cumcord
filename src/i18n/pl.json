@@ -30,5 +30,8 @@
     "NO_200": "Wtyczka nie zwraca 200",
     "NO_PARSE": "Plik informacyjny wtyczki nie mógł być przetworzony: {}",
     "OPEN_SETTINGS": "Otwórz ustawienia",
-    "TOGGLE_UPDATES": "Przełącz aktualizacje"
+    "TOGGLE_UPDATES": "Przełącz aktualizacje",
+    "PLUGIN_UNLOAD_ERR": "Wtyczka `{0}`: wystąpił błąd podczas wyładowania: {1}",
+    "PLUGIN_EVAL_ERR": "Wtyczka `{0}` zostanie wyłączona, ponieważ wystąpił błąd w evalu: {1}",
+    "PLUGIN_LOAD_ERR": "Wtyczka `{0}` - wystąpił błąd podczas ładowania: {1}"
 }
