@@ -4,10 +4,13 @@ import defaultStrings from "./default.json";
 const BASE_URL = "https://raw.githubusercontent.com/Cumcord/builds/main/i18n/";
 
 const languageList = [
+  "ar",
   "de",
   "el",
+  "es",
   "en-GB",
   "fr",
+  "he",
   "hl",
   "hu",
   "it",
