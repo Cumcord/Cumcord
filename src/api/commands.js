@@ -137,6 +137,7 @@ export function addCommand({ name, description, args, handler }) {
           msg.author.username = "Cumcord";
           msg.author.avatar = botIconId;
           msg.author.id = applicationId;
+          msg.channel_id = ctx.channel.id;
 
           if (typeof input === "string") {
             msg.content = input;
