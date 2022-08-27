@@ -97,7 +97,9 @@ export function addCommand({ name, description, args, handler }) {
     type: 3,
     target: 1,
     description,
+    displayDescription: description,
     name,
+    displayName: name,
     id: "CUMCORD_COMMAND",
   };
 
@@ -107,7 +109,7 @@ export function addCommand({ name, description, args, handler }) {
         arg.type = "string";
       }
 
-      const newArg = { ...arg };
+      const newArg = { ...arg, displayName: arg.name, displayDescription: arg.description };
 
       newArg.type = typeMap[arg.type];
       newArg.required = newArg.required === undefined ? true : newArg.required;
