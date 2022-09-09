@@ -30,5 +30,8 @@
     "CAN_BE_DANGEROUS": "Cumcord pluginok kódot futtathatnak a gépedek, és lehet hogy veszélyesek. Csak akkor erősítse meg ha bízik `{}` pluginjaiban.",
     "BY": "{0}, {1} által",
     "TOGGLE_UPDATES": "Frissítések ki/bekapcsolása",
-    "OPEN_SETTINGS": "Beállítások"
+    "OPEN_SETTINGS": "Beállítások",
+    "PLUGIN_EVAL_ERR": "A `{0}` plugin le lesz tiltva mert \"eval\" hibás {1}",
+    "PLUGIN_LOAD_ERR": "A `{0}` plugin hibás töltéskor {1}",
+    "PLUGIN_UNLOAD_ERR": "A `{0}` plugin hibás kikapcsoláskor {1}"
 }
