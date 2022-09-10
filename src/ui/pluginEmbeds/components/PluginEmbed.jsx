@@ -67,7 +67,10 @@ export default async function getPluginEmbed() {
             <LegacyText size={LegacyText.Sizes.SIZE_14} className={subHead}>
               {data.name}
             </LegacyText>
-            <LegacyText size={LegacyText.Sizes.SIZE_16} className={buildDetails}>
+            <LegacyText
+              size={LegacyText.Sizes.SIZE_16}
+              className={buildDetails}
+              style={{ maxWidth: "215px" }}>
               {data.description}
             </LegacyText>
           </div>
