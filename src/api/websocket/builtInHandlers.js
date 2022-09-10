@@ -1,6 +1,6 @@
 import { loadPluginDev, isDevModeOn } from "@devmode";
 import { importPlugin } from "@plugins";
-import showConfirmationModal from "@modals";
+import { showConfirmationModal } from "@modals";
 import i18n, { i18nfmt } from "@i18n";
 
 // responses from the WS are purposefully not subject to i18n to avoid breaking anyone's logic.

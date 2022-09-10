@@ -10,7 +10,7 @@ import { addCommand } from "@commands";
 import * as websocket from "@websocket";
 // UI APIs
 import { showToast } from "@toasts";
-import showConfirmationModal from "@modals";
+import { showConfirmationModal } from "@modals";
 import * as components from "@components";
 import * as DNGetters from "./ui/dngetter";
 import { registerSection } from "@userSettings";

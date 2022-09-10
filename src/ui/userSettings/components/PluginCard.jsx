@@ -1,7 +1,7 @@
 import { findByDisplayName, findByProps, findByDisplayNameAll } from "@webpackModules";
 import showPluginSettings from "@pluginSettings";
 import { useNest, copyText } from "@utils";
-import showConfirmationModal from "@modals";
+import { showConfirmationModal } from "@modals";
 import { showToast } from "@toasts";
 import { idbKeyval } from "@internalModules";
 import { pluginCache, loadedPlugins, removePlugin, togglePlugin } from "@plugins";
