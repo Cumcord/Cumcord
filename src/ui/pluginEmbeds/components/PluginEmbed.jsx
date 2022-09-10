@@ -14,6 +14,7 @@ if (!LegacyText) LegacyText = findByDisplayName("Text");
 
 const Button = findByProps("BorderColors", "Colors");
 const Alert = findByDisplayName("Alert");
+const Tooltip = findByDisplayName("Tooltip");
 const ModalApi = findByProps("openModal", "useModalsStore");
 
 // SVGs
@@ -67,12 +68,17 @@ export default async function getPluginEmbed() {
             <LegacyText size={LegacyText.Sizes.SIZE_14} className={subHead}>
               {data.name}
             </LegacyText>
-            <LegacyText
-              size={LegacyText.Sizes.SIZE_16}
-              className={buildDetails}
-              style={{ maxWidth: "215px" }}>
-              {data.description}
-            </LegacyText>
+            <Tooltip position="top" text={data.description}>
+              {(tooltipProps) => (
+                <LegacyText
+                  {...tooltipProps}
+                  size={LegacyText.Sizes.SIZE_16}
+                  className={buildDetails}
+                  style={{ maxWidth: "215px" }}>
+                  {data.description}
+                </LegacyText>
+              )}
+            </Tooltip>
           </div>
           <Button
             size={Button.Sizes.MEDIUM}
