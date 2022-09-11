@@ -43,7 +43,7 @@ export default async (extraInit, extraUninit, apiSyncEscape) => {
   apiSyncEscape?.(api);
 
   injectCSS(
-    `.cumcord-error-handler{font-family: var(--font-display);color:var(--text-normal);padding:16px}.cumcord-error-handler-title{margin-bottom:7px;font-weight:bold;font-size:24px}.cumcord-error-handler-code{background-color:var(--background-secondary);font-family:var(--font-code);user-select:text}`,
+    `.cumcord-error-handler{font-family:var(--font-display);color:var(--text-normal);padding:16px}.cumcord-error-handler-title{margin-bottom:7px;font-weight:700;font-size:24px}.cumcord-error-handler-code{background-color:var(--background-secondary);font-family:var(--font-code);user-select:text}.cumcord-error-handler-btn{color:var(--text-danger);background:0 0;border:1px solid var(--text-danger);border-radius:3px;transition-property:color,background-color,border-color;transition-duration:.17s;transition-timing-function:ease;display:block;padding:.1rem .5rem}.cumcord-error-handler-btn:hover{color:var(--button-outline-danger-text-hover);background:var(--text-danger)}`,
   );
 
   initializeToasts();
