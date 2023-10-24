@@ -39,3 +39,5 @@ We use [Weblate](https://weblate.org) for translations! Contribute here:
 <a href="https://hosted.weblate.org/engage/cumcord/">
 <img src="https://hosted.weblate.org/widgets/cumcord/-/cumcord/287x66-black.png" alt="Translation status" />
 </a>
+
+Cumcord 2 is upcumming. Get ready for round two.
