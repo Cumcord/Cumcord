@@ -1,14 +1,12 @@
 import { batchFind } from "@webpackModules";
 import i18n from "@i18n";
 
-const [{ openModal }, Colors, ConfirmModal, [, Markdown]] = batchFind(
-  ({ findByProps, findByDisplayName, findByDisplayNameAll }) => {
-    findByProps("openModalLazy");
-    findByProps("button", "colorRed");
-    findByDisplayName("ConfirmModal");
-    findByDisplayNameAll("Markdown");
-  },
-);
+const [{ openModal }, Colors, { ConfirmModal }, Markdown] = batchFind(({ find, findByProps }) => {
+  findByProps("openModalLazy");
+  findByProps("button", "colorRed");
+  findByProps("ConfirmModal");
+  find((m) => m?.defaultProps?.parser); // Markdown
+});
 
 export default async (
   {

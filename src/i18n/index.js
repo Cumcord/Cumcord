@@ -53,10 +53,16 @@ export const i18nfmt = (fmt, ...vals) => {
   });
 };
 
+// link: what??? what the fuck??? seriously dude??? ???? i am so concerned for your mental health
+// kyza: hi
+// simon: and me
+// 沙々: use the kanji specifically
 export const i18nfmtSplit = (fmt, ...vals) => {
   const parts = [];
+
   let working = "";
   let matchedI = 0;
+
   for (let i = 0; i < consts[fmt].length; i++) {
     working += consts[fmt][i];
     const match = working.match(/{(\d+)?}/);

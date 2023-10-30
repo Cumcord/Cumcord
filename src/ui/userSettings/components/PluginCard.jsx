@@ -1,4 +1,4 @@
-import { findByDisplayName, findByProps, findByDisplayNameAll } from "@webpackModules";
+import { find, findByProps, findByCode } from "@webpackModules";
 import showPluginSettings from "@pluginSettings";
 import { useNest, copyText } from "@utils";
 import { showConfirmationModal } from "@modals";
@@ -7,13 +7,11 @@ import { idbKeyval } from "@internalModules";
 import { pluginCache, loadedPlugins, removePlugin, togglePlugin } from "@plugins";
 import i18n, { i18nfmt, i18nfmtSplit } from "@i18n";
 
-const Card = findByDisplayName("Card");
-const Header = findByProps("Sizes", "Tags");
-const FormText = findByDisplayName("FormText");
-const Flex = findByDisplayName("Flex");
-const Markdown = findByDisplayNameAll("Markdown")[1];
-const Switch = findByDisplayName("Switch");
-const Tooltip = findByDisplayName("Tooltip");
+const { Card, FormText, Switch, Tooltip } = findByProps("FormTitle");
+const cardClasses = findByProps("card", "cardBrand", "cardDanger");
+const Header = findByCode(".uppercase]").default;
+const Flex = find((m) => m?.default?.Justify).default;
+const Markdown = find((m) => m?.defaultProps?.parser);
 
 export default (props) => {
   const plugin = pluginCache.ghost[props.pluginId];
@@ -42,7 +40,11 @@ export default (props) => {
     ) : null;
 
   return (
-    <Card className="cumcord-plugin-card" type="cardPrimary" outline={false} editable={false}>
+    <Card
+      className={`cumcord-plugin-card ${cardClasses.card} ${cardClasses.cardPrimary} ${cardClasses.outline}`}
+      type="cardPrimary"
+      outline={false}
+      editable={false}>
       <Flex justify={Flex.Justify.BETWEEN} align={Flex.Align.CENTER}>
         <div className="cumcord-card-header">
           <FormText className="cumcord-card-author" tag="h5">

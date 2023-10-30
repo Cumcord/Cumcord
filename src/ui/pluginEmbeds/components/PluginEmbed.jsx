@@ -1,24 +1,23 @@
 import { importPlugin, pluginCache } from "@plugins";
 import { useNest, useFetchModule } from "@utils";
-import { findByDisplayName, findByProps, findAsync } from "@webpackModules";
+import { find, findByProps, findByCode, findAsync } from "@webpackModules";
 import getPluginEmbedIcon from "./PluginEmbedIcon";
 import getCopyLink from "./CopyLink";
 import i18n from "@i18n";
 
 // Components
-// todo: let discord remove this and then cry about it when it breaks (WONTFIX)
-let LegacyText = findByDisplayName("LegacyText");
+// todo: we love using legacy components
+const LegacyText = find((m) => m?.default?.Colors?.STANDARD).default;
 
-// epically violating the STD, mainly because i don't want to hold back updates for something so small. when it gets merged i'll nuke this into oblivion
-if (!LegacyText) LegacyText = findByDisplayName("Text");
-
-const Button = findByProps("BorderColors", "Colors");
-const Alert = findByDisplayName("Alert");
-const Tooltip = findByDisplayName("Tooltip");
+const Button = findByProps("Sizes", "Colors", "Looks", "DropdownSizes");
+const Alert = findByCode(".minorContainer").default;
+const { Tooltip } = findByProps("Tooltip");
 const ModalApi = findByProps("openModal", "useModalsStore");
 
 // SVGs
-const InfoFilled = findByDisplayName("InfoFilled");
+const InfoFilled = findByCode(
+  "M6 1C3.243 1 1 3.244 1 6c0 2.758 2.243 5 5 5s5-2.242 5-5c0-2.756-2.243-5-5-5zm0 2.376a.625.625 0 110 1.25.625.625 0 010-1.25zM7.5 8.5h-3v-1h1V6H5V5h1a.5.5 0 01.5.5v2h1v1z",
+).default; // OWW OW PAINFUL OW WHY OW
 
 export default async function getPluginEmbed() {
   // Classes
@@ -44,7 +43,7 @@ export default async function getPluginEmbed() {
 
     return (
       <div className={wrapper}>
-        <LegacyText size={LegacyText.Sizes.SIZE_12} className={titleRegion}>
+        {/* <LegacyText size={LegacyText.Sizes.SIZE_12} className={titleRegion}>
           <strong className={title}>{data.author}</strong>
           <a
             className={infoLink}
@@ -61,7 +60,7 @@ export default async function getPluginEmbed() {
             <InfoFilled className={infoIcon} />
           </a>
           <CopyLink url={url} />
-        </LegacyText>
+        </LegacyText> */}
         <div className={content}>
           <PluginEmbedIcon className={icon} />
           <div className={buildInfo}>

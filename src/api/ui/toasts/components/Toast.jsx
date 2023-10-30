@@ -1,7 +1,7 @@
-import { findByDisplayName } from "@webpackModules";
+import { find, findByCode } from "@webpackModules";
 
-const Header = findByDisplayName("LegacyHeader");
-const FormText = findByDisplayName("LegacyText");
+const Header = findByCode(".uppercase]").default; // :C TODO: i am putting todo here simply so i can find this later.
+const FormText = find((m) => m?.default?.Colors?.STANDARD).default;
 
 export default (props) => (
   <div onClick={props.onClick} className={"cumcord-toast " + (props.className ?? "")}>

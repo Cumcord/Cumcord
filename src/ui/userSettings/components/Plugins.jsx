@@ -1,18 +1,15 @@
 import PluginCard from "./PluginCard.jsx";
-import { findByDisplayName, findByProps } from "@webpackModules";
+import { findByProps, find } from "@webpackModules";
 import { importPlugin, pluginCache } from "@plugins";
 import { showToast } from "@toasts";
 import { useNest } from "@utils";
 import { ErrorBoundary } from "@components";
 import i18n from "@i18n";
 
-const FormTitle = findByDisplayName("FormTitle");
-const FormSection = findByDisplayName("FormSection");
-const Flex = findByDisplayName("Flex");
-const TextInput = findByDisplayName("TextInput");
+const { FormTitle, FormSection, TextInput, FormDivider } = findByProps("FormTitle");
+const Flex = find((m) => m?.default?.Justify).default;
 const Button = findByProps("Sizes", "Colors", "Looks", "DropdownSizes");
-const FormDivider = findByDisplayName("FormDivider");
-const SearchBar = findByDisplayName("SearchBar");
+const SearchBar = findByProps("SearchBarIcon").default;
 
 const filterCount = (str, filter) => str.toLowerCase().split(filter.toLowerCase()).length - 1;
 

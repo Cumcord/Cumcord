@@ -3,7 +3,7 @@ import getApi from "./api";
 import { injectCSS } from "@patcher";
 import { initializeToasts } from "@toasts";
 import { initializePlugins, initializePluginStore, pluginCache, loadedPlugins } from "@plugins";
-import { initializeSocket } from "@websocket";
+// import { initializeSocket } from "@websocket";
 import { initializeCommands } from "@commands";
 import { initUserSettings } from "@userSettings";
 // things to uninit
@@ -40,6 +40,8 @@ export default async (extraInit, extraUninit, apiSyncEscape) => {
 
   // synchronously gets the api out ASAP
   // assuming the object reference remains intact once escaped plugin stuff will assign onto it just fine
+
+  // this is some yellowsinky-ass shit i have no idea what this does
   apiSyncEscape?.(api);
 
   injectCSS(
@@ -47,7 +49,8 @@ export default async (extraInit, extraUninit, apiSyncEscape) => {
   );
 
   initializeToasts();
-  initializeSocket();
+  // this got fucked
+  // initializeSocket();
   initUserSettings();
   await initializePluginStore();
   api.plugins.installed = pluginCache;

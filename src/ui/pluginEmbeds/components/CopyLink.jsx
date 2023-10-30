@@ -1,9 +1,9 @@
-import { findByDisplayName, findAsync, findByProps } from "@webpackModules";
+import { findAsync, findByProps } from "@webpackModules";
 import { copyText } from "@utils";
 import i18n from "@i18n";
 
-const Clickable = findByDisplayName("Clickable");
-const Link = findByDisplayName("Link");
+const { Clickable } = findByProps("Clickable");
+const { Link } = findByProps("Link");
 
 export default async function getCopyLink() {
   const { copyLink, copyLinkIcon, copied } = await findAsync(() => findByProps("titleRegion"));

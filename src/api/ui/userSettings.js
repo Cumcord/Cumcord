@@ -1,5 +1,5 @@
 import { findAndPatch, after } from "@patcher";
-import { findByDisplayName } from "@webpackModules";
+import { findByProps } from "@webpackModules";
 
 const sections = [];
 
@@ -15,9 +15,9 @@ export function registerSection(id, name, component) {
 
 export const initUserSettings = () =>
   findAndPatch(
-    () => findByDisplayName("SettingsView"),
-    (SettingsView) =>
-      after("getPredicateSections", SettingsView.prototype, (_a, sects) => {
+    () => findByProps("SHAKE_INTENSITY_DEFAULT").default.prototype,
+    (SidebarComponent) =>
+      after("getPredicateSections", SidebarComponent, (_a, sects) => {
         const pos = sects.findIndex((e) => e.section === "changelog") - 1;
 
         // if we're not in user settings, die

@@ -3,9 +3,14 @@ import i18n from "@i18n";
 
 let reactErrCache;
 
-fetch("https://reactjs.org/page-data/docs/error-decoder.html/page-data.json").then(async (res) => {
-  reactErrCache = JSON.parse((await res.json()).result.data.errorCodesJson.internal.contentDigest);
-});
+// todo: we should really ensure this doesn't break the app
+fetch("https://legacy.reactjs.org/page-data/docs/error-decoder.html/page-data.json").then(
+  async (res) => {
+    reactErrCache = JSON.parse(
+      (await res.json()).result.data.errorCodesJson.internal.contentDigest,
+    );
+  },
+);
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {

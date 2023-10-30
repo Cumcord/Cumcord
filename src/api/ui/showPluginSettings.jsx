@@ -1,9 +1,9 @@
-import { findByProps, findByDisplayName } from "@webpackModules";
+import { findByProps, findByCode, find } from "@webpackModules";
 import { ErrorBoundary } from "@components";
 
 const ModalComponents = findByProps("ModalCloseButton");
-const Header = findByProps("Sizes", "Tags");
-const Flex = findByDisplayName("Flex");
+const Header = findByCode(".uppercase]").default; // todo: :(
+const Flex = find((m) => m?.default?.Justify).default;
 const { openModal } = findByProps("openModal", "openModalLazy");
 
 export default (pluginName, settings) =>

@@ -12,7 +12,6 @@ import * as websocket from "@websocket";
 import { showToast } from "@toasts";
 import { showConfirmationModal } from "@modals";
 import * as components from "@components";
-import * as DNGetters from "./ui/dngetter";
 import { registerSection } from "@userSettings";
 
 export default (uninject, cum) => {
@@ -43,7 +42,6 @@ export default (uninject, cum) => {
       modals: { showConfirmationModal },
       // see above comment
       components: { ...components },
-      ...DNGetters,
       userSettings: { registerSection },
     },
     // see above comment

@@ -1,73 +1,120 @@
-lockfileVersion: 5.3
+lockfileVersion: '6.1'
 
-specifiers:
-  '@cumjar/websmack': ^1.2.0
-  esbuild: ^0.12.29
-  esbuild-plugin-alias: ^0.1.2
-  husky: ^7.0.4
-  idb-keyval: ^5.1.5
-  nests: ^2.3.1
-  prettier: ^2.6.2
-  spitroast: ^1.3.7
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 dependencies:
-  '@cumjar/websmack': 1.2.0
-  idb-keyval: 5.1.5
-  nests: 2.3.1
-  spitroast: 1.3.7
+  '@cumjar/websmack':
+    specifier: ^1.2.0
+    version: 1.2.0
+  idb-keyval:
+    specifier: ^5.1.5
+    version: 5.1.5
+  nests:
+    specifier: ^2.3.1
+    version: 2.3.1(react@18.2.0)(solid-js@1.8.4)
+  spitroast:
+    specifier: ^1.3.7
+    version: 1.3.7
 
 devDependencies:
-  esbuild: 0.12.29
-  esbuild-plugin-alias: 0.1.2
-  husky: 7.0.4
-  prettier: 2.6.2
+  esbuild:
+    specifier: ^0.12.29
+    version: 0.12.29
+  esbuild-plugin-alias:
+    specifier: ^0.1.2
+    version: 0.1.2
+  husky:
+    specifier: ^7.0.4
+    version: 7.0.4
+  prettier:
+    specifier: ^2.6.2
+    version: 2.6.2
 
 packages:
 
-  /@cumjar/websmack/1.2.0:
+  /@cumjar/websmack@1.2.0:
     resolution: {integrity: sha512-CtNQ3/EdeEAEx8bAPi3eKNCC41P88u40ja69TwpVerMZ93l0Kk7NpfvqY+YW50AvBN90FdmfLCRsJYzPIxQ90A==}
     dev: false
 
-  /esbuild-plugin-alias/0.1.2:
+  /csstype@3.1.2:
+    resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
+    dev: false
+
+  /esbuild-plugin-alias@0.1.2:
     resolution: {integrity: sha512-WsX0OJy8IGOsGZV+4oHEU5B6XQUpxOsZN1iSoYf9COTDbY7WXcOwd1oCLYNWUIWCExyGXSghIGq2k7sXBldxwQ==}
     dev: true
 
-  /esbuild/0.12.29:
+  /esbuild@0.12.29:
     resolution: {integrity: sha512-w/XuoBCSwepyiZtIRsKsetiLDUVGPVw1E/R3VTFSecIy8UR7Cq3SOtwKHJMFoVqqVG36aGkzh4e8BvpO1Fdc7g==}
     hasBin: true
     requiresBuild: true
     dev: true
 
-  /husky/7.0.4:
+  /husky@7.0.4:
     resolution: {integrity: sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==}
     engines: {node: '>=12'}
     hasBin: true
     dev: true
 
-  /idb-keyval/5.1.5:
+  /idb-keyval@5.1.5:
     resolution: {integrity: sha512-J1utxYWQokYjy01LvDQ7WmiAtZCGUSkVi9EIBfUSyLOr/BesnMIxNGASTh9A1LzeISSjSqEPsfFdTss7EE7ofQ==}
     dependencies:
       safari-14-idb-fix: 1.0.6
     dev: false
 
-  /nests/2.3.1:
+  /js-tokens@4.0.0:
+    resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
+    dev: false
+
+  /loose-envify@1.4.0:
+    resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
+    hasBin: true
+    dependencies:
+      js-tokens: 4.0.0
+    dev: false
+
+  /nests@2.3.1(react@18.2.0)(solid-js@1.8.4):
     resolution: {integrity: sha512-mq9g10tzsaGbS/c5RUJVwiJVqo89JA/KIYPpBDQlKnyviJ7EDUaboIWsuWx0Abe49nys8MjnB6vK53KF1m6MUQ==}
     peerDependencies:
       react: '>=16.8'
       solid-js: '>=1.0.0'
+    dependencies:
+      react: 18.2.0
+      solid-js: 1.8.4
     dev: false
 
-  /prettier/2.6.2:
+  /prettier@2.6.2:
     resolution: {integrity: sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
 
-  /safari-14-idb-fix/1.0.6:
+  /react@18.2.0:
+    resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      loose-envify: 1.4.0
+    dev: false
+
+  /safari-14-idb-fix@1.0.6:
     resolution: {integrity: sha512-oTEQOdMwRX+uCtWCKT1nx2gAeSdpr8elg/2gcaKUH00SJU2xWESfkx11nmXwTRHy7xfQoj1o4TTQvdmuBosTnA==}
     dev: false
 
-  /spitroast/1.3.7:
+  /seroval@0.12.0:
+    resolution: {integrity: sha512-5qvk9WRORhvOdHVtDv6KEKrTDbG8O9nODDdETfQcJ0u9iaZJ6mAASg/nQgPzqtuV9cqln9msE7WNmD+sJomrIw==}
+    engines: {node: '>=10'}
+    dev: false
+
+  /solid-js@1.8.4:
+    resolution: {integrity: sha512-l8tZCa0nA1iyFR+yTZi4cKNktX3UfwT3FbdzDAtNwp40EtabVRf3t0EUN3C3Kokkh7c7nBx8ak/0GZV+KFVSxQ==}
+    dependencies:
+      csstype: 3.1.2
+      seroval: 0.12.0
+    dev: false
+
+  /spitroast@1.3.7:
     resolution: {integrity: sha512-6Hns9bGj4jmBC67tFLiGmOOajGiiXHdAZAjWChnEX+TARzhOyF1HHWXOg1ki1Sf0Y65HqXyK6VGwc13zvflcvQ==}
     requiresBuild: true
     dev: false
