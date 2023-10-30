@@ -3,7 +3,7 @@ import getApi from "./api";
 import { injectCSS } from "@patcher";
 import { initializeToasts } from "@toasts";
 import { initializePlugins, initializePluginStore, pluginCache, loadedPlugins } from "@plugins";
-// import { initializeSocket } from "@websocket";
+import { initializeSocket } from "@websocket";
 import { initializeCommands } from "@commands";
 import { initUserSettings } from "@userSettings";
 // things to uninit
@@ -50,7 +50,7 @@ export default async (extraInit, extraUninit, apiSyncEscape) => {
 
   initializeToasts();
   // this got fucked
-  // initializeSocket();
+  initializeSocket();
   initUserSettings();
   await initializePluginStore();
   api.plugins.installed = pluginCache;

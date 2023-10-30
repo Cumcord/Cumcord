@@ -11,6 +11,7 @@ export const [
   Redux,
   zustand,
   highlightjs,
+  uuid,
 ] = batchFind(({ findByProps, findByPropsAll, find }) => {
   findByProps("API_HOST");
   findByProps("getVoiceChannelId");
@@ -26,8 +27,5 @@ export const [
       m.toString().includes("[useStore, api] = create() is deprecated and will be removed in v4"),
   );
   findByProps("initHighlighting");
+  findByProps("v4");
 });
-
-export const uuid = {
-  v4: findByProps("v1"),
-};

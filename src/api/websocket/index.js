@@ -1,4 +1,4 @@
-import { find } from "@webpackModules";
+import { findByCode } from "@webpackModules";
 import messageHandler, { addHandler, removeAllHandlers } from "./messageHandler";
 import { findAndPatch, instead } from "@patcher";
 import builtInHandlers from "./builtInHandlers";
@@ -11,8 +11,8 @@ export function initializeSocket() {
   if (!window.DiscordNative) return;
 
   findAndPatch(
-    () => find((m) => m.Z?.__proto__?.handleConnection),
-    ({ Z: wsModule }) =>
+    () => findByCode("RPCServer:WSS"),
+    ({ default: wsModule }) =>
       instead("handleConnection", wsModule, (args, orig) => {
         const ws = args[0];
         if (ws.upgradeReq().url !== "/cumcord") return orig(...args);
